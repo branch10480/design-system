@@ -565,8 +565,15 @@ code.inline {
   border-radius: 8px;
   color: var(--text-2);
   cursor: pointer;
-  transition: color 120ms, border-color 120ms;
+  opacity: 0;
+  transition: opacity 180ms ease, color 120ms, border-color 120ms;
 }
+/* コードブロックにホバーしている間だけフェード表示 */
+.code-wrap:hover .copy-btn,
+.copy-btn:focus-visible,
+.copy-btn.is-copied { opacity: 1; }
+/* ホバーが存在しないタッチデバイスでは常時表示 */
+@media (hover: none) { .copy-btn { opacity: 1; } }
 .copy-btn:hover { color: var(--text); border-color: var(--separator); }
 .copy-btn.is-copied { color: var(--green); border-color: color-mix(in srgb, var(--green) 40%, transparent); }
 .copy-btn svg { width: 15px; height: 15px; }
@@ -1068,7 +1075,7 @@ ul.linklist a .chev { color: var(--text-3); }
 
     <section class="doc-section" id="components--code" data-sec="code" data-title="コード">
       <h2>コード</h2>
-      <p class="lede">フォントはリポジトリ同梱の JetBrains Mono。シンタックスカラーは swift-docc-render の Xcode テーマ値（ライト / ダークで自動切替）。右上のコピーボタンは JS が全 <code class="inline">pre.listing</code> に自動付与し、クリックでコード全文をクリップボードへコピーする。</p>
+      <p class="lede">フォントはリポジトリ同梱の JetBrains Mono。シンタックスカラーは swift-docc-render の Xcode テーマ値（ライト / ダークで自動切替）。コピーボタンは JS が全 <code class="inline">pre.listing</code> に自動付与し、ブロックへのホバーでフェード表示 → クリックでコード全文をクリップボードへコピーする（タッチデバイスでは常時表示）。</p>
 <pre class="listing"><span class="k">import</span> <span class="t">SwiftUI</span>
 
 <span class="c">/// プロフィールカードを表示するビュー</span>
@@ -1282,6 +1289,7 @@ ul.linklist a .chev { color: var(--text-3); }
       <table class="params">
         <thead><tr><th>バージョン</th><th>日付</th><th>変更</th></tr></thead>
         <tbody>
+          <tr><td class="param">v0.2.1</td><td class="type">2026-06-12</td><td>コピーボタンをホバー時のみフェード表示に変更（タッチデバイスでは常時表示）。</td></tr>
           <tr><td class="param">v0.2.0</td><td class="type">2026-06-12</td><td>JetBrains Mono をリポジトリ同梱の Web フォントとして追加（<code class="inline">--font-mono</code> の先頭へ）。コードブロックにコピーボタンを実装。</td></tr>
           <tr><td class="param">v0.1.0</td><td class="type">2026-06-12</td><td>初版。Apple Developer Documentation（swift-docc-render）ベースのトークンとコンポーネント一式。</td></tr>
         </tbody>
