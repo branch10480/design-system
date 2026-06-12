@@ -1,0 +1,670 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Single Page Template — Toshi Design System</title>
+<style>
+/* ============================================================
+   Single Page パターン — Toshi Design System
+   ヘッダーナビ・サイドバーなし。コンテンツ + フローティング
+   アンカーメニューだけのシンプルな 1 ページ構成。
+   調査レポートや仕様書をサッと公開するときのテンプレート。
+   ============================================================ */
+
+/* ============================================================
+   Fonts — JetBrains Mono（design-system リポジトリ同梱 / OFL）
+   このファイルを他リポジトリへコピーしても動くよう GitHub Pages
+   の絶対 URL で参照する（リポジトリ内なら fonts/… の相対でも可）。
+   オフライン時はシステム mono へフォールバックする。
+   ============================================================ */
+@font-face {
+  font-family: "JetBrains Mono";
+  src: url("https://branch10480.github.io/design-system/fonts/JetBrainsMono-Regular.woff2") format("woff2");
+  font-weight: 400; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: "JetBrains Mono";
+  src: url("https://branch10480.github.io/design-system/fonts/JetBrainsMono-Medium.woff2") format("woff2");
+  font-weight: 500; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: "JetBrains Mono";
+  src: url("https://branch10480.github.io/design-system/fonts/JetBrainsMono-Bold.woff2") format("woff2");
+  font-weight: 700; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: "JetBrains Mono";
+  src: url("https://branch10480.github.io/design-system/fonts/JetBrainsMono-Italic.woff2") format("woff2");
+  font-weight: 400; font-style: italic; font-display: swap;
+}
+
+/* ============================================================
+   :root tokens — design-system.html と同一（コピー元の真実は本体側）
+   ============================================================ */
+:root {
+  color-scheme: light dark;
+
+  /* surfaces */
+  --bg:        #FFFFFF;
+  --bg-alt:    #F5F5F7;
+  --bg-elev:   #FFFFFF;
+  --bg-code:   #F7F7F7;
+  --separator: #D2D2D7;
+  --hairline:  rgba(0, 0, 0, 0.10);
+
+  /* text */
+  --text:   #1D1D1F;
+  --text-2: #6E6E73;
+  --text-3: #86868B;
+
+  /* tint = リンク・アクセント (Apple blue) */
+  --tint:            #0066CC;
+  --tint-fill:       #0071E3;
+  --tint-fill-hover: #0077ED;
+  --on-tint:         #FFFFFF;
+
+  /* status */
+  --green:  #008009;
+  --orange: #B25000;
+  --red:    #E30000;
+  --purple: #6846C7;
+
+  /* syntax — Xcode default light */
+  --syn-k: #AD3DA4;
+  --syn-t: #703DAA;
+  --syn-s: #D12F1B;
+  --syn-n: #272AD8;
+  --syn-c: #707F8C;
+  --syn-f: #4B21B0;
+  --syn-d: #03638C;
+
+  /* type */
+  --font-text: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue",
+               "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", Arial, sans-serif;
+  --font-display: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue",
+               "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", Arial, sans-serif;
+  --font-mono: "JetBrains Mono", "JetBrainsMono Nerd Font Mono",
+               ui-monospace, "SF Mono", Menlo, Monaco, Consolas, monospace;
+
+  /* radius */
+  --r-pill: 980px;
+  --r-xl:   18px;
+  --r-lg:   14px;
+  --r-md:   10px;
+  --r-sm:   6px;
+
+  /* elevation */
+  --sh-1:    0 1px 2px rgba(0,0,0,.04), 0 4px 16px rgba(0,0,0,.06);
+  --sh-2:    0 11px 34px rgba(0,0,0,.14);
+  --sh-menu: 0 10px 40px rgba(0,0,0,.18);
+}
+
+/* ---- dark values（auto: OS 追従。手動 light 指定時は無効） ---- */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg:        #000000;
+    --bg-alt:    #161617;
+    --bg-elev:   #1D1D1F;
+    --bg-code:   #161617;
+    --separator: #424245;
+    --hairline:  rgba(255, 255, 255, 0.14);
+    --text:   #F5F5F7;
+    --text-2: #A1A1A6;
+    --text-3: #86868B;
+    --tint:   #2997FF;
+    --green:  #30D158;
+    --orange: #FF9F0A;
+    --red:    #FF453A;
+    --purple: #BF5AF2;
+    --syn-k: #FF7AB2; --syn-t: #DABAFF; --syn-s: #FF8170; --syn-n: #D9C97C;
+    --syn-c: #7F8C98; --syn-f: #B281EB; --syn-d: #6BDFFF;
+    --sh-1:    0 1px 2px rgba(0,0,0,.4), 0 4px 16px rgba(0,0,0,.5);
+    --sh-2:    0 11px 34px rgba(0,0,0,.6);
+    --sh-menu: 0 10px 40px rgba(0,0,0,.7);
+  }
+}
+/* ---- dark values（手動指定）。上のブロックと同値を維持すること ---- */
+:root[data-theme="dark"] {
+  --bg:        #000000;
+  --bg-alt:    #161617;
+  --bg-elev:   #1D1D1F;
+  --bg-code:   #161617;
+  --separator: #424245;
+  --hairline:  rgba(255, 255, 255, 0.14);
+  --text:   #F5F5F7;
+  --text-2: #A1A1A6;
+  --text-3: #86868B;
+  --tint:   #2997FF;
+  --green:  #30D158;
+  --orange: #FF9F0A;
+  --red:    #FF453A;
+  --purple: #BF5AF2;
+  --syn-k: #FF7AB2; --syn-t: #DABAFF; --syn-s: #FF8170; --syn-n: #D9C97C;
+  --syn-c: #7F8C98; --syn-f: #B281EB; --syn-d: #6BDFFF;
+  --sh-1:    0 1px 2px rgba(0,0,0,.4), 0 4px 16px rgba(0,0,0,.5);
+  --sh-2:    0 11px 34px rgba(0,0,0,.6);
+  --sh-menu: 0 10px 40px rgba(0,0,0,.7);
+}
+:root[data-theme="light"] { color-scheme: light; }
+:root[data-theme="dark"]  { color-scheme: dark; }
+
+/* ============================================================
+   Base
+   ============================================================ */
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-text);
+  font-size: 17px;
+  line-height: 1.47;
+  letter-spacing: -0.022em;
+  -webkit-font-smoothing: antialiased;
+}
+a { color: var(--tint); text-decoration: none; }
+a:hover { text-decoration: underline; }
+h1, h2, h3, h4 { font-family: var(--font-display); color: var(--text); }
+code, pre { font-family: var(--font-mono); letter-spacing: 0; }
+
+/* ============================================================
+   Article — 1 カラムのコンテンツ
+   ============================================================ */
+.article { max-width: 760px; margin: 0 auto; padding: 64px 22px 120px; }
+
+.doc-header { padding-bottom: 28px; border-bottom: 1px solid var(--hairline); }
+.eyebrow { font-size: 14px; color: var(--text-2); margin: 0 0 10px; font-weight: 500; }
+.doc-header h1 {
+  margin: 0;
+  font-size: clamp(32px, 4.5vw, 44px);
+  font-weight: 700; letter-spacing: -0.015em; line-height: 1.1;
+}
+.doc-header .abstract { margin: 14px 0 0; font-size: 19px; color: var(--text-2); line-height: 1.45; }
+.meta {
+  display: flex; gap: 8px 18px; flex-wrap: wrap;
+  margin-top: 18px;
+  font-size: 12px; color: var(--text-3);
+}
+.meta strong { color: var(--text-2); font-weight: 500; }
+
+.doc-section { padding: 44px 0 8px; scroll-margin-top: 24px; }
+.doc-section + .doc-section { border-top: 1px solid var(--hairline); margin-top: 36px; }
+.doc-section h2 { font-size: 28px; font-weight: 600; letter-spacing: -0.012em; margin: 0 0 8px; }
+.doc-section h3 { font-size: 19px; font-weight: 600; margin: 32px 0 10px; }
+.doc-section p { color: var(--text); font-size: 15px; line-height: 1.6; }
+.doc-section p.lede { color: var(--text-2); font-size: 16px; margin-top: 0; }
+
+/* ============================================================
+   Theme toggle — ナビがないので右上にフローティング配置
+   ============================================================ */
+.theme-toggle {
+  position: fixed; top: 16px; right: 24px; z-index: 50;
+  font: 500 12px var(--font-text);
+  color: var(--text-2);
+  background: color-mix(in srgb, var(--bg-elev) 78%, transparent);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  backdrop-filter: saturate(180%) blur(20px);
+  border: 1px solid var(--hairline);
+  border-radius: var(--r-pill);
+  padding: 5px 14px;
+  cursor: pointer;
+  display: inline-flex; align-items: center; gap: 6px;
+  box-shadow: var(--sh-1);
+  transition: color 120ms, border-color 120ms;
+}
+.theme-toggle:hover { color: var(--text); border-color: var(--separator); }
+.theme-toggle .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--tint); }
+@media (max-width: 1239px) { .theme-toggle { right: 20px; } }
+
+/* ============================================================
+   Floating in-page menu（このパターンの主役）
+   ============================================================ */
+.otp {
+  position: fixed;
+  right: 24px; top: 64px;
+  width: 210px;
+  max-height: calc(100vh - 110px);
+  overflow-y: auto;
+  background: color-mix(in srgb, var(--bg-elev) 78%, transparent);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  backdrop-filter: saturate(180%) blur(20px);
+  border: 1px solid var(--hairline);
+  border-radius: var(--r-lg);
+  box-shadow: var(--sh-menu);
+  padding: 14px 6px 10px;
+  z-index: 40;
+}
+.otp .otp-title {
+  font: 600 11px var(--font-text);
+  text-transform: uppercase; letter-spacing: 0.06em;
+  color: var(--text-3);
+  padding: 0 12px 8px;
+}
+.otp a {
+  display: block;
+  font-size: 12.5px; color: var(--text-2);
+  padding: 5px 12px; border-radius: var(--r-sm);
+  transition: color 120ms, background 120ms;
+}
+.otp a:hover { color: var(--text); background: var(--bg-alt); text-decoration: none; }
+.otp a.is-current { color: var(--tint); font-weight: 600; }
+
+/* 狭い画面: 右下のフローティングボタン + ポップオーバー */
+.fab { display: none; }
+@media (max-width: 1239px) {
+  .otp { display: none; }
+  .fab {
+    display: flex;
+    position: fixed; right: 20px; bottom: 24px; z-index: 60;
+    width: 50px; height: 50px; border-radius: 50%;
+    align-items: center; justify-content: center;
+    background: var(--tint-fill); color: var(--on-tint);
+    border: none; cursor: pointer;
+    box-shadow: var(--sh-menu);
+  }
+  .fab svg { width: 22px; height: 22px; }
+}
+.fab-panel {
+  display: none;
+  position: fixed; right: 20px; bottom: 86px; z-index: 60;
+  width: min(260px, calc(100vw - 40px));
+  max-height: 55vh; overflow-y: auto;
+  background: color-mix(in srgb, var(--bg-elev) 86%, transparent);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  backdrop-filter: saturate(180%) blur(20px);
+  border: 1px solid var(--hairline);
+  border-radius: var(--r-lg);
+  box-shadow: var(--sh-menu);
+  padding: 14px 6px 10px;
+}
+.fab-panel.is-open { display: block; }
+.fab-panel .otp-title {
+  font: 600 11px var(--font-text);
+  text-transform: uppercase; letter-spacing: 0.06em;
+  color: var(--text-3); padding: 0 12px 8px;
+}
+.fab-panel a {
+  display: block; font-size: 14px; color: var(--text-2);
+  padding: 8px 12px; border-radius: var(--r-sm);
+}
+.fab-panel a:hover { background: var(--bg-alt); color: var(--text); text-decoration: none; }
+.fab-panel a.is-current { color: var(--tint); font-weight: 600; }
+
+/* ============================================================
+   Components（必要最小限のサブセット）
+   ============================================================ */
+
+/* --- Asides --- */
+.aside {
+  border: 1px solid var(--hairline);
+  border-left-width: 4px;
+  border-radius: var(--r-md);
+  padding: 14px 18px;
+  margin: 14px 0;
+  background: var(--bg-alt);
+}
+.aside .aside-label { font-size: 13px; font-weight: 600; margin: 0 0 4px; }
+.aside p { margin: 0; font-size: 14px; line-height: 1.55; color: var(--text); }
+.aside-note      { border-left-color: var(--text-3); }
+.aside-note      .aside-label { color: var(--text-2); }
+.aside-important { border-left-color: var(--purple); background: color-mix(in srgb, var(--purple) 6%, var(--bg-elev)); }
+.aside-important .aside-label { color: var(--purple); }
+.aside-tip       { border-left-color: var(--green);  background: color-mix(in srgb, var(--green) 6%, var(--bg-elev)); }
+.aside-tip       .aside-label { color: var(--green); }
+.aside-warning   { border-left-color: var(--red);    background: color-mix(in srgb, var(--red) 6%, var(--bg-elev)); }
+.aside-warning   .aside-label { color: var(--red); }
+
+/* --- Code --- */
+pre.listing {
+  background: var(--bg-code);
+  border: 1px solid var(--hairline);
+  border-radius: var(--r-lg);
+  padding: 18px 20px;
+  font-size: 13px; line-height: 1.6;
+  color: var(--text);
+  overflow-x: auto;
+  margin: 14px 0;
+}
+pre.listing .k { color: var(--syn-k); font-weight: 500; }
+pre.listing .t { color: var(--syn-t); }
+pre.listing .s { color: var(--syn-s); }
+pre.listing .n { color: var(--syn-n); }
+pre.listing .c { color: var(--syn-c); }
+pre.listing .f { color: var(--syn-f); }
+pre.listing .d { color: var(--syn-d); }
+code.inline {
+  font-size: 0.88em;
+  background: var(--bg-alt);
+  border-radius: 4px;
+  padding: 1px 5px;
+  color: var(--text);
+}
+/* コピーボタン — JS が全 pre.listing を .code-wrap で包んで自動付与 */
+.code-wrap { position: relative; margin: 14px 0; }
+.code-wrap pre.listing { margin: 0; }
+.copy-btn {
+  position: absolute; top: 10px; right: 10px;
+  width: 30px; height: 30px;
+  display: flex; align-items: center; justify-content: center;
+  background: color-mix(in srgb, var(--bg-elev) 82%, transparent);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--hairline);
+  border-radius: 8px;
+  color: var(--text-2);
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 180ms ease, color 120ms, border-color 120ms;
+}
+.code-wrap:hover .copy-btn,
+.copy-btn:focus-visible { opacity: 1; }
+@media (hover: none) { .copy-btn { opacity: 1; } }
+.copy-btn:hover { color: var(--text); border-color: var(--separator); }
+.copy-btn.is-copied { color: var(--green); border-color: color-mix(in srgb, var(--green) 40%, transparent); }
+.copy-btn svg { width: 15px; height: 15px; }
+
+/* --- Tables --- */
+table.params {
+  width: 100%; border-collapse: collapse;
+  font-size: 14px;
+  margin: 14px 0;
+}
+table.params th, table.params td {
+  text-align: left; padding: 11px 14px;
+  border-bottom: 1px solid var(--hairline);
+}
+table.params thead th {
+  font-size: 12px; font-weight: 600; color: var(--text-2);
+  border-bottom: 1px solid var(--separator);
+}
+table.params td.param { font-family: var(--font-mono); font-size: 13px; color: var(--syn-d); }
+table.params td.type  { font-family: var(--font-mono); font-size: 13px; color: var(--text-2); }
+table.params tbody tr:hover { background: var(--bg-alt); }
+
+/* --- Lists --- */
+ol.steps { list-style: none; counter-reset: step; padding: 0; margin: 14px 0; }
+ol.steps li {
+  counter-increment: step;
+  display: grid; grid-template-columns: 32px 1fr; gap: 14px;
+  padding: 13px 0;
+  border-bottom: 1px solid var(--hairline);
+  font-size: 15px;
+}
+ol.steps li:last-child { border-bottom: none; }
+ol.steps li::before {
+  content: counter(step);
+  width: 24px; height: 24px;
+  border-radius: 50%;
+  background: var(--bg-alt);
+  color: var(--text-2);
+  font: 600 12px var(--font-text);
+  display: flex; align-items: center; justify-content: center;
+}
+
+/* ============================================================
+   Footer
+   ============================================================ */
+.pagefooter {
+  margin-top: 64px;
+  border-top: 1px solid var(--hairline);
+  padding-top: 18px;
+  display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px;
+  font-size: 12px; color: var(--text-3);
+}
+.pagefooter a { color: var(--text-2); }
+</style>
+</head>
+<body>
+
+<button class="theme-toggle" id="themeToggle" aria-label="テーマ切り替え">
+  <span class="dot"></span><span id="themeLabel">自動</span>
+</button>
+
+<div class="article">
+
+  <header class="doc-header">
+    <p class="eyebrow">Single Page Template</p>
+    <h1>シンプルな 1 ページのパターン。</h1>
+    <p class="abstract">
+      ヘッダーナビもサイドバーもない、コンテンツ + フローティングアンカーメニューだけの構成。
+      調査レポートや仕様書を 1 枚で公開するときのテンプレート。
+    </p>
+    <div class="meta">
+      <span><strong>Base</strong> Toshi Design System v0.3</span>
+      <span><strong>構成</strong> 1 カラム · 760px</span>
+      <span><strong>Nav</strong> フローティングメニューのみ</span>
+    </div>
+  </header>
+
+  <!-- 各セクションに id と data-title を付けると
+       フローティングメニューが自動生成される -->
+  <section class="doc-section" id="overview" data-title="概要">
+    <h2>概要</h2>
+    <p class="lede">このページ自体がテンプレート。HTML をコピーして見出しと本文を差し替えれば、同じ見た目のレポートがすぐ作れる。</p>
+    <p>
+      デザインルールは <a href="https://branch10480.github.io/design-system/">design-system.html</a> 本体と完全に共通。
+      トークン（<code class="inline">:root</code> + dark ブロック）、JetBrains Mono、コードブロックのコピーボタンまで同じものが入っている。
+      違いはナビゲーションの構造だけ — このパターンには「ページ」がひとつしかないので、
+      ハッシュルーティングも左サイドバーも持たない。
+    </p>
+    <div class="aside aside-tip">
+      <p class="aside-label">ヒント</p>
+      <p>レポートの結論は最初のセクションに書く。読者の 8 割はスクロールしない前提で構成する。</p>
+    </div>
+  </section>
+
+  <section class="doc-section" id="floating-menu" data-title="フローティングメニュー">
+    <h2>フローティングメニュー</h2>
+    <p class="lede">このページの唯一のナビゲーション。右端に固定表示され、スクロールに合わせて現在地がハイライトされる。</p>
+    <ol class="steps">
+      <li><div><strong>自動生成。</strong>各 <code class="inline">.doc-section</code> の <code class="inline">id</code> と <code class="inline">data-title</code> から JS がリンクを組み立てる。</div></li>
+      <li><div><strong>素のアンカーリンク。</strong>ルーターを持たないので <code class="inline">href="#section-id"</code> がそのまま使える。URL 共有でセクションに直リンクできる。</div></li>
+      <li><div><strong>狭い画面では右下のボタンに。</strong>1240px 未満ではフローティングボタン + ポップオーバーに切り替わる。</div></li>
+    </ol>
+  </section>
+
+  <section class="doc-section" id="components" data-title="使える部品">
+    <h2>使える部品</h2>
+    <p class="lede">このテンプレートに同梱しているのは、レポートでよく使う 4 種だけ：aside / コード / テーブル / ステップリスト。ほかが必要なら本体からコピーする。</p>
+
+    <h3>Aside</h3>
+    <div class="aside aside-note"><p class="aside-label">注記</p><p>このテンプレートの aside は note / important / tip / warning の 4 種。</p></div>
+    <div class="aside aside-warning"><p class="aside-label">警告</p><p>機密情報（API キー・個人情報）を含めない。公開サーバーに置く前提で書く。</p></div>
+
+    <h3>コード</h3>
+<pre class="listing"><span class="c">// ホバーするとコピーボタンがフェード表示される</span>
+<span class="k">const</span> sections = document.<span class="f">querySelectorAll</span>(<span class="s">'.doc-section[id]'</span>);
+<span class="k">const</span> links = [...sections].<span class="f">map</span>(s =&gt;
+  <span class="s">`&lt;a href="#</span>${s.id}<span class="s">"&gt;</span>${s.dataset.title}<span class="s">&lt;/a&gt;`</span>);</pre>
+
+    <h3>テーブル</h3>
+    <table class="params">
+      <thead><tr><th>項目</th><th>値</th><th>説明</th></tr></thead>
+      <tbody>
+        <tr><td class="param">max-width</td><td class="type">760px</td><td>コンテンツの最大幅。1 カラムの読み物に最適。</td></tr>
+        <tr><td class="param">otp width</td><td class="type">210px</td><td>フローティングメニューの幅。</td></tr>
+        <tr><td class="param">breakpoint</td><td class="type">1240px</td><td>これ未満でメニューが右下ボタンに切り替わる。</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="doc-section" id="usage" data-title="使い方">
+    <h2>使い方</h2>
+    <p class="lede">3 ステップで新しいレポートになる。</p>
+    <ol class="steps">
+      <li><div><strong>このファイルをコピーする。</strong><code class="inline">single-page.html</code> を新しい名前で保存。</div></li>
+      <li><div><strong>セクションを差し替える。</strong><code class="inline">id</code> / <code class="inline">data-title</code> / 見出し / 本文を書き換える。セクションを増減すればメニューも追従する。</div></li>
+      <li><div><strong>ブラウザで確認して公開。</strong>ライト / ダーク両方を見ること。</div></li>
+    </ol>
+    <div class="aside aside-important">
+      <p class="aside-label">重要</p>
+      <p>トークンの真実の源は本体の <code class="inline">design-system.html</code>。色や字形を変えたくなったら、まず本体を更新してからこのテンプレートへ反映する。</p>
+    </div>
+  </section>
+
+  <section class="doc-section" id="difference" data-title="本体との違い">
+    <h2>本体との違い</h2>
+    <p class="lede">削ったものと残したものを明確にしておく。</p>
+    <table class="params">
+      <thead><tr><th>要素</th><th>本体</th><th>このパターン</th></tr></thead>
+      <tbody>
+        <tr><td>グローバルナビ</td><td class="type">あり（blur material）</td><td class="type">なし</td></tr>
+        <tr><td>左サイドバー</td><td class="type">あり（2 カラム）</td><td class="type">なし</td></tr>
+        <tr><td>ハッシュルーティング</td><td class="type">#/page/section</td><td class="type">なし（素の #anchor）</td></tr>
+        <tr><td>フローティングメニュー</td><td class="type">あり</td><td class="type">あり（唯一のナビ）</td></tr>
+        <tr><td>テーマ切り替え</td><td class="type">ナビ内のトグル</td><td class="type">右上のフローティングトグル</td></tr>
+        <tr><td>トークン / フォント / コピー UI</td><td class="type">—</td><td class="type">完全に共通</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <footer class="pagefooter">
+    <span>Toshi Design System · Single Page Template</span>
+    <span><a href="https://branch10480.github.io/design-system/">design-system.html 本体へ</a></span>
+  </footer>
+
+</div>
+
+<!-- ============================ Floating in-page menu ============================ -->
+<aside class="otp" aria-label="このページ内">
+  <p class="otp-title">このページ内</p>
+  <nav data-rail="otp"></nav>
+</aside>
+<button class="fab" id="fab" aria-label="ページ内メニューを開く">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+    <line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="13" y2="17"/>
+  </svg>
+</button>
+<div class="fab-panel" id="fabPanel">
+  <p class="otp-title">このページ内</p>
+  <nav data-rail="fab"></nav>
+</div>
+
+<script>
+/* ============================================================
+   Theme — auto → light → dark の 3 状態トグル
+   localStorage キーは本体と共通（同一オリジンなら設定を共有）
+   ============================================================ */
+(function () {
+  const root = document.documentElement;
+  const btn = document.getElementById('themeToggle');
+  const label = document.getElementById('themeLabel');
+  const SEQ = ['auto', 'light', 'dark'];
+  const NAMES = { auto: '自動', light: 'ライト', dark: 'ダーク' };
+  let mode = localStorage.getItem('tds-theme') || 'auto';
+
+  function apply() {
+    if (mode === 'auto') delete root.dataset.theme;
+    else root.dataset.theme = mode;
+    label.textContent = NAMES[mode];
+  }
+  btn.addEventListener('click', () => {
+    mode = SEQ[(SEQ.indexOf(mode) + 1) % SEQ.length];
+    localStorage.setItem('tds-theme', mode);
+    apply();
+  });
+  apply();
+})();
+
+/* ============================================================
+   Floating menu — .doc-section[id][data-title] から自動生成
+   ============================================================ */
+const sections = document.querySelectorAll('.doc-section[id][data-title]');
+const links = [...sections].map(s =>
+  `<a href="#${s.id}" data-spy="${s.id}">${s.dataset.title}</a>`).join('');
+document.querySelector('[data-rail="otp"]').innerHTML = links;
+document.querySelector('[data-rail="fab"]').innerHTML = links;
+
+/* Scrollspy — 現在のセクションをハイライト */
+const visible = new Set();
+const spy = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) visible.add(e.target.id);
+    else visible.delete(e.target.id);
+  });
+  let current = null;
+  for (const s of sections) {                  // DOM 順で最初に見えているもの
+    if (visible.has(s.id)) { current = s.id; break; }
+  }
+  if (current) {
+    document.querySelectorAll('[data-spy]').forEach(a => {
+      a.classList.toggle('is-current', a.dataset.spy === current);
+    });
+  }
+}, { rootMargin: '-20px 0px -55% 0px' });
+sections.forEach(s => spy.observe(s));
+
+/* ============================================================
+   Floating button（狭い画面のポップオーバー）
+   ============================================================ */
+(function () {
+  const fab = document.getElementById('fab');
+  const panel = document.getElementById('fabPanel');
+  fab.addEventListener('click', e => { e.stopPropagation(); panel.classList.toggle('is-open'); });
+  document.addEventListener('click', e => {
+    if (!panel.contains(e.target)) panel.classList.remove('is-open');
+  });
+  panel.addEventListener('click', e => {
+    if (e.target.closest('a')) panel.classList.remove('is-open');
+  });
+})();
+
+/* ============================================================
+   Copy button — 全 pre.listing に自動付与（本体と同実装）
+   ============================================================ */
+(function () {
+  const ICON_COPY = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="9" y="9" width="11" height="11" rx="2.5"/>
+    <path d="M5.5 15H4.8A1.8 1.8 0 0 1 3 13.2V4.8A1.8 1.8 0 0 1 4.8 3h8.4A1.8 1.8 0 0 1 15 4.8v.7"/></svg>`;
+  const ICON_DONE = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M5 12.5l4.5 4.5L19 7.5"/></svg>`;
+
+  document.querySelectorAll('pre.listing').forEach(pre => {
+    const wrap = document.createElement('div');
+    wrap.className = 'code-wrap';
+    pre.parentNode.insertBefore(wrap, pre);
+    wrap.appendChild(pre);
+
+    const btn = document.createElement('button');
+    btn.className = 'copy-btn';
+    btn.setAttribute('aria-label', 'コードをコピー');
+    btn.innerHTML = ICON_COPY;
+    let timer = null;
+    const reset = () => {
+      clearTimeout(timer); timer = null;
+      btn.innerHTML = ICON_COPY;
+      btn.classList.remove('is-copied');
+    };
+    btn.addEventListener('click', async () => {
+      const code = pre.textContent.replace(/\s+$/, '');
+      try {
+        await navigator.clipboard.writeText(code);
+      } catch {
+        const ta = document.createElement('textarea');
+        ta.value = code;
+        ta.style.position = 'fixed'; ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        ta.remove();
+      }
+      clearTimeout(timer);
+      btn.innerHTML = ICON_DONE;
+      btn.classList.add('is-copied');
+      timer = setTimeout(reset, 1600);
+    });
+    // ホバーが外れたらフェードアウト完了後にアイコンを差し戻す
+    wrap.addEventListener('mouseleave', () => {
+      if (timer) {
+        clearTimeout(timer);
+        timer = setTimeout(reset, 220);
+      }
+    });
+    wrap.appendChild(btn);
+  });
+})();
+</script>
+</body>
+</html>

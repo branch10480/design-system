@@ -788,7 +788,7 @@ ul.linklist a .chev { color: var(--text-3); }
 <!-- ============================ Home ============================ -->
 <main class="page is-active" data-page="home">
   <section class="hero">
-    <p class="eyebrow">Design System · v0.2</p>
+    <p class="eyebrow">Design System · v0.3</p>
     <h1>ドキュメントのための、<br>静かなデザインシステム。</h1>
     <p class="abstract">
       Apple Developer Documentation のデザイン言語をベースにした、
@@ -834,8 +834,8 @@ ul.linklist a .chev { color: var(--text-3); }
           </svg>
         </div>
         <h3>Patterns</h3>
-        <p>ページヘッダ、ナビゲーション、2 カラムレイアウト、フローティングメニュー、フッター。画面の組み立て方。</p>
-        <span class="more">詳しく見る&nbsp;›<span class="count">5 セクション</span></span>
+        <p>ページヘッダ、ナビゲーション、2 カラムレイアウト、フローティングメニュー、シングルページ、フッター。画面の組み立て方。</p>
+        <span class="more">詳しく見る&nbsp;›<span class="count">6 セクション</span></span>
       </a>
       <a class="cat-card" href="#/guidelines">
         <div class="icon icon-orange">
@@ -1209,6 +1209,19 @@ ul.linklist a .chev { color: var(--text-3); }
       <div class="aside aside-note"><p class="aside-label">注記</p><p>メニューの素材は <code class="inline">--sh-menu</code> + blur マテリアル。コンテンツの上に「浮いている」ことを影で示す。</p></div>
     </section>
 
+    <section class="doc-section" id="patterns--single-page" data-sec="single-page" data-title="シングルページ">
+      <h2>シングルページ</h2>
+      <p class="lede">ヘッダーナビもサイドバーもない、コンテンツ + フローティングメニューだけの 1 ページ構成。調査レポートや仕様書を 1 枚で公開するときはこちらを使う。</p>
+      <p>
+        テンプレートは <a href="single-page.html">single-page.html</a>。トークン・JetBrains Mono・コードのコピー UI・テーマトグルは本体と完全に共通で、
+        違いはナビゲーション構造だけ。ルーターを持たないため、素のアンカーリンク（<code class="inline">#section-id</code>）でセクションへ直リンクできる。
+      </p>
+      <ul class="linklist">
+        <li><a href="single-page.html"><span>single-page.html — テンプレートを開く</span><span class="chev">›</span></a></li>
+      </ul>
+      <div class="aside aside-tip"><p class="aside-label">ヒント</p><p>新しいレポートを作るときは single-page.html をコピーして、各 <code class="inline">.doc-section</code> の <code class="inline">id</code> / <code class="inline">data-title</code> / 本文を差し替えるだけ。フローティングメニューは自動で追従する。</p></div>
+    </section>
+
     <section class="doc-section" id="patterns--footer" data-sec="footer" data-title="フッター">
       <h2>フッター</h2>
       <p class="lede">薄い区切り線 + Footnote サイズのテキスト。リンクは <code class="inline">--text-2</code>、ホバーで下線。</p>
@@ -1289,6 +1302,7 @@ ul.linklist a .chev { color: var(--text-3); }
       <table class="params">
         <thead><tr><th>バージョン</th><th>日付</th><th>変更</th></tr></thead>
         <tbody>
+          <tr><td class="param">v0.3.0</td><td class="type">2026-06-12</td><td>シングルページパターン（<code class="inline">single-page.html</code>）を追加。ナビ・サイドバーなしの 1 カラム + フローティングメニュー構成。右上フローティングのテーマトグル付き。</td></tr>
           <tr><td class="param">v0.2.3</td><td class="type">2026-06-12</td><td>ホバー離脱時のフェードアウト中はチェックマークを維持し、完全に消えてからアイコンを差し戻すよう変更。</td></tr>
           <tr><td class="param">v0.2.2</td><td class="type">2026-06-12</td><td>コピー後のチェックマーク表示中でも、ホバーが外れたら即座にリセットして非表示にするよう変更。</td></tr>
           <tr><td class="param">v0.2.1</td><td class="type">2026-06-12</td><td>コピーボタンをホバー時のみフェード表示に変更（タッチデバイスでは常時表示）。</td></tr>
