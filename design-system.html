@@ -1289,6 +1289,7 @@ ul.linklist a .chev { color: var(--text-3); }
       <table class="params">
         <thead><tr><th>バージョン</th><th>日付</th><th>変更</th></tr></thead>
         <tbody>
+          <tr><td class="param">v0.2.3</td><td class="type">2026-06-12</td><td>ホバー離脱時のフェードアウト中はチェックマークを維持し、完全に消えてからアイコンを差し戻すよう変更。</td></tr>
           <tr><td class="param">v0.2.2</td><td class="type">2026-06-12</td><td>コピー後のチェックマーク表示中でも、ホバーが外れたら即座にリセットして非表示にするよう変更。</td></tr>
           <tr><td class="param">v0.2.1</td><td class="type">2026-06-12</td><td>コピーボタンをホバー時のみフェード表示に変更（タッチデバイスでは常時表示）。</td></tr>
           <tr><td class="param">v0.2.0</td><td class="type">2026-06-12</td><td>JetBrains Mono をリポジトリ同梱の Web フォントとして追加（<code class="inline">--font-mono</code> の先頭へ）。コードブロックにコピーボタンを実装。</td></tr>
@@ -1518,8 +1519,15 @@ document.querySelectorAll('.segmented').forEach(group => {
       btn.classList.add('is-copied');
       timer = setTimeout(reset, 1600);
     });
-    // ホバーが外れたらチェックマーク表示を打ち切って即リセット
-    wrap.addEventListener('mouseleave', () => { if (timer) reset(); });
+    // ホバーが外れたらチェックマーク表示を打ち切る。
+    // アイコンの差し戻しはフェードアウト（180ms）が終わってから行い、
+    // 消えていく最中はチェックマークのままにする
+    wrap.addEventListener('mouseleave', () => {
+      if (timer) {
+        clearTimeout(timer);
+        timer = setTimeout(reset, 220);
+      }
+    });
     wrap.appendChild(btn);
   });
 })();
