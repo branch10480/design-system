@@ -568,10 +568,10 @@ code.inline {
   opacity: 0;
   transition: opacity 180ms ease, color 120ms, border-color 120ms;
 }
-/* コードブロックにホバーしている間だけフェード表示 */
+/* コードブロックにホバーしている間だけフェード表示。
+   コピー済み状態でもホバーが外れたら即座に消える（JS 側で状態もリセット） */
 .code-wrap:hover .copy-btn,
-.copy-btn:focus-visible,
-.copy-btn.is-copied { opacity: 1; }
+.copy-btn:focus-visible { opacity: 1; }
 /* ホバーが存在しないタッチデバイスでは常時表示 */
 @media (hover: none) { .copy-btn { opacity: 1; } }
 .copy-btn:hover { color: var(--text); border-color: var(--separator); }
@@ -1289,6 +1289,7 @@ ul.linklist a .chev { color: var(--text-3); }
       <table class="params">
         <thead><tr><th>バージョン</th><th>日付</th><th>変更</th></tr></thead>
         <tbody>
+          <tr><td class="param">v0.2.2</td><td class="type">2026-06-12</td><td>コピー後のチェックマーク表示中でも、ホバーが外れたら即座にリセットして非表示にするよう変更。</td></tr>
           <tr><td class="param">v0.2.1</td><td class="type">2026-06-12</td><td>コピーボタンをホバー時のみフェード表示に変更（タッチデバイスでは常時表示）。</td></tr>
           <tr><td class="param">v0.2.0</td><td class="type">2026-06-12</td><td>JetBrains Mono をリポジトリ同梱の Web フォントとして追加（<code class="inline">--font-mono</code> の先頭へ）。コードブロックにコピーボタンを実装。</td></tr>
           <tr><td class="param">v0.1.0</td><td class="type">2026-06-12</td><td>初版。Apple Developer Documentation（swift-docc-render）ベースのトークンとコンポーネント一式。</td></tr>
@@ -1492,6 +1493,12 @@ document.querySelectorAll('.segmented').forEach(group => {
     btn.className = 'copy-btn';
     btn.setAttribute('aria-label', 'コードをコピー');
     btn.innerHTML = ICON_COPY;
+    let timer = null;
+    const reset = () => {
+      clearTimeout(timer); timer = null;
+      btn.innerHTML = ICON_COPY;
+      btn.classList.remove('is-copied');
+    };
     btn.addEventListener('click', async () => {
       const code = pre.textContent.replace(/\s+$/, '');
       try {
@@ -1506,13 +1513,13 @@ document.querySelectorAll('.segmented').forEach(group => {
         document.execCommand('copy');
         ta.remove();
       }
+      clearTimeout(timer);
       btn.innerHTML = ICON_DONE;
       btn.classList.add('is-copied');
-      setTimeout(() => {
-        btn.innerHTML = ICON_COPY;
-        btn.classList.remove('is-copied');
-      }, 1600);
+      timer = setTimeout(reset, 1600);
     });
+    // ホバーが外れたらチェックマーク表示を打ち切って即リセット
+    wrap.addEventListener('mouseleave', () => { if (timer) reset(); });
     wrap.appendChild(btn);
   });
 })();
