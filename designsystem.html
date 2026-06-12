@@ -1,0 +1,1429 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Toshi Design System — Apple Docs flavored</title>
+<style>
+/* ============================================================
+   :root tokens — Apple Developer Documentation flavored
+   参照: swift-docc-render (Apple docs の実レンダラー) の
+   $base-colors + developer.apple.com のマーケティングトークン。
+   light の値を :root に、dark の値を下の 2 ブロックに置く。
+   ============================================================ */
+:root {
+  color-scheme: light dark;
+
+  /* surfaces */
+  --bg:        #FFFFFF;
+  --bg-alt:    #F5F5F7;   /* セクション地・セグメント地 */
+  --bg-elev:   #FFFFFF;   /* カード・パネル */
+  --bg-code:   #F7F7F7;   /* コードリスティング */
+  --separator: #D2D2D7;
+  --hairline:  rgba(0, 0, 0, 0.10);
+
+  /* text */
+  --text:   #1D1D1F;
+  --text-2: #6E6E73;
+  --text-3: #86868B;
+
+  /* tint = リンク・アクセント (Apple blue) */
+  --tint:            #0066CC;
+  --tint-fill:       #0071E3;   /* filled button */
+  --tint-fill-hover: #0077ED;
+  --on-tint:         #FFFFFF;
+
+  /* status */
+  --green:  #008009;   /* Beta */
+  --orange: #B25000;   /* Deprecated */
+  --red:    #E30000;   /* Warning / Error */
+  --purple: #6846C7;   /* Experiment / Important */
+
+  /* syntax — Xcode default light (swift-docc-render より) */
+  --syn-k: #AD3DA4;   /* keyword */
+  --syn-t: #703DAA;   /* type */
+  --syn-s: #D12F1B;   /* string */
+  --syn-n: #272AD8;   /* number */
+  --syn-c: #707F8C;   /* comment */
+  --syn-f: #4B21B0;   /* function */
+  --syn-d: #03638C;   /* declaration */
+
+  /* type */
+  --font-text: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue",
+               "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", Arial, sans-serif;
+  --font-display: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue",
+               "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", Arial, sans-serif;
+  --font-mono: ui-monospace, "SF Mono", "JetBrainsMono Nerd Font Mono", "JetBrains Mono",
+               Menlo, Monaco, Consolas, monospace;
+
+  /* radius */
+  --r-pill: 980px;   /* Apple のボタン半径 */
+  --r-xl:   18px;
+  --r-lg:   14px;
+  --r-md:   10px;
+  --r-sm:   6px;
+
+  /* elevation */
+  --sh-1:    0 1px 2px rgba(0,0,0,.04), 0 4px 16px rgba(0,0,0,.06);
+  --sh-2:    0 11px 34px rgba(0,0,0,.14);
+  --sh-menu: 0 10px 40px rgba(0,0,0,.18);
+
+  /* layout */
+  --nav-h: 48px;
+  --sidebar-w: 250px;
+}
+
+/* ---- dark values（auto: OS 追従。手動 light 指定時は無効） ---- */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg:        #000000;
+    --bg-alt:    #161617;
+    --bg-elev:   #1D1D1F;
+    --bg-code:   #161617;
+    --separator: #424245;
+    --hairline:  rgba(255, 255, 255, 0.14);
+    --text:   #F5F5F7;
+    --text-2: #A1A1A6;
+    --text-3: #86868B;
+    --tint:   #2997FF;
+    --green:  #30D158;
+    --orange: #FF9F0A;
+    --red:    #FF453A;
+    --purple: #BF5AF2;
+    --syn-k: #FF7AB2; --syn-t: #DABAFF; --syn-s: #FF8170; --syn-n: #D9C97C;
+    --syn-c: #7F8C98; --syn-f: #B281EB; --syn-d: #6BDFFF;
+    --sh-1:    0 1px 2px rgba(0,0,0,.4), 0 4px 16px rgba(0,0,0,.5);
+    --sh-2:    0 11px 34px rgba(0,0,0,.6);
+    --sh-menu: 0 10px 40px rgba(0,0,0,.7);
+  }
+}
+/* ---- dark values（手動指定）。上のブロックと同値を維持すること ---- */
+:root[data-theme="dark"] {
+  --bg:        #000000;
+  --bg-alt:    #161617;
+  --bg-elev:   #1D1D1F;
+  --bg-code:   #161617;
+  --separator: #424245;
+  --hairline:  rgba(255, 255, 255, 0.14);
+  --text:   #F5F5F7;
+  --text-2: #A1A1A6;
+  --text-3: #86868B;
+  --tint:   #2997FF;
+  --green:  #30D158;
+  --orange: #FF9F0A;
+  --red:    #FF453A;
+  --purple: #BF5AF2;
+  --syn-k: #FF7AB2; --syn-t: #DABAFF; --syn-s: #FF8170; --syn-n: #D9C97C;
+  --syn-c: #7F8C98; --syn-f: #B281EB; --syn-d: #6BDFFF;
+  --sh-1:    0 1px 2px rgba(0,0,0,.4), 0 4px 16px rgba(0,0,0,.5);
+  --sh-2:    0 11px 34px rgba(0,0,0,.6);
+  --sh-menu: 0 10px 40px rgba(0,0,0,.7);
+}
+:root[data-theme="light"] { color-scheme: light; }
+:root[data-theme="dark"]  { color-scheme: dark; }
+
+/* ============================================================
+   Base
+   ============================================================ */
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-text);
+  font-size: 17px;
+  line-height: 1.47;
+  letter-spacing: -0.022em;
+  -webkit-font-smoothing: antialiased;
+}
+a { color: var(--tint); text-decoration: none; }
+a:hover { text-decoration: underline; }
+h1, h2, h3, h4 { font-family: var(--font-display); color: var(--text); }
+code, pre { font-family: var(--font-mono); letter-spacing: 0; }
+
+/* ============================================================
+   Global nav — frosted blur material
+   ============================================================ */
+.globalnav {
+  position: sticky; top: 0; z-index: 50;
+  background: color-mix(in srgb, var(--bg) 72%, transparent);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  backdrop-filter: saturate(180%) blur(20px);
+  border-bottom: 1px solid var(--hairline);
+}
+.gn-inner {
+  max-width: 1024px; margin: 0 auto; height: var(--nav-h);
+  padding: 0 22px;
+  display: flex; align-items: center; gap: 28px;
+}
+.gn-brand {
+  font-size: 17px; font-weight: 600; color: var(--text); letter-spacing: -0.02em;
+}
+.gn-brand:hover { text-decoration: none; }
+.gn-links { display: flex; gap: 22px; flex: 1; }
+.gn-links a {
+  font-size: 13px; color: var(--text-2); letter-spacing: -0.01em;
+  transition: color 120ms;
+}
+.gn-links a:hover { color: var(--text); text-decoration: none; }
+.gn-links a.is-current { color: var(--text); font-weight: 600; }
+.theme-toggle {
+  font: 500 12px var(--font-text);
+  color: var(--text-2);
+  background: var(--bg-alt);
+  border: 1px solid transparent;
+  border-radius: var(--r-pill);
+  padding: 5px 14px;
+  cursor: pointer;
+  display: inline-flex; align-items: center; gap: 6px;
+  transition: color 120ms, border-color 120ms;
+}
+.theme-toggle:hover { color: var(--text); border-color: var(--separator); }
+.theme-toggle .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--tint); }
+
+/* ============================================================
+   Pages (hash router)
+   ============================================================ */
+.page { display: none; }
+.page.is-active { display: block; }
+.docwrap.is-active { display: grid; }
+
+/* ============================================================
+   Home — hero + category cards
+   ============================================================ */
+.hero {
+  background: var(--bg-alt);
+  padding: 88px 22px 72px;
+  text-align: center;
+}
+.eyebrow { font-size: 14px; color: var(--text-2); margin: 0 0 10px; font-weight: 500; }
+.hero h1 {
+  margin: 0 auto;
+  font-size: clamp(36px, 6vw, 56px);
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  line-height: 1.08;
+  max-width: 16ch;
+}
+.hero .abstract {
+  margin: 20px auto 0;
+  max-width: 600px;
+  font-size: 21px; line-height: 1.45;
+  color: var(--text-2);
+  font-weight: 400;
+}
+.hero-actions { margin-top: 30px; display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+
+.home-section { max-width: 1024px; margin: 0 auto; padding: 64px 22px 0; }
+.home-section:last-of-type { padding-bottom: 96px; }
+.home-section > h2 { font-size: 28px; font-weight: 600; letter-spacing: -0.012em; margin: 0 0 6px; }
+.home-section > .sub { color: var(--text-2); margin: 0 0 28px; font-size: 15px; }
+
+.cat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+  gap: 20px;
+}
+a.cat-card {
+  display: flex; flex-direction: column;
+  background: var(--bg-elev);
+  border: 1px solid var(--hairline);
+  border-radius: var(--r-xl);
+  padding: 26px 26px 22px;
+  box-shadow: var(--sh-1);
+  color: inherit;
+  transition: transform 180ms ease, box-shadow 180ms ease;
+}
+a.cat-card:hover { transform: translateY(-4px) scale(1.005); box-shadow: var(--sh-2); text-decoration: none; }
+.cat-card .icon {
+  width: 46px; height: 46px;
+  border-radius: var(--r-md);
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 18px;
+  color: var(--on-tint);
+}
+.cat-card .icon svg { width: 24px; height: 24px; }
+.icon-blue   { background: linear-gradient(135deg, #0A84FF, #0055CC); }
+.icon-purple { background: linear-gradient(135deg, #BF5AF2, #6846C7); }
+.icon-green  { background: linear-gradient(135deg, #30D158, #008850); }
+.icon-orange { background: linear-gradient(135deg, #FF9F0A, #C93400); }
+.cat-card h3 { margin: 0 0 6px; font-size: 21px; font-weight: 600; letter-spacing: -0.01em; }
+.cat-card p  { margin: 0 0 18px; font-size: 14px; line-height: 1.5; color: var(--text-2); flex: 1; }
+.cat-card .more {
+  font-size: 14px; color: var(--tint); font-weight: 500;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.cat-card .more .count { font-size: 12px; color: var(--text-3); font-weight: 400; }
+
+.feature-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 36px; }
+.feature h3 { font-size: 17px; font-weight: 600; margin: 0 0 6px; }
+.feature p  { font-size: 14px; color: var(--text-2); margin: 0; line-height: 1.55; }
+
+/* ============================================================
+   Detail pages — 2 カラム（左サイドバー + コンテンツ）
+   ============================================================ */
+.docwrap {
+  max-width: 1240px;
+  margin: 0 auto;
+  grid-template-columns: var(--sidebar-w) minmax(0, 1fr);
+  gap: 0 48px;
+  padding: 0 22px;
+}
+.sidebar {
+  border-right: 1px solid var(--hairline);
+  padding: 28px 20px 80px 0;
+}
+.sidebar-inner {
+  position: sticky; top: calc(var(--nav-h) + 24px);
+  max-height: calc(100vh - var(--nav-h) - 48px);
+  overflow-y: auto;
+}
+.sidebar .group { margin-bottom: 4px; }
+.sidebar a.cat {
+  display: block;
+  font-size: 14px; font-weight: 500; color: var(--text-2);
+  padding: 7px 12px; border-radius: var(--r-sm);
+  transition: background 120ms, color 120ms;
+}
+.sidebar a.cat:hover { background: var(--bg-alt); color: var(--text); text-decoration: none; }
+.sidebar .group.is-current > a.cat { color: var(--text); font-weight: 600; }
+.sidebar ul.secs { list-style: none; margin: 2px 0 10px; padding: 0 0 0 12px; }
+.sidebar ul.secs a {
+  display: block;
+  font-size: 13px; color: var(--text-2);
+  padding: 5px 12px;
+  border-left: 1.5px solid var(--separator);
+  transition: color 120ms, border-color 120ms;
+}
+.sidebar ul.secs a:hover { color: var(--text); text-decoration: none; }
+.sidebar ul.secs a.is-current { color: var(--tint); border-left-color: var(--tint); font-weight: 500; }
+
+.doc { padding: 28px 0 120px; min-width: 0; max-width: 760px; }
+
+.breadcrumbs { font-size: 13px; color: var(--text-2); margin-bottom: 22px; }
+.breadcrumbs .sep { margin: 0 8px; color: var(--text-3); }
+
+.doc-header { padding-bottom: 28px; border-bottom: 1px solid var(--hairline); }
+.doc-header .eyebrow { text-align: left; font-size: 14px; }
+.doc-header h1 {
+  margin: 0;
+  font-size: clamp(32px, 4.5vw, 44px);
+  font-weight: 700; letter-spacing: -0.015em; line-height: 1.1;
+}
+.doc-header .abstract { margin: 14px 0 0; font-size: 19px; color: var(--text-2); line-height: 1.45; max-width: 620px; }
+.availability { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 18px; }
+
+.doc-section { padding: 44px 0 8px; scroll-margin-top: calc(var(--nav-h) + 18px); }
+.doc-section + .doc-section { border-top: 1px solid var(--hairline); margin-top: 36px; }
+.doc-section h2 { font-size: 28px; font-weight: 600; letter-spacing: -0.012em; margin: 0 0 8px; }
+.doc-section h3 { font-size: 19px; font-weight: 600; margin: 32px 0 10px; }
+.doc-section p { color: var(--text); font-size: 15px; line-height: 1.6; }
+.doc-section p.lede { color: var(--text-2); font-size: 16px; margin-top: 0; }
+.demo { margin: 18px 0; }
+.demo-label {
+  font: 500 11px var(--font-mono);
+  text-transform: uppercase; letter-spacing: 0.08em;
+  color: var(--text-3); margin: 22px 0 10px;
+}
+
+/* ============================================================
+   Floating in-page menu（フローティングアンカーメニュー）
+   ============================================================ */
+.otp {
+  position: fixed;
+  right: 24px; top: calc(var(--nav-h) + 40px);
+  width: 210px;
+  max-height: calc(100vh - var(--nav-h) - 90px);
+  overflow-y: auto;
+  background: color-mix(in srgb, var(--bg-elev) 78%, transparent);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  backdrop-filter: saturate(180%) blur(20px);
+  border: 1px solid var(--hairline);
+  border-radius: var(--r-lg);
+  box-shadow: var(--sh-menu);
+  padding: 14px 6px 10px;
+  z-index: 40;
+  display: none;
+}
+body[data-view]:not([data-view="home"]) .otp { display: block; }
+.otp .otp-title {
+  font: 600 11px var(--font-text);
+  text-transform: uppercase; letter-spacing: 0.06em;
+  color: var(--text-3);
+  padding: 0 12px 8px;
+}
+.otp a {
+  display: block;
+  font-size: 12.5px; color: var(--text-2);
+  padding: 5px 12px; border-radius: var(--r-sm);
+  transition: color 120ms, background 120ms;
+}
+.otp a:hover { color: var(--text); background: var(--bg-alt); text-decoration: none; }
+.otp a.is-current { color: var(--tint); font-weight: 600; }
+
+/* 狭い画面: 右下のフローティングボタン + ポップオーバー */
+.fab { display: none; }
+@media (max-width: 1279px) {
+  .otp { display: none !important; }
+  body[data-view]:not([data-view="home"]) .fab {
+    display: flex;
+    position: fixed; right: 20px; bottom: 24px; z-index: 60;
+    width: 50px; height: 50px; border-radius: 50%;
+    align-items: center; justify-content: center;
+    background: var(--tint-fill); color: var(--on-tint);
+    border: none; cursor: pointer;
+    box-shadow: var(--sh-menu);
+  }
+  .fab svg { width: 22px; height: 22px; }
+  body[data-view]:not([data-view="home"]) .fab-panel.is-open { display: block; }
+}
+.fab-panel {
+  display: none;
+  position: fixed; right: 20px; bottom: 86px; z-index: 60;
+  width: min(260px, calc(100vw - 40px));
+  max-height: 55vh; overflow-y: auto;
+  background: color-mix(in srgb, var(--bg-elev) 86%, transparent);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  backdrop-filter: saturate(180%) blur(20px);
+  border: 1px solid var(--hairline);
+  border-radius: var(--r-lg);
+  box-shadow: var(--sh-menu);
+  padding: 14px 6px 10px;
+}
+.fab-panel .otp-title {
+  font: 600 11px var(--font-text);
+  text-transform: uppercase; letter-spacing: 0.06em;
+  color: var(--text-3); padding: 0 12px 8px;
+}
+.fab-panel a {
+  display: block; font-size: 14px; color: var(--text-2);
+  padding: 8px 12px; border-radius: var(--r-sm);
+}
+.fab-panel a:hover { background: var(--bg-alt); color: var(--text); text-decoration: none; }
+.fab-panel a.is-current { color: var(--tint); font-weight: 600; }
+
+@media (max-width: 900px) {
+  .docwrap { grid-template-columns: 1fr; }
+  .sidebar { display: none; }
+}
+
+/* ============================================================
+   Components
+   ============================================================ */
+
+/* --- Buttons --- */
+.btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  font: 400 14px var(--font-text); letter-spacing: -0.01em;
+  background: var(--tint-fill); color: var(--on-tint);
+  border: none; border-radius: var(--r-pill);
+  padding: 8px 16px; cursor: pointer;
+  transition: background 150ms;
+}
+.btn:hover { background: var(--tint-fill-hover); text-decoration: none; }
+.btn-lg { font-size: 17px; padding: 12px 22px; }
+.btn-tinted {
+  background: color-mix(in srgb, var(--tint) 12%, transparent);
+  color: var(--tint);
+}
+.btn-tinted:hover { background: color-mix(in srgb, var(--tint) 18%, transparent); }
+.btn-plain { background: none; color: var(--tint); padding: 8px 4px; }
+.btn-plain:hover { background: none; text-decoration: underline; }
+.btn-plain .chev { font-weight: 600; }
+
+/* --- Badges / availability pills --- */
+.badge {
+  display: inline-flex; align-items: center;
+  font: 600 11px var(--font-text);
+  text-transform: uppercase; letter-spacing: 0.04em;
+  padding: 3px 9px; border-radius: var(--r-sm);
+}
+.badge-beta       { color: var(--green);  background: color-mix(in srgb, var(--green) 12%, transparent); }
+.badge-deprecated { color: var(--orange); background: color-mix(in srgb, var(--orange) 13%, transparent); }
+.badge-required   { color: var(--purple); background: color-mix(in srgb, var(--purple) 12%, transparent); }
+.pill-sdk {
+  display: inline-flex; align-items: center; gap: 6px;
+  font: 500 12px var(--font-text);
+  color: var(--text-2);
+  background: var(--bg-alt);
+  border-radius: var(--r-pill);
+  padding: 4px 12px;
+}
+.pill-sdk .plus { color: var(--green); font-weight: 600; }
+
+/* --- Topic cards --- */
+.topic-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 18px; }
+a.topic-card {
+  display: flex; flex-direction: column;
+  background: var(--bg-elev);
+  border: 1px solid var(--hairline);
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  box-shadow: var(--sh-1);
+  color: inherit;
+  transition: transform 180ms ease, box-shadow 180ms ease;
+}
+a.topic-card:hover { transform: translateY(-3px); box-shadow: var(--sh-2); text-decoration: none; }
+.topic-card .thumb { height: 96px; display: flex; align-items: center; justify-content: center; color: var(--on-tint); }
+.thumb-blue   { background: linear-gradient(135deg, #0A84FF, #0040DD); }
+.thumb-purple { background: linear-gradient(135deg, #DA8FFF, #6846C7); }
+.thumb-green  { background: linear-gradient(135deg, #6BD089, #007D4E); }
+.topic-card .thumb svg { width: 34px; height: 34px; }
+.topic-card .tc-body { padding: 14px 16px 16px; }
+.topic-card h4 { margin: 0 0 4px; font-size: 16px; font-weight: 600; }
+.topic-card p  { margin: 0; font-size: 13px; color: var(--text-2); line-height: 1.5; }
+
+/* --- Asides --- */
+.aside {
+  border: 1px solid var(--hairline);
+  border-left-width: 4px;
+  border-radius: var(--r-md);
+  padding: 14px 18px;
+  margin: 14px 0;
+  background: var(--bg-alt);
+}
+.aside .aside-label {
+  font-size: 13px; font-weight: 600;
+  text-transform: none; margin: 0 0 4px;
+}
+.aside p { margin: 0; font-size: 14px; line-height: 1.55; color: var(--text); }
+.aside-note      { border-left-color: var(--text-3); }
+.aside-note      .aside-label { color: var(--text-2); }
+.aside-important { border-left-color: var(--purple); background: color-mix(in srgb, var(--purple) 6%, var(--bg-elev)); }
+.aside-important .aside-label { color: var(--purple); }
+.aside-tip       { border-left-color: var(--green);  background: color-mix(in srgb, var(--green) 6%, var(--bg-elev)); }
+.aside-tip       .aside-label { color: var(--green); }
+.aside-warning   { border-left-color: var(--red);    background: color-mix(in srgb, var(--red) 6%, var(--bg-elev)); }
+.aside-warning   .aside-label { color: var(--red); }
+.aside-deprecated{ border-left-color: var(--orange); background: color-mix(in srgb, var(--orange) 7%, var(--bg-elev)); }
+.aside-deprecated .aside-label { color: var(--orange); }
+
+/* --- Code --- */
+pre.listing {
+  background: var(--bg-code);
+  border: 1px solid var(--hairline);
+  border-radius: var(--r-lg);
+  padding: 18px 20px;
+  font-size: 13px; line-height: 1.6;
+  color: var(--text);
+  overflow-x: auto;
+  margin: 14px 0;
+}
+pre.listing .k { color: var(--syn-k); font-weight: 500; }
+pre.listing .t { color: var(--syn-t); }
+pre.listing .s { color: var(--syn-s); }
+pre.listing .n { color: var(--syn-n); }
+pre.listing .c { color: var(--syn-c); }
+pre.listing .f { color: var(--syn-f); }
+pre.listing .d { color: var(--syn-d); }
+code.inline {
+  font-size: 0.88em;
+  background: var(--bg-alt);
+  border-radius: 4px;
+  padding: 1px 5px;
+  color: var(--text);
+}
+
+/* --- Tables --- */
+table.params {
+  width: 100%; border-collapse: collapse;
+  font-size: 14px;
+  margin: 14px 0;
+}
+table.params th, table.params td {
+  text-align: left; padding: 11px 14px;
+  border-bottom: 1px solid var(--hairline);
+}
+table.params thead th {
+  font-size: 12px; font-weight: 600; color: var(--text-2);
+  border-bottom: 1px solid var(--separator);
+}
+table.params td.param { font-family: var(--font-mono); font-size: 13px; color: var(--syn-d); }
+table.params td.type  { font-family: var(--font-mono); font-size: 13px; color: var(--text-2); }
+table.params tbody tr:hover { background: var(--bg-alt); }
+
+/* --- Segmented control (tabs) --- */
+.segmented {
+  display: inline-flex;
+  background: var(--bg-alt);
+  border-radius: var(--r-md);
+  padding: 3px;
+  gap: 2px;
+}
+.segmented button {
+  font: 500 13px var(--font-text);
+  color: var(--text-2);
+  background: none; border: none;
+  border-radius: 7px;
+  padding: 6px 16px;
+  cursor: pointer;
+  transition: color 120ms, background 120ms, box-shadow 120ms;
+}
+.segmented button.is-active {
+  background: var(--bg-elev);
+  color: var(--text);
+  box-shadow: var(--sh-1);
+}
+.seg-panel { display: none; padding: 14px 2px; font-size: 14px; color: var(--text-2); }
+.seg-panel.is-active { display: block; }
+
+/* --- Lists --- */
+ol.steps { list-style: none; counter-reset: step; padding: 0; margin: 14px 0; }
+ol.steps li {
+  counter-increment: step;
+  display: grid; grid-template-columns: 32px 1fr; gap: 14px;
+  padding: 13px 0;
+  border-bottom: 1px solid var(--hairline);
+  font-size: 15px;
+}
+ol.steps li:last-child { border-bottom: none; }
+ol.steps li::before {
+  content: counter(step);
+  width: 24px; height: 24px;
+  border-radius: 50%;
+  background: var(--bg-alt);
+  color: var(--text-2);
+  font: 600 12px var(--font-text);
+  display: flex; align-items: center; justify-content: center;
+}
+ul.linklist { list-style: none; padding: 0; margin: 14px 0; }
+ul.linklist li { border-bottom: 1px solid var(--hairline); }
+ul.linklist li:last-child { border-bottom: none; }
+ul.linklist a {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 13px 4px;
+  font-size: 15px;
+  transition: background 120ms;
+}
+ul.linklist a:hover { text-decoration: none; background: var(--bg-alt); }
+ul.linklist a .chev { color: var(--text-3); }
+
+/* --- Do / Don't --- */
+.dodont { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 18px; margin: 14px 0; }
+.dodont .col {
+  border: 1px solid var(--hairline);
+  border-radius: var(--r-lg);
+  padding: 18px 20px;
+  background: var(--bg-elev);
+}
+.dodont h4 { margin: 0 0 10px; font-size: 14px; font-weight: 600; }
+.dodont .do h4 { color: var(--green); }
+.dodont .dont h4 { color: var(--red); }
+.dodont ul { margin: 0; padding: 0 0 0 2px; list-style: none; }
+.dodont li { font-size: 13.5px; color: var(--text-2); padding: 5px 0 5px 22px; position: relative; line-height: 1.5; }
+.dodont .do  li::before { content: "✓"; position: absolute; left: 0; color: var(--green); font-weight: 600; }
+.dodont .dont li::before { content: "✕"; position: absolute; left: 0; color: var(--red); font-weight: 600; }
+
+/* --- Foundations demos --- */
+.swatch-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
+.swatch {
+  border: 1px solid var(--hairline);
+  border-radius: var(--r-md);
+  overflow: hidden;
+  background: var(--bg-elev);
+}
+.swatch .chip { height: 64px; border-bottom: 1px solid var(--hairline); }
+.swatch .meta { padding: 8px 10px; font-family: var(--font-mono); font-size: 11px; line-height: 1.5; }
+.swatch .meta .name { display: block; color: var(--text); font-weight: 600; }
+.swatch .meta .vals { color: var(--text-3); }
+
+.type-row {
+  display: grid; grid-template-columns: 120px 1fr; gap: 20px;
+  align-items: baseline;
+  padding: 14px 0; border-bottom: 1px solid var(--hairline);
+}
+.type-row:last-child { border-bottom: none; }
+.type-row .lbl { font-family: var(--font-mono); font-size: 11px; color: var(--text-3); }
+.tt-hero   { font-family: var(--font-display); font-size: 44px; font-weight: 700; letter-spacing: -0.015em; line-height: 1.1; }
+.tt-t1     { font-family: var(--font-display); font-size: 32px; font-weight: 600; letter-spacing: -0.012em; }
+.tt-t2     { font-family: var(--font-display); font-size: 28px; font-weight: 600; letter-spacing: -0.012em; }
+.tt-t3     { font-family: var(--font-display); font-size: 21px; font-weight: 600; }
+.tt-head   { font-size: 17px; font-weight: 600; }
+.tt-body   { font-size: 17px; }
+.tt-call   { font-size: 15px; color: var(--text-2); }
+.tt-foot   { font-size: 13px; color: var(--text-2); }
+.tt-cap    { font-size: 12px; color: var(--text-3); }
+.tt-mono   { font-family: var(--font-mono); font-size: 13px; }
+
+.space-row { display: flex; align-items: center; gap: 16px; padding: 6px 0; }
+.space-row .lbl { font-family: var(--font-mono); font-size: 11px; color: var(--text-3); width: 56px; }
+.space-row .bar { height: 18px; background: color-mix(in srgb, var(--tint) 22%, transparent); border-radius: 3px; }
+
+.radius-grid { display: flex; gap: 16px; flex-wrap: wrap; }
+.radius-grid .rbox {
+  width: 110px; height: 76px;
+  background: var(--bg-alt);
+  border: 1px solid var(--separator);
+  display: flex; align-items: flex-end; justify-content: center;
+  padding-bottom: 8px;
+  font-family: var(--font-mono); font-size: 11px; color: var(--text-3);
+}
+
+.elev-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 22px; }
+.elev-grid .ebox {
+  height: 90px; border-radius: var(--r-lg);
+  background: var(--bg-elev);
+  border: 1px solid var(--hairline);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-mono); font-size: 11px; color: var(--text-3);
+}
+.material-demo {
+  border-radius: var(--r-lg);
+  height: 150px;
+  background: linear-gradient(120deg, #0A84FF, #BF5AF2 45%, #FF9F0A);
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden;
+}
+.material-demo .panel {
+  width: 70%; padding: 18px 22px;
+  border-radius: var(--r-lg);
+  background: color-mix(in srgb, var(--bg-elev) 60%, transparent);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  backdrop-filter: saturate(180%) blur(20px);
+  border: 1px solid var(--hairline);
+  font-size: 14px; color: var(--text);
+}
+
+/* --- Patterns demos --- */
+.frame {
+  border: 1px solid var(--separator);
+  border-radius: var(--r-lg);
+  padding: 26px 28px;
+  background: var(--bg-elev);
+  margin: 14px 0;
+}
+.demo-footer {
+  border-top: 1px solid var(--hairline);
+  padding-top: 16px;
+  display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px;
+  font-size: 12px; color: var(--text-3);
+}
+.demo-footer a { color: var(--text-2); }
+
+/* ============================================================
+   Global footer
+   ============================================================ */
+.sitefooter {
+  border-top: 1px solid var(--hairline);
+  background: var(--bg-alt);
+  padding: 24px 22px 34px;
+  font-size: 12px; color: var(--text-3);
+}
+.sitefooter .inner { max-width: 1024px; margin: 0 auto; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
+.sitefooter a { color: var(--text-2); }
+</style>
+</head>
+<body data-view="home">
+
+<!-- ============================ Global nav ============================ -->
+<header class="globalnav">
+  <div class="gn-inner">
+    <a class="gn-brand" href="#/">Toshi&nbsp;DS</a>
+    <nav class="gn-links" aria-label="カテゴリ">
+      <a href="#/foundations" data-nav="foundations">Foundations</a>
+      <a href="#/components" data-nav="components">Components</a>
+      <a href="#/patterns" data-nav="patterns">Patterns</a>
+      <a href="#/guidelines" data-nav="guidelines">Guidelines</a>
+    </nav>
+    <button class="theme-toggle" id="themeToggle" aria-label="テーマ切り替え">
+      <span class="dot"></span><span id="themeLabel">自動</span>
+    </button>
+  </div>
+</header>
+
+<!-- ============================ Home ============================ -->
+<main class="page is-active" data-page="home">
+  <section class="hero">
+    <p class="eyebrow">Design System · v0.1</p>
+    <h1>ドキュメントのための、<br>静かなデザインシステム。</h1>
+    <p class="abstract">
+      Apple Developer Documentation のデザイン言語をベースにした、
+      調査レポート・技術ドキュメント・HTML 成果物のための自分専用デザインシステム。
+      単一ファイルで完結し、ライト / ダークに自動対応する。
+    </p>
+    <div class="hero-actions">
+      <a class="btn btn-lg" href="#/foundations">はじめる</a>
+      <a class="btn btn-lg btn-tinted" href="#/guidelines">使い方を見る</a>
+    </div>
+  </section>
+
+  <section class="home-section">
+    <h2>カテゴリ</h2>
+    <p class="sub">カードを選ぶと詳細ページへ移動します。</p>
+    <div class="cat-grid">
+      <a class="cat-card" href="#/foundations">
+        <div class="icon icon-blue">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+            <circle cx="9" cy="9" r="5.2"/><circle cx="15" cy="9" r="5.2"/><circle cx="12" cy="14.5" r="5.2"/>
+          </svg>
+        </div>
+        <h3>Foundations</h3>
+        <p>カラー、タイポグラフィ、余白、角丸、エレベーション。すべての画面の土台になるデザイントークン。</p>
+        <span class="more">詳しく見る&nbsp;›<span class="count">6 セクション</span></span>
+      </a>
+      <a class="cat-card" href="#/components">
+        <div class="icon icon-purple">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+            <rect x="3.5" y="3.5" width="7.2" height="7.2" rx="2"/><rect x="13.3" y="3.5" width="7.2" height="7.2" rx="2"/>
+            <rect x="3.5" y="13.3" width="7.2" height="7.2" rx="2"/><rect x="13.3" y="13.3" width="7.2" height="7.2" rx="2"/>
+          </svg>
+        </div>
+        <h3>Components</h3>
+        <p>ボタン、バッジ、カード、Aside、コード、テーブル、タブ、リスト。コピペで使える部品集。</p>
+        <span class="more">詳しく見る&nbsp;›<span class="count">8 セクション</span></span>
+      </a>
+      <a class="cat-card" href="#/patterns">
+        <div class="icon icon-green">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+            <rect x="3.5" y="4" width="17" height="16" rx="2.5"/><line x1="9.5" y1="4" x2="9.5" y2="20"/>
+            <line x1="12.5" y1="8.5" x2="17.5" y2="8.5"/><line x1="12.5" y1="12" x2="17.5" y2="12"/>
+          </svg>
+        </div>
+        <h3>Patterns</h3>
+        <p>ページヘッダ、ナビゲーション、2 カラムレイアウト、フローティングメニュー、フッター。画面の組み立て方。</p>
+        <span class="more">詳しく見る&nbsp;›<span class="count">5 セクション</span></span>
+      </a>
+      <a class="cat-card" href="#/guidelines">
+        <div class="icon icon-orange">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M6 3.5h9l4 4V20.5a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1v-16a1 1 0 0 1 1-1z"/>
+            <path d="M9 13.5l2.2 2.2L15.5 11"/>
+          </svg>
+        </div>
+        <h3>Guidelines</h3>
+        <p>原則、単一ファイル運用のルール、Do / Don't、バージョニング。このシステムの使い方そのもの。</p>
+        <span class="more">詳しく見る&nbsp;›<span class="count">4 セクション</span></span>
+      </a>
+    </div>
+  </section>
+
+  <section class="home-section">
+    <h2>特徴</h2>
+    <p class="sub">調査結果や仕様書を HTML として公開するときの「いつもの土台」。</p>
+    <div class="feature-grid">
+      <div class="feature">
+        <h3>単一ファイルで完結</h3>
+        <p>外部 CSS / JS / Web フォントに依存しない。<code class="inline">:root</code> のトークンブロックをコピーすれば、どの成果物も同じ見た目になる。</p>
+      </div>
+      <div class="feature">
+        <h3>ライト / ダーク自動対応</h3>
+        <p>色は必ずトークン経由で参照する。OS の外観設定に追従し、右上のトグルで手動切り替えもできる。</p>
+      </div>
+      <div class="feature">
+        <h3>Apple Docs の語彙</h3>
+        <p>swift-docc-render のカラーパレットと developer.apple.com のレイアウト語彙（eyebrow / abstract / aside / availability）を踏襲。</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- ============================ Foundations ============================ -->
+<div class="page docwrap" data-page="foundations">
+  <aside class="sidebar"><div class="sidebar-inner" data-rail="sidebar"></div></aside>
+  <main class="doc">
+    <nav class="breadcrumbs"><a href="#/">Toshi DS</a><span class="sep">›</span>Foundations</nav>
+    <header class="doc-header">
+      <p class="eyebrow">Category</p>
+      <h1>Foundations</h1>
+      <p class="abstract">すべての成果物が共有する土台。色・文字・余白・角丸・影は、ここで定義したトークンだけを参照する。</p>
+      <div class="availability">
+        <span class="pill-sdk">Light <span class="plus">✓</span></span>
+        <span class="pill-sdk">Dark <span class="plus">✓</span></span>
+        <span class="badge badge-beta">Beta</span>
+      </div>
+    </header>
+
+    <section class="doc-section" id="foundations--overview" data-sec="overview" data-title="概要">
+      <h2>概要</h2>
+      <p class="lede">トークンは「表面（surface）」「文字（text）」「ティント（tint）」「ステータス」の 4 族。リテラルの hex をコンポーネント側に直書きせず、必ず CSS 変数経由で参照する。</p>
+      <div class="aside aside-important">
+        <p class="aside-label">重要</p>
+        <p>ダーク対応はトークンの値の差し替えだけで実現している。コンポーネント側に <code class="inline">@media (prefers-color-scheme: dark)</code> を書いた時点で設計違反。</p>
+      </div>
+    </section>
+
+    <section class="doc-section" id="foundations--colors" data-sec="colors" data-title="カラー">
+      <h2>カラー</h2>
+      <p class="lede">Apple Developer Documentation の実トークン（swift-docc-render）をベースにした 15 色。チップは現在のテーマの値で描画される — 右上のトグルで切り替えて確認できる。</p>
+      <p class="demo-label">Surfaces</p>
+      <div class="demo swatch-grid">
+        <div class="swatch"><div class="chip" style="background:var(--bg)"></div><div class="meta"><span class="name">--bg</span><span class="vals">#FFFFFF / #000000</span></div></div>
+        <div class="swatch"><div class="chip" style="background:var(--bg-alt)"></div><div class="meta"><span class="name">--bg-alt</span><span class="vals">#F5F5F7 / #161617</span></div></div>
+        <div class="swatch"><div class="chip" style="background:var(--bg-elev)"></div><div class="meta"><span class="name">--bg-elev</span><span class="vals">#FFFFFF / #1D1D1F</span></div></div>
+        <div class="swatch"><div class="chip" style="background:var(--bg-code)"></div><div class="meta"><span class="name">--bg-code</span><span class="vals">#F7F7F7 / #161617</span></div></div>
+        <div class="swatch"><div class="chip" style="background:var(--separator)"></div><div class="meta"><span class="name">--separator</span><span class="vals">#D2D2D7 / #424245</span></div></div>
+      </div>
+      <p class="demo-label">Text</p>
+      <div class="demo swatch-grid">
+        <div class="swatch"><div class="chip" style="background:var(--text)"></div><div class="meta"><span class="name">--text</span><span class="vals">#1D1D1F / #F5F5F7</span></div></div>
+        <div class="swatch"><div class="chip" style="background:var(--text-2)"></div><div class="meta"><span class="name">--text-2</span><span class="vals">#6E6E73 / #A1A1A6</span></div></div>
+        <div class="swatch"><div class="chip" style="background:var(--text-3)"></div><div class="meta"><span class="name">--text-3</span><span class="vals">#86868B / #86868B</span></div></div>
+      </div>
+      <p class="demo-label">Tint &amp; Status</p>
+      <div class="demo swatch-grid">
+        <div class="swatch"><div class="chip" style="background:var(--tint)"></div><div class="meta"><span class="name">--tint</span><span class="vals">#0066CC / #2997FF</span></div></div>
+        <div class="swatch"><div class="chip" style="background:var(--tint-fill)"></div><div class="meta"><span class="name">--tint-fill</span><span class="vals">#0071E3 / #0071E3</span></div></div>
+        <div class="swatch"><div class="chip" style="background:var(--green)"></div><div class="meta"><span class="name">--green</span><span class="vals">#008009 / #30D158</span></div></div>
+        <div class="swatch"><div class="chip" style="background:var(--orange)"></div><div class="meta"><span class="name">--orange</span><span class="vals">#B25000 / #FF9F0A</span></div></div>
+        <div class="swatch"><div class="chip" style="background:var(--red)"></div><div class="meta"><span class="name">--red</span><span class="vals">#E30000 / #FF453A</span></div></div>
+        <div class="swatch"><div class="chip" style="background:var(--purple)"></div><div class="meta"><span class="name">--purple</span><span class="vals">#6846C7 / #BF5AF2</span></div></div>
+      </div>
+      <h3>使い分け</h3>
+      <ul class="linklist">
+        <li><a href="#/components/buttons"><span><code class="inline">--tint</code> はリンクとアクセントのみ。本文に使わない</span><span class="chev">›</span></a></li>
+        <li><a href="#/components/badges"><span>ステータス色は意味が固定 — green=Beta/成功、orange=Deprecated/注意、red=Warning/エラー</span><span class="chev">›</span></a></li>
+      </ul>
+    </section>
+
+    <section class="doc-section" id="foundations--typography" data-sec="typography" data-title="タイポグラフィ">
+      <h2>タイポグラフィ</h2>
+      <p class="lede">SF Pro（system-ui）を中心に、日本語は Hiragino Sans へフォールバック。Web フォントは読み込まない。本文は 17px / 1.47、字間 −0.022em が Apple の基準値。</p>
+      <div class="demo">
+        <div class="type-row"><span class="lbl">Hero · 44/700</span><span class="tt-hero">静かで、正確に。</span></div>
+        <div class="type-row"><span class="lbl">Title 1 · 32/600</span><span class="tt-t1">ページタイトル</span></div>
+        <div class="type-row"><span class="lbl">Title 2 · 28/600</span><span class="tt-t2">セクション見出し</span></div>
+        <div class="type-row"><span class="lbl">Title 3 · 21/600</span><span class="tt-t3">サブセクション見出し</span></div>
+        <div class="type-row"><span class="lbl">Headline · 17/600</span><span class="tt-head">強調された本文の導入行</span></div>
+        <div class="type-row"><span class="lbl">Body · 17/400</span><span class="tt-body">標準の本文。読み物の主役で、行間 1.47 を保つ。</span></div>
+        <div class="type-row"><span class="lbl">Callout · 15</span><span class="tt-call">補足説明や UI 内のテキスト。</span></div>
+        <div class="type-row"><span class="lbl">Footnote · 13</span><span class="tt-foot">注記・キャプションの上位。</span></div>
+        <div class="type-row"><span class="lbl">Caption · 12</span><span class="tt-cap">メタ情報・タイムスタンプ。</span></div>
+        <div class="type-row"><span class="lbl">Mono · 13</span><span class="tt-mono">code · file_path · 0x2997FF</span></div>
+      </div>
+    </section>
+
+    <section class="doc-section" id="foundations--spacing" data-sec="spacing" data-title="スペーシング">
+      <h2>スペーシング</h2>
+      <p class="lede">4px グリッド。コンポーネント内は 4–16、コンポーネント間は 24–48、セクション間は 64 以上を目安にする。</p>
+      <div class="demo">
+        <div class="space-row"><span class="lbl">4</span><div class="bar" style="width:4px"></div></div>
+        <div class="space-row"><span class="lbl">8</span><div class="bar" style="width:8px"></div></div>
+        <div class="space-row"><span class="lbl">12</span><div class="bar" style="width:12px"></div></div>
+        <div class="space-row"><span class="lbl">16</span><div class="bar" style="width:16px"></div></div>
+        <div class="space-row"><span class="lbl">24</span><div class="bar" style="width:24px"></div></div>
+        <div class="space-row"><span class="lbl">32</span><div class="bar" style="width:32px"></div></div>
+        <div class="space-row"><span class="lbl">48</span><div class="bar" style="width:48px"></div></div>
+        <div class="space-row"><span class="lbl">64</span><div class="bar" style="width:64px"></div></div>
+      </div>
+    </section>
+
+    <section class="doc-section" id="foundations--radius" data-sec="radius" data-title="角丸">
+      <h2>角丸</h2>
+      <p class="lede">ボタンは Apple 流のフルラウンド（980px）。面が大きいほど半径も大きくする。</p>
+      <div class="demo radius-grid">
+        <div class="rbox" style="border-radius:var(--r-sm)">--r-sm 6</div>
+        <div class="rbox" style="border-radius:var(--r-md)">--r-md 10</div>
+        <div class="rbox" style="border-radius:var(--r-lg)">--r-lg 14</div>
+        <div class="rbox" style="border-radius:var(--r-xl)">--r-xl 18</div>
+        <div class="rbox" style="border-radius:var(--r-pill)">--r-pill 980</div>
+      </div>
+    </section>
+
+    <section class="doc-section" id="foundations--elevation" data-sec="elevation" data-title="エレベーション">
+      <h2>エレベーションとマテリアル</h2>
+      <p class="lede">影は 3 段階だけ。浮遊する UI（ナビ・フローティングメニュー）には blur マテリアルを使い、背景を透かす。</p>
+      <div class="demo elev-grid">
+        <div class="ebox" style="box-shadow:var(--sh-1)">--sh-1 · resting</div>
+        <div class="ebox" style="box-shadow:var(--sh-2)">--sh-2 · hover</div>
+        <div class="ebox" style="box-shadow:var(--sh-menu)">--sh-menu · floating</div>
+      </div>
+      <p class="demo-label">Material（backdrop blur）</p>
+      <div class="demo material-demo">
+        <div class="panel"><strong>Frosted material</strong> — <code class="inline">color-mix()</code> で背景色を 60–78% に薄め、<code class="inline">backdrop-filter: saturate(180%) blur(20px)</code> を重ねる。</div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<!-- ============================ Components ============================ -->
+<div class="page docwrap" data-page="components">
+  <aside class="sidebar"><div class="sidebar-inner" data-rail="sidebar"></div></aside>
+  <main class="doc">
+    <nav class="breadcrumbs"><a href="#/">Toshi DS</a><span class="sep">›</span>Components</nav>
+    <header class="doc-header">
+      <p class="eyebrow">Category</p>
+      <h1>Components</h1>
+      <p class="abstract">コピー &amp; ペーストで使える部品集。すべてトークン参照のみで描かれており、ライト / ダークの両方でそのまま動く。</p>
+      <div class="availability">
+        <span class="pill-sdk">HTML + CSS <span class="plus">✓</span></span>
+        <span class="pill-sdk">JS 依存はタブのみ</span>
+      </div>
+    </header>
+
+    <section class="doc-section" id="components--buttons" data-sec="buttons" data-title="ボタン">
+      <h2>ボタン</h2>
+      <p class="lede">Filled / Tinted / Plain の 3 階層。1 画面に Filled は 1 つまで。</p>
+      <div class="demo" style="display:flex; gap:12px; flex-wrap:wrap; align-items:center;">
+        <button class="btn">続ける</button>
+        <button class="btn btn-tinted">ダウンロード</button>
+        <a class="btn btn-plain" href="#/components/buttons">詳しく見る&nbsp;<span class="chev">›</span></a>
+      </div>
+      <p class="demo-label">Large</p>
+      <div class="demo" style="display:flex; gap:12px; flex-wrap:wrap; align-items:center;">
+        <button class="btn btn-lg">はじめる</button>
+        <button class="btn btn-lg btn-tinted">資料を読む</button>
+      </div>
+    </section>
+
+    <section class="doc-section" id="components--badges" data-sec="badges" data-title="バッジ">
+      <h2>バッジと可用性ピル</h2>
+      <p class="lede">API の状態（Beta / Deprecated / Required）と、対応プラットフォームの表示に使う。</p>
+      <div class="demo" style="display:flex; gap:10px; flex-wrap:wrap; align-items:center;">
+        <span class="badge badge-beta">Beta</span>
+        <span class="badge badge-deprecated">Deprecated</span>
+        <span class="badge badge-required">Required</span>
+      </div>
+      <p class="demo-label">Availability</p>
+      <div class="demo" style="display:flex; gap:8px; flex-wrap:wrap;">
+        <span class="pill-sdk">iOS 17.0<span class="plus">+</span></span>
+        <span class="pill-sdk">iPadOS 17.0<span class="plus">+</span></span>
+        <span class="pill-sdk">macOS 14.0<span class="plus">+</span></span>
+        <span class="pill-sdk">visionOS 1.0<span class="plus">+</span></span>
+      </div>
+    </section>
+
+    <section class="doc-section" id="components--cards" data-sec="cards" data-title="カード">
+      <h2>トピックカード</h2>
+      <p class="lede">ホバーで浮き上がる（translateY −3px + 影の段上げ）。サムネはグラデーション + 白アイコンで統一。</p>
+      <div class="demo topic-grid">
+        <a class="topic-card" href="#/foundations/colors">
+          <div class="thumb thumb-blue">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="9" cy="9" r="5"/><circle cx="15" cy="9" r="5"/><circle cx="12" cy="14.5" r="5"/></svg>
+          </div>
+          <div class="tc-body"><h4>カラートークン</h4><p>15 色のパレットとライト / ダークの対応表。</p></div>
+        </a>
+        <a class="topic-card" href="#/components/code">
+          <div class="thumb thumb-purple">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M8.5 7L4 12l4.5 5"/><path d="M15.5 7L20 12l-4.5 5"/></svg>
+          </div>
+          <div class="tc-body"><h4>コードリスティング</h4><p>Xcode テーマ準拠のシンタックスカラー。</p></div>
+        </a>
+        <a class="topic-card" href="#/patterns/layout">
+          <div class="thumb thumb-green">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3.5" y="4.5" width="17" height="15" rx="2"/><line x1="9.5" y1="4.5" x2="9.5" y2="19.5"/></svg>
+          </div>
+          <div class="tc-body"><h4>2 カラムレイアウト</h4><p>サイドバー + コンテンツの詳細ページ構成。</p></div>
+        </a>
+      </div>
+    </section>
+
+    <section class="doc-section" id="components--asides" data-sec="asides" data-title="Aside">
+      <h2>Aside（コールアウト）</h2>
+      <p class="lede">Apple Docs の aside 語彙そのまま：Note / Important / Tip / Warning / Deprecated。左ボーダー 4px + ごく薄い地色。</p>
+      <div class="demo">
+        <div class="aside aside-note"><p class="aside-label">注記</p><p>背景色のティントは <code class="inline">color-mix()</code> でステータス色から導出する。専用 hex を増やさない。</p></div>
+        <div class="aside aside-important"><p class="aside-label">重要</p><p>aside は 1 セクションに 1 つまで。並べると警告のインフレが起きて、どれも読まれなくなる。</p></div>
+        <div class="aside aside-tip"><p class="aside-label">ヒント</p><p>成果物の冒頭に「結論」を aside-tip で置くと、レポートの TL;DR として機能する。</p></div>
+        <div class="aside aside-warning"><p class="aside-label">警告</p><p>機密情報（API キー・個人情報）を成果物に含めない。公開サーバーに置く前提で書く。</p></div>
+        <div class="aside aside-deprecated"><p class="aside-label">非推奨</p><p>旧 ivory + clay テーマの直書き hex は廃止。今後はこのシステムのトークンへ移行する。</p></div>
+      </div>
+    </section>
+
+    <section class="doc-section" id="components--code" data-sec="code" data-title="コード">
+      <h2>コード</h2>
+      <p class="lede">シンタックスカラーは swift-docc-render の Xcode テーマ値（ライト / ダークで自動切替）。インラインコードは <code class="inline">--bg-alt</code> 地。</p>
+<pre class="listing"><span class="k">import</span> <span class="t">SwiftUI</span>
+
+<span class="c">/// プロフィールカードを表示するビュー</span>
+<span class="k">struct</span> <span class="d">ProfileCard</span>: <span class="t">View</span> {
+    <span class="k">let</span> user: <span class="t">User</span>
+    <span class="k">var</span> body: <span class="k">some</span> <span class="t">View</span> {
+        <span class="t">VStack</span>(alignment: .leading, spacing: <span class="n">8</span>) {
+            <span class="t">Text</span>(user.name)
+                .<span class="f">font</span>(.headline)
+            <span class="t">Text</span>(<span class="s">"最終ログイン: </span>\(user.lastLogin)<span class="s">"</span>)
+                .<span class="f">foregroundStyle</span>(.secondary)
+        }
+        .<span class="f">padding</span>()
+    }
+}</pre>
+      <p>本文中では <code class="inline">--tint</code> や <code class="inline">backdrop-filter</code> のようにインラインコードで参照する。</p>
+    </section>
+
+    <section class="doc-section" id="components--tables" data-sec="tables" data-title="テーブル">
+      <h2>テーブル</h2>
+      <p class="lede">API リファレンスのパラメータ表スタイル。罫線は水平のみ、ホバーで行をハイライト。</p>
+      <div class="demo">
+        <table class="params">
+          <thead><tr><th>パラメータ</th><th>型</th><th>必須</th><th>説明</th></tr></thead>
+          <tbody>
+            <tr><td class="param">title</td><td class="type">String</td><td><span class="badge badge-required">Required</span></td><td>ページタイトル。Hero に 700 ウェイトで表示される。</td></tr>
+            <tr><td class="param">abstract</td><td class="type">String?</td><td>—</td><td>タイトル直下の要約。21px の <code class="inline">--text-2</code>。</td></tr>
+            <tr><td class="param">availability</td><td class="type">[Platform]</td><td>—</td><td>対応プラットフォームのピル列。</td></tr>
+            <tr><td class="param">isBeta</td><td class="type">Bool</td><td>—</td><td><span class="badge badge-beta">Beta</span> バッジの表示制御。</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="doc-section" id="components--tabs" data-sec="tabs" data-title="タブ">
+      <h2>タブ（セグメンテッドコントロール）</h2>
+      <p class="lede">iOS のセグメンテッドコントロール風。選択中セグメントは <code class="inline">--bg-elev</code> + 影で浮かせる。</p>
+      <div class="demo">
+        <div class="segmented" role="tablist">
+          <button class="is-active" data-seg="swift">Swift</button>
+          <button data-seg="objc">Objective-C</button>
+          <button data-seg="rest">REST</button>
+        </div>
+        <div class="seg-panel is-active" data-seg-panel="swift">Swift API の説明をここに書く。async/await ベースの新 API を推奨。</div>
+        <div class="seg-panel" data-seg-panel="objc">Objective-C 互換レイヤーの説明。NS_SWIFT_NAME の対応表など。</div>
+        <div class="seg-panel" data-seg-panel="rest">REST エンドポイントの説明。リクエスト / レスポンス例を listing で添える。</div>
+      </div>
+    </section>
+
+    <section class="doc-section" id="components--lists" data-sec="lists" data-title="リスト">
+      <h2>リスト</h2>
+      <p class="lede">手順は番号サークル付きのステップリスト、関連リンクはシェブロン付きのリンクリストで。</p>
+      <p class="demo-label">Steps</p>
+      <ol class="steps">
+        <li><div><strong>トークンをコピーする。</strong>この HTML の <code class="inline">:root</code> と dark ブロックを新しいファイルへ。</div></li>
+        <li><div><strong>コンポーネントを選ぶ。</strong>必要なセクションの CSS + HTML だけ持っていく。</div></li>
+        <li><div><strong>ブラウザで開いて確認。</strong>外観をライト / ダーク両方で見る。</div></li>
+      </ol>
+      <p class="demo-label">Link list（See Also）</p>
+      <ul class="linklist">
+        <li><a href="#/foundations/colors"><span>カラートークン一覧</span><span class="chev">›</span></a></li>
+        <li><a href="#/patterns/floating-menu"><span>フローティングメニューの実装</span><span class="chev">›</span></a></li>
+        <li><a href="#/guidelines/usage"><span>新しい成果物での使い方</span><span class="chev">›</span></a></li>
+      </ul>
+    </section>
+  </main>
+</div>
+
+<!-- ============================ Patterns ============================ -->
+<div class="page docwrap" data-page="patterns">
+  <aside class="sidebar"><div class="sidebar-inner" data-rail="sidebar"></div></aside>
+  <main class="doc">
+    <nav class="breadcrumbs"><a href="#/">Toshi DS</a><span class="sep">›</span>Patterns</nav>
+    <header class="doc-header">
+      <p class="eyebrow">Category</p>
+      <h1>Patterns</h1>
+      <p class="abstract">部品をページに組み上げるときの定型。このサイト自体が各パターンの実働デモになっている。</p>
+    </header>
+
+    <section class="doc-section" id="patterns--page-header" data-sec="page-header" data-title="ページヘッダ">
+      <h2>ページヘッダ</h2>
+      <p class="lede">eyebrow（カテゴリ名）→ タイトル → abstract（要約）→ availability の順。Apple Docs のフレームワークページと同じ骨格。</p>
+      <div class="frame">
+        <p class="eyebrow" style="text-align:left">Framework</p>
+        <h1 style="margin:0; font-size:34px; font-weight:700; letter-spacing:-0.015em;">SwiftData</h1>
+        <p style="margin:12px 0 0; font-size:17px; color:var(--text-2);">宣言的なコードでアプリのモデル層を書き、永続化する。</p>
+        <div class="availability">
+          <span class="pill-sdk">iOS 17.0<span class="plus">+</span></span>
+          <span class="pill-sdk">macOS 14.0<span class="plus">+</span></span>
+          <span class="badge badge-beta">Beta</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="doc-section" id="patterns--navigation" data-sec="navigation" data-title="ナビゲーション">
+      <h2>ナビゲーション</h2>
+      <p class="lede">最上部はブラー素材のグローバルナビ（高さ 48px）。詳細ページではパンくずをコンテンツ先頭に置く。</p>
+      <div class="frame">
+        <nav class="breadcrumbs" style="margin:0;"><a href="#/">Toshi DS</a><span class="sep">›</span><a href="#/patterns">Patterns</a><span class="sep">›</span>ナビゲーション</nav>
+      </div>
+      <div class="aside aside-tip"><p class="aside-label">ヒント</p><p>グローバルナビの背景は <code class="inline">color-mix(in srgb, var(--bg) 72%, transparent)</code> + <code class="inline">backdrop-filter</code>。スクロールしてもコンテンツがうっすら透ける。</p></div>
+    </section>
+
+    <section class="doc-section" id="patterns--layout" data-sec="layout" data-title="レイアウト">
+      <h2>2 カラムレイアウト</h2>
+      <p class="lede">詳細ページは「左サイドバー（250px・sticky）+ コンテンツ（最大 760px）」の 2 カラム。ページ内アンカーは右端のフローティングメニューが担当し、グリッドには含めない。</p>
+      <div class="frame" style="padding:18px;">
+        <svg viewBox="0 0 600 240" style="width:100%; height:auto; display:block;" aria-label="レイアウト構成図">
+          <rect x="8" y="8" width="584" height="28" rx="6" fill="none" stroke="var(--separator)" stroke-width="1.5"/>
+          <text x="300" y="27" text-anchor="middle" font-size="12" fill="var(--text-3)" font-family="-apple-system, sans-serif">Global nav（blur material・sticky）</text>
+          <rect x="8" y="48" width="120" height="184" rx="6" fill="var(--bg-alt)" stroke="var(--separator)" stroke-width="1.5"/>
+          <text x="68" y="144" text-anchor="middle" font-size="12" fill="var(--text-2)" font-family="-apple-system, sans-serif">Sidebar</text>
+          <rect x="144" y="48" width="300" height="184" rx="6" fill="none" stroke="var(--separator)" stroke-width="1.5"/>
+          <text x="294" y="144" text-anchor="middle" font-size="12" fill="var(--text-2)" font-family="-apple-system, sans-serif">Content（max 760px）</text>
+          <rect x="466" y="60" width="126" height="120" rx="10" fill="var(--bg-alt)" stroke="var(--tint)" stroke-width="1.5" stroke-dasharray="5 4"/>
+          <text x="529" y="115" text-anchor="middle" font-size="11" fill="var(--tint)" font-family="-apple-system, sans-serif">Floating menu</text>
+          <text x="529" y="131" text-anchor="middle" font-size="10" fill="var(--text-3)" font-family="-apple-system, sans-serif">position: fixed</text>
+        </svg>
+      </div>
+      <p>900px 以下ではサイドバーを畳み、1280px 以下ではフローティングメニューを右下のボタン + ポップオーバーに切り替える。</p>
+    </section>
+
+    <section class="doc-section" id="patterns--floating-menu" data-sec="floating-menu" data-title="フローティングメニュー">
+      <h2>フローティングメニュー</h2>
+      <p class="lede">ページ内のセクションへ飛べるアンカーメニュー。広い画面では右端に固定表示（このページの右側に出ているもの）、狭い画面では右下の丸ボタンから開く。</p>
+      <ol class="steps">
+        <li><div><strong>自動生成。</strong>各 <code class="inline">.doc-section</code> の <code class="inline">data-title</code> から JS がリンクを組み立てる。手書きのメニュー管理はしない。</div></li>
+        <li><div><strong>スクロール連動。</strong>IntersectionObserver で現在のセクションを検出し、リンクをハイライトする。</div></li>
+        <li><div><strong>メニュー自体もスクロール可能。</strong><code class="inline">max-height</code> + <code class="inline">overflow-y: auto</code> で、セクションが多くても破綻しない。</div></li>
+      </ol>
+      <div class="aside aside-note"><p class="aside-label">注記</p><p>メニューの素材は <code class="inline">--sh-menu</code> + blur マテリアル。コンテンツの上に「浮いている」ことを影で示す。</p></div>
+    </section>
+
+    <section class="doc-section" id="patterns--footer" data-sec="footer" data-title="フッター">
+      <h2>フッター</h2>
+      <p class="lede">薄い区切り線 + Footnote サイズのテキスト。リンクは <code class="inline">--text-2</code>、ホバーで下線。</p>
+      <div class="frame">
+        <div class="demo-footer">
+          <span>Copyright © 2026 Toshiharu Imaeda.</span>
+          <span><a href="#/guidelines">利用ガイドライン</a> · <a href="#/foundations">トークン一覧</a></span>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<!-- ============================ Guidelines ============================ -->
+<div class="page docwrap" data-page="guidelines">
+  <aside class="sidebar"><div class="sidebar-inner" data-rail="sidebar"></div></aside>
+  <main class="doc">
+    <nav class="breadcrumbs"><a href="#/">Toshi DS</a><span class="sep">›</span>Guidelines</nav>
+    <header class="doc-header">
+      <p class="eyebrow">Category</p>
+      <h1>Guidelines</h1>
+      <p class="abstract">このデザインシステムを成果物に適用するときのルール。迷ったらここに戻る。</p>
+    </header>
+
+    <section class="doc-section" id="guidelines--principles" data-sec="principles" data-title="原則">
+      <h2>原則</h2>
+      <ol class="steps">
+        <li><div><strong>コンテンツが主役。</strong>装飾は情報の階層を示すためだけに使う。アクセント色は 1 画面 1〜2 箇所。</div></li>
+        <li><div><strong>トークン経由でのみ色を参照。</strong>hex 直書きを見つけたらその場で直す。これがダーク対応の生命線。</div></li>
+        <li><div><strong>単一ファイルで完結。</strong>外部 CSS / JS / フォント読み込みなし。ファイルひとつ置けばどこでも公開できる。</div></li>
+        <li><div><strong>Apple の語彙を保つ。</strong>eyebrow / abstract / aside / availability — 名前を揃えることで再利用が効く。</div></li>
+      </ol>
+    </section>
+
+    <section class="doc-section" id="guidelines--usage" data-sec="usage" data-title="使い方">
+      <h2>新しい成果物での使い方</h2>
+      <p class="lede">この designsystem.html は「コピペ元」。新しい HTML を作るときは次のブロックから持っていく。</p>
+<pre class="listing"><span class="c">/* 1. :root のトークン一式（light）と
+   2. dark の 2 ブロック（@media + [data-theme="dark"]）を必ずセットでコピー */</span>
+<span class="d">:root</span> {
+  <span class="k">--bg</span>: <span class="s">#FFFFFF</span>;
+  <span class="k">--text</span>: <span class="s">#1D1D1F</span>;
+  <span class="k">--tint</span>: <span class="s">#0066CC</span>;
+  <span class="c">/* …以下トークン一式 */</span>
+}</pre>
+      <div class="aside aside-important"><p class="aside-label">重要</p><p>dark ブロックを片方だけコピーすると、手動トグルか OS 追従のどちらかが壊れる。<strong>3 ブロック（:root / @media dark / [data-theme=dark]）は常にセット</strong>で扱う。</p></div>
+    </section>
+
+    <section class="doc-section" id="guidelines--dodont" data-sec="dodont" data-title="Do / Don't">
+      <h2>Do / Don't</h2>
+      <div class="dodont">
+        <div class="col do">
+          <h4>Do</h4>
+          <ul>
+            <li>色は必ず var(--token) で参照する</li>
+            <li>Filled ボタンは 1 画面に 1 つ</li>
+            <li>aside は本当に重要な情報だけに使う</li>
+            <li>セクション見出しに id を振り、アンカー可能にする</li>
+            <li>公開前にライト / ダーク両方で表示確認する</li>
+          </ul>
+        </div>
+        <div class="col dont">
+          <h4>Don't</h4>
+          <ul>
+            <li>hex をコンポーネント CSS に直書きしない</li>
+            <li>Web フォントや CDN を読み込まない</li>
+            <li>tint 色を本文テキストに使わない</li>
+            <li>aside を連続で 3 つ以上並べない</li>
+            <li>機密情報・API キーを成果物に含めない</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="doc-section" id="guidelines--versioning" data-sec="versioning" data-title="バージョニング">
+      <h2>バージョニング</h2>
+      <p class="lede">このファイルは専用リポジトリで管理し、トークンの追加・変更は semver で刻む。</p>
+      <table class="params">
+        <thead><tr><th>バージョン</th><th>日付</th><th>変更</th></tr></thead>
+        <tbody>
+          <tr><td class="param">v0.1.0</td><td class="type">2026-06-12</td><td>初版。Apple Developer Documentation（swift-docc-render）ベースのトークンとコンポーネント一式。</td></tr>
+        </tbody>
+      </table>
+      <div class="aside aside-note"><p class="aside-label">注記</p><p>トークンの<strong>値の変更</strong>は minor、<strong>トークン名の変更・削除</strong>は breaking として major を上げる。成果物側は名前で参照しているため。</p></div>
+    </section>
+  </main>
+</div>
+
+<!-- ============================ Floating in-page menu ============================ -->
+<aside class="otp" id="otp" aria-label="このページ内">
+  <p class="otp-title">このページ内</p>
+  <nav data-rail="otp"></nav>
+</aside>
+<button class="fab" id="fab" aria-label="ページ内メニューを開く">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+    <line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="13" y2="17"/>
+  </svg>
+</button>
+<div class="fab-panel" id="fabPanel">
+  <p class="otp-title">このページ内</p>
+  <nav data-rail="fab"></nav>
+</div>
+
+<!-- ============================ Footer ============================ -->
+<footer class="sitefooter">
+  <div class="inner">
+    <span>Toshi Design System · single-file · token-driven</span>
+    <span>Design language inspired by <a href="https://developer.apple.com/documentation/" target="_blank" rel="noopener">Apple Developer Documentation</a></span>
+  </div>
+</footer>
+
+<script>
+/* ============================================================
+   Theme — auto → light → dark の 3 状態トグル
+   ============================================================ */
+(function () {
+  const root = document.documentElement;
+  const btn = document.getElementById('themeToggle');
+  const label = document.getElementById('themeLabel');
+  const SEQ = ['auto', 'light', 'dark'];
+  const NAMES = { auto: '自動', light: 'ライト', dark: 'ダーク' };
+  let mode = localStorage.getItem('tds-theme') || 'auto';
+
+  function apply() {
+    if (mode === 'auto') delete root.dataset.theme;
+    else root.dataset.theme = mode;
+    label.textContent = NAMES[mode];
+  }
+  btn.addEventListener('click', () => {
+    mode = SEQ[(SEQ.indexOf(mode) + 1) % SEQ.length];
+    localStorage.setItem('tds-theme', mode);
+    apply();
+  });
+  apply();
+})();
+
+/* ============================================================
+   Router — #/page/section 形式のハッシュルーティング
+   ============================================================ */
+const PAGES = ['home', 'foundations', 'components', 'patterns', 'guidelines'];
+const CATS = [
+  { id: 'foundations', label: 'Foundations' },
+  { id: 'components',  label: 'Components' },
+  { id: 'patterns',    label: 'Patterns' },
+  { id: 'guidelines',  label: 'Guidelines' },
+];
+let spy = null;
+
+function parseHash() {
+  const m = location.hash.match(/^#\/([a-z-]+)(?:\/([a-z-]+))?/);
+  let page = m ? m[1] : 'home';
+  if (!PAGES.includes(page)) page = 'home';
+  return { page, section: m ? m[2] || null : null };
+}
+
+function route(forceScroll) {
+  const { page, section } = parseHash();
+  document.querySelectorAll('.page').forEach(el => {
+    el.classList.toggle('is-active', el.dataset.page === page);
+  });
+  document.body.dataset.view = page;
+  document.querySelectorAll('.gn-links a').forEach(a => {
+    a.classList.toggle('is-current', a.dataset.nav === page);
+  });
+
+  if (page !== 'home') {
+    buildRails(page);
+    startSpy(page);
+  } else if (spy) { spy.disconnect(); spy = null; }
+
+  if (section) {
+    const target = document.querySelector(`[data-page="${page}"] [data-sec="${section}"]`);
+    if (target) target.scrollIntoView({ behavior: forceScroll ? 'smooth' : 'auto', block: 'start' });
+  } else if (!forceScroll) {
+    window.scrollTo({ top: 0, behavior: 'auto' });
+  }
+}
+
+/* ============================================================
+   Rails — サイドバー / フローティングメニューを data-title から自動生成
+   ============================================================ */
+function sectionsOf(page) {
+  return [...document.querySelectorAll(`[data-page="${page}"] .doc-section[data-sec]`)]
+    .map(s => ({ sec: s.dataset.sec, title: s.dataset.title }));
+}
+
+function buildRails(page) {
+  // 左サイドバー: 全カテゴリ + 現在カテゴリのセクション一覧
+  const sidebar = document.querySelector(`[data-page="${page}"] [data-rail="sidebar"]`);
+  if (sidebar && !sidebar.dataset.built) {
+    sidebar.innerHTML = CATS.map(cat => {
+      const current = cat.id === page;
+      const secs = current
+        ? `<ul class="secs">` + sectionsOf(page).map(s =>
+            `<li><a href="#/${page}/${s.sec}" data-spy="${s.sec}">${s.title}</a></li>`).join('') + `</ul>`
+        : '';
+      return `<div class="group${current ? ' is-current' : ''}">
+        <a class="cat" href="#/${cat.id}">${cat.label}</a>${secs}</div>`;
+    }).join('');
+    sidebar.dataset.built = '1';
+  }
+  // フローティングメニュー（右端 + 右下ポップオーバー）
+  const links = sectionsOf(page).map(s =>
+    `<a href="#/${page}/${s.sec}" data-spy="${s.sec}">${s.title}</a>`).join('');
+  document.querySelector('[data-rail="otp"]').innerHTML = links;
+  document.querySelector('[data-rail="fab"]').innerHTML = links;
+}
+
+/* ============================================================
+   Scrollspy — IntersectionObserver で現在セクションをハイライト
+   ============================================================ */
+function startSpy(page) {
+  if (spy) spy.disconnect();
+  const sections = document.querySelectorAll(`[data-page="${page}"] .doc-section[data-sec]`);
+  const visible = new Set();
+  spy = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) visible.add(e.target.dataset.sec);
+      else visible.delete(e.target.dataset.sec);
+    });
+    let current = null;
+    for (const s of sections) {                  // DOM 順で最初に見えているもの
+      if (visible.has(s.dataset.sec)) { current = s.dataset.sec; break; }
+    }
+    if (current) {
+      document.querySelectorAll('[data-spy]').forEach(a => {
+        a.classList.toggle('is-current', a.dataset.spy === current);
+      });
+    }
+  }, { rootMargin: '-60px 0px -55% 0px' });
+  sections.forEach(s => spy.observe(s));
+}
+
+/* ============================================================
+   Floating button（狭い画面のポップオーバー）
+   ============================================================ */
+(function () {
+  const fab = document.getElementById('fab');
+  const panel = document.getElementById('fabPanel');
+  fab.addEventListener('click', e => { e.stopPropagation(); panel.classList.toggle('is-open'); });
+  document.addEventListener('click', e => {
+    if (!panel.contains(e.target)) panel.classList.remove('is-open');
+  });
+  panel.addEventListener('click', e => {
+    if (e.target.closest('a')) panel.classList.remove('is-open');
+  });
+})();
+
+/* ============================================================
+   Segmented control（タブのデモ）
+   ============================================================ */
+document.querySelectorAll('.segmented').forEach(group => {
+  const scope = group.parentElement;
+  group.querySelectorAll('button').forEach(btn => btn.addEventListener('click', () => {
+    group.querySelectorAll('button').forEach(b => b.classList.toggle('is-active', b === btn));
+    scope.querySelectorAll('.seg-panel').forEach(p =>
+      p.classList.toggle('is-active', p.dataset.segPanel === btn.dataset.seg));
+  }));
+});
+
+/* 同一ハッシュのアンカーを再クリックしてもスクロールするように */
+document.addEventListener('click', e => {
+  const a = e.target.closest('a[href^="#/"]');
+  if (a && a.getAttribute('href') === location.hash) { e.preventDefault(); route(true); }
+});
+
+window.addEventListener('hashchange', () => route(true));
+route(false);
+</script>
+</body>
+</html>
