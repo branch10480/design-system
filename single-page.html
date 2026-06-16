@@ -86,6 +86,9 @@
                "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", Arial, sans-serif;
   --font-mono: "JetBrains Mono", "JetBrainsMono Nerd Font Mono",
                ui-monospace, "SF Mono", Menlo, Monaco, Consolas, monospace;
+  /* コードブロックのウェイト。dark では黒背景での視認性向上のため Medium(500) に上げる
+     （Ghostty/cmux が dark で font-style = Medium にしているのと同じ方針）。 */
+  --code-weight: 400;
 
   /* radius */
   --r-pill: 980px;
@@ -109,14 +112,17 @@
     --bg-code:   #161617;
     --separator: #424245;
     --hairline:  rgba(255, 255, 255, 0.14);
-    --text:   #F5F5F7;
+    /* 純黒背景の締まりは残しつつ、Ghostty/cmux "Apple Docs Dark" テーマに合わせて
+       通常テキストとビビッド色を muted な値へ統一（黒背景での発光を抑える）。 */
+    --text:   #B8B8BD;
     --text-2: #A1A1A6;
     --text-3: #86868B;
     --tint:   #2997FF;
-    --green:  #30D158;
-    --orange: #FF9F0A;
-    --red:    #FF453A;
-    --purple: #BF5AF2;
+    --green:  #86D7A3;
+    --orange: #E2BE5A;
+    --red:    #E88980;
+    --purple: #C2A3E5;
+    --code-weight: 500;
     --syn-k: #FF7AB2; --syn-t: #DABAFF; --syn-s: #FF8170; --syn-n: #D9C97C;
     --syn-c: #7F8C98; --syn-f: #B281EB; --syn-d: #6BDFFF;
     --sh-1:    0 1px 2px rgba(0,0,0,.4), 0 4px 16px rgba(0,0,0,.5);
@@ -132,14 +138,17 @@
   --bg-code:   #161617;
   --separator: #424245;
   --hairline:  rgba(255, 255, 255, 0.14);
-  --text:   #F5F5F7;
+  /* 純黒背景の締まりは残しつつ、Ghostty/cmux "Apple Docs Dark" テーマに合わせて
+     通常テキストとビビッド色を muted な値へ統一（黒背景での発光を抑える）。 */
+  --text:   #B8B8BD;
   --text-2: #A1A1A6;
   --text-3: #86868B;
   --tint:   #2997FF;
-  --green:  #30D158;
-  --orange: #FF9F0A;
-  --red:    #FF453A;
-  --purple: #BF5AF2;
+  --green:  #86D7A3;
+  --orange: #E2BE5A;
+  --red:    #E88980;
+  --purple: #C2A3E5;
+  --code-weight: 500;
   --syn-k: #FF7AB2; --syn-t: #DABAFF; --syn-s: #FF8170; --syn-n: #D9C97C;
   --syn-c: #7F8C98; --syn-f: #B281EB; --syn-d: #6BDFFF;
   --sh-1:    0 1px 2px rgba(0,0,0,.4), 0 4px 16px rgba(0,0,0,.5);
@@ -323,6 +332,7 @@ pre.listing {
   border-radius: var(--r-lg);
   padding: 18px 20px;
   font-size: 13px; line-height: 1.6;
+  font-weight: var(--code-weight);
   color: var(--text);
   overflow-x: auto;
   margin: 14px 0;
@@ -336,6 +346,7 @@ pre.listing .f { color: var(--syn-f); }
 pre.listing .d { color: var(--syn-d); }
 code.inline {
   font-size: 0.88em;
+  font-weight: var(--code-weight);
   background: var(--bg-alt);
   border-radius: 4px;
   padding: 1px 5px;

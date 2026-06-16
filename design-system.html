@@ -82,6 +82,9 @@
                "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", Arial, sans-serif;
   --font-mono: "JetBrains Mono", "JetBrainsMono Nerd Font Mono",
                ui-monospace, "SF Mono", Menlo, Monaco, Consolas, monospace;
+  /* コードブロックのウェイト。dark では黒背景での視認性向上のため Medium(500) に上げる
+     （Ghostty/cmux が dark で font-style = Medium にしているのと同じ方針）。 */
+  --code-weight: 400;
 
   /* radius */
   --r-pill: 980px;   /* Apple のボタン半径 */
@@ -109,14 +112,17 @@
     --bg-code:   #161617;
     --separator: #424245;
     --hairline:  rgba(255, 255, 255, 0.14);
-    --text:   #F5F5F7;
+    /* 純黒背景の締まりは残しつつ、Ghostty/cmux "Apple Docs Dark" テーマに合わせて
+       通常テキストとビビッド色を muted な値へ統一（黒背景での発光を抑える）。 */
+    --text:   #B8B8BD;
     --text-2: #A1A1A6;
     --text-3: #86868B;
     --tint:   #2997FF;
-    --green:  #30D158;
-    --orange: #FF9F0A;
-    --red:    #FF453A;
-    --purple: #BF5AF2;
+    --green:  #86D7A3;
+    --orange: #E2BE5A;
+    --red:    #E88980;
+    --purple: #C2A3E5;
+    --code-weight: 500;
     --syn-k: #FF7AB2; --syn-t: #DABAFF; --syn-s: #FF8170; --syn-n: #D9C97C;
     --syn-c: #7F8C98; --syn-f: #B281EB; --syn-d: #6BDFFF;
     --sh-1:    0 1px 2px rgba(0,0,0,.4), 0 4px 16px rgba(0,0,0,.5);
@@ -132,14 +138,17 @@
   --bg-code:   #161617;
   --separator: #424245;
   --hairline:  rgba(255, 255, 255, 0.14);
-  --text:   #F5F5F7;
+  /* 純黒背景の締まりは残しつつ、Ghostty/cmux "Apple Docs Dark" テーマに合わせて
+     通常テキストとビビッド色を muted な値へ統一（黒背景での発光を抑える）。 */
+  --text:   #B8B8BD;
   --text-2: #A1A1A6;
   --text-3: #86868B;
   --tint:   #2997FF;
-  --green:  #30D158;
-  --orange: #FF9F0A;
-  --red:    #FF453A;
-  --purple: #BF5AF2;
+  --green:  #86D7A3;
+  --orange: #E2BE5A;
+  --red:    #E88980;
+  --purple: #C2A3E5;
+  --code-weight: 500;
   --syn-k: #FF7AB2; --syn-t: #DABAFF; --syn-s: #FF8170; --syn-n: #D9C97C;
   --syn-c: #7F8C98; --syn-f: #B281EB; --syn-d: #6BDFFF;
   --sh-1:    0 1px 2px rgba(0,0,0,.4), 0 4px 16px rgba(0,0,0,.5);
@@ -533,6 +542,7 @@ pre.listing {
   border-radius: var(--r-lg);
   padding: 18px 20px;
   font-size: 13px; line-height: 1.6;
+  font-weight: var(--code-weight);
   color: var(--text);
   overflow-x: auto;
   margin: 14px 0;
@@ -546,6 +556,7 @@ pre.listing .f { color: var(--syn-f); }
 pre.listing .d { color: var(--syn-d); }
 code.inline {
   font-size: 0.88em;
+  font-weight: var(--code-weight);
   background: var(--bg-alt);
   border-radius: 4px;
   padding: 1px 5px;
@@ -909,7 +920,7 @@ ul.linklist a .chev { color: var(--text-3); }
       </div>
       <p class="demo-label">Text</p>
       <div class="demo swatch-grid">
-        <div class="swatch"><div class="chip" style="background:var(--text)"></div><div class="meta"><span class="name">--text</span><span class="vals">#1D1D1F / #F5F5F7</span></div></div>
+        <div class="swatch"><div class="chip" style="background:var(--text)"></div><div class="meta"><span class="name">--text</span><span class="vals">#1D1D1F / #B8B8BD</span></div></div>
         <div class="swatch"><div class="chip" style="background:var(--text-2)"></div><div class="meta"><span class="name">--text-2</span><span class="vals">#6E6E73 / #A1A1A6</span></div></div>
         <div class="swatch"><div class="chip" style="background:var(--text-3)"></div><div class="meta"><span class="name">--text-3</span><span class="vals">#86868B / #86868B</span></div></div>
       </div>
@@ -917,10 +928,10 @@ ul.linklist a .chev { color: var(--text-3); }
       <div class="demo swatch-grid">
         <div class="swatch"><div class="chip" style="background:var(--tint)"></div><div class="meta"><span class="name">--tint</span><span class="vals">#0066CC / #2997FF</span></div></div>
         <div class="swatch"><div class="chip" style="background:var(--tint-fill)"></div><div class="meta"><span class="name">--tint-fill</span><span class="vals">#0071E3 / #0071E3</span></div></div>
-        <div class="swatch"><div class="chip" style="background:var(--green)"></div><div class="meta"><span class="name">--green</span><span class="vals">#008009 / #30D158</span></div></div>
-        <div class="swatch"><div class="chip" style="background:var(--orange)"></div><div class="meta"><span class="name">--orange</span><span class="vals">#B25000 / #FF9F0A</span></div></div>
-        <div class="swatch"><div class="chip" style="background:var(--red)"></div><div class="meta"><span class="name">--red</span><span class="vals">#E30000 / #FF453A</span></div></div>
-        <div class="swatch"><div class="chip" style="background:var(--purple)"></div><div class="meta"><span class="name">--purple</span><span class="vals">#6846C7 / #BF5AF2</span></div></div>
+        <div class="swatch"><div class="chip" style="background:var(--green)"></div><div class="meta"><span class="name">--green</span><span class="vals">#008009 / #86D7A3</span></div></div>
+        <div class="swatch"><div class="chip" style="background:var(--orange)"></div><div class="meta"><span class="name">--orange</span><span class="vals">#B25000 / #E2BE5A</span></div></div>
+        <div class="swatch"><div class="chip" style="background:var(--red)"></div><div class="meta"><span class="name">--red</span><span class="vals">#E30000 / #E88980</span></div></div>
+        <div class="swatch"><div class="chip" style="background:var(--purple)"></div><div class="meta"><span class="name">--purple</span><span class="vals">#6846C7 / #C2A3E5</span></div></div>
       </div>
       <h3>使い分け</h3>
       <ul class="linklist">
