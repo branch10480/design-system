@@ -4,6 +4,31 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Toshi Design System — Apple Docs flavored</title>
+<script>
+(() => {
+  const root = document.documentElement;
+  const browserTheme = () => window.matchMedia?.("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+  const applyResolved = (theme) => {
+    root.dataset.theme = theme === "dark" ? "dark" : "light";
+    root.dataset.themeMode = "auto";
+  };
+  try {
+    const mode = localStorage.getItem("tds-theme") || "auto";
+    if (mode === "light" || mode === "dark") {
+      root.dataset.theme = mode;
+      root.dataset.themeMode = mode;
+      return;
+    }
+    applyResolved(browserTheme());
+    fetch("/api/appearance", { cache: "no-store" })
+      .then((response) => (response.ok ? response.json() : null))
+      .then((payload) => {
+        if (payload) applyResolved(payload.theme);
+      })
+      .catch(() => {});
+  } catch {}
+})();
+</script>
 <style>
 /* ============================================================
    Fonts — JetBrains Mono（リポジトリ同梱・OFL ライセンス）
@@ -1360,10 +1385,28 @@ ul.linklist a .chev { color: var(--text-3); }
   const SEQ = ['auto', 'light', 'dark'];
   const NAMES = { auto: '自動', light: 'ライト', dark: 'ダーク' };
   let mode = localStorage.getItem('tds-theme') || 'auto';
+  const browserTheme = () => window.matchMedia?.('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  const applyResolved = theme => {
+    root.dataset.theme = theme === 'dark' ? 'dark' : 'light';
+    root.dataset.themeMode = 'auto';
+  };
+
+  function resolveSystemTheme() {
+    applyResolved(browserTheme());
+    fetch('/api/appearance', { cache: 'no-store' })
+      .then(response => response.ok ? response.json() : null)
+      .then(payload => {
+        if (mode === 'auto' && payload) applyResolved(payload.theme);
+      })
+      .catch(() => {});
+  }
 
   function apply() {
-    if (mode === 'auto') delete root.dataset.theme;
-    else root.dataset.theme = mode;
+    if (mode === 'auto') resolveSystemTheme();
+    else {
+      root.dataset.theme = mode;
+      root.dataset.themeMode = mode;
+    }
     label.textContent = NAMES[mode];
   }
   btn.addEventListener('click', () => {
