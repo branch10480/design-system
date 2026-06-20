@@ -111,7 +111,7 @@
                "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", Arial, sans-serif;
   --font-mono: "JetBrains Mono", "JetBrainsMono Nerd Font Mono",
                ui-monospace, "SF Mono", Menlo, Monaco, Consolas, monospace;
-  /* コードブロックのウェイト。dark では黒背景での視認性向上のため Medium(500) に上げる
+  /* コードブロックのウェイト。dark では読みやすさ維持のため Medium(500) に上げる
      （Ghostty/cmux が dark で font-style = Medium にしているのと同じ方針）。 */
   --code-weight: 400;
 
@@ -131,25 +131,24 @@
 /* ---- dark values（auto: OS 追従。手動 light 指定時は無効） ---- */
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --bg:        #000000;
-    --bg-alt:    #161617;
-    --bg-elev:   #1D1D1F;
-    --bg-code:   #161617;
-    --separator: #424245;
+    --bg:        #111318;
+    --bg-alt:    #1B1E24;
+    --bg-elev:   #252932;
+    --bg-code:   #1A1D23;
+    --separator: #333842;
     --hairline:  rgba(255, 255, 255, 0.14);
-    /* 純黒背景の締まりは残しつつ、Ghostty/cmux "Apple Docs Dark" テーマに合わせて
-       通常テキストとビビッド色を muted な値へ統一（黒背景での発光を抑える）。 */
-    --text:   #D3D3D8;
-    --text-2: #A1A1A6;
-    --text-3: #86868B;
-    --tint:   #2997FF;
+    /* 漆黒から少し浮かせた surface ladder と muted text で、長時間読んでも疲れにくくする。 */
+    --text:   #D0D3D8;
+    --text-2: #9EA3AA;
+    --text-3: #858A92;
+    --tint:   #4A94DC;
     --green:  #86D7A3;
     --orange: #E2BE5A;
     --red:    #E88980;
     --purple: #C2A3E5;
     --code-weight: 500;
-    --syn-k: #FF7AB2; --syn-t: #DABAFF; --syn-s: #FF8170; --syn-n: #D9C97C;
-    --syn-c: #7F8C98; --syn-f: #B281EB; --syn-d: #6BDFFF;
+    --syn-k: #E06A9F; --syn-t: #C7A8E8; --syn-s: #E77668; --syn-n: #C8BA74;
+    --syn-c: #7C8791; --syn-f: #A174D4; --syn-d: #5FC6E6;
     --sh-1:    0 1px 2px rgba(0,0,0,.4), 0 4px 16px rgba(0,0,0,.5);
     --sh-2:    0 11px 34px rgba(0,0,0,.6);
     --sh-menu: 0 10px 40px rgba(0,0,0,.7);
@@ -157,25 +156,24 @@
 }
 /* ---- dark values（手動指定）。上のブロックと同値を維持すること ---- */
 :root[data-theme="dark"] {
-  --bg:        #000000;
-  --bg-alt:    #161617;
-  --bg-elev:   #1D1D1F;
-  --bg-code:   #161617;
-  --separator: #424245;
+  --bg:        #111318;
+  --bg-alt:    #1B1E24;
+  --bg-elev:   #252932;
+  --bg-code:   #1A1D23;
+  --separator: #333842;
   --hairline:  rgba(255, 255, 255, 0.14);
-  /* 純黒背景の締まりは残しつつ、Ghostty/cmux "Apple Docs Dark" テーマに合わせて
-     通常テキストとビビッド色を muted な値へ統一（黒背景での発光を抑える）。 */
-  --text:   #D3D3D8;
-  --text-2: #A1A1A6;
-  --text-3: #86868B;
-  --tint:   #2997FF;
+  /* 漆黒から少し浮かせた surface ladder と muted text で、長時間読んでも疲れにくくする。 */
+  --text:   #D0D3D8;
+  --text-2: #9EA3AA;
+  --text-3: #858A92;
+  --tint:   #4A94DC;
   --green:  #86D7A3;
   --orange: #E2BE5A;
   --red:    #E88980;
   --purple: #C2A3E5;
   --code-weight: 500;
-  --syn-k: #FF7AB2; --syn-t: #DABAFF; --syn-s: #FF8170; --syn-n: #D9C97C;
-  --syn-c: #7F8C98; --syn-f: #B281EB; --syn-d: #6BDFFF;
+  --syn-k: #E06A9F; --syn-t: #C7A8E8; --syn-s: #E77668; --syn-n: #C8BA74;
+  --syn-c: #7C8791; --syn-f: #A174D4; --syn-d: #5FC6E6;
   --sh-1:    0 1px 2px rgba(0,0,0,.4), 0 4px 16px rgba(0,0,0,.5);
   --sh-2:    0 11px 34px rgba(0,0,0,.6);
   --sh-menu: 0 10px 40px rgba(0,0,0,.7);
@@ -356,7 +354,7 @@ pre.listing {
   border: 1px solid var(--hairline);
   border-radius: var(--r-lg);
   padding: 18px 20px;
-  font-size: 13px; line-height: 1.6;
+  font-size: 14px; line-height: 1.62;
   font-weight: var(--code-weight);
   color: var(--text);
   overflow-x: auto;
@@ -370,7 +368,7 @@ pre.listing .c { color: var(--syn-c); }
 pre.listing .f { color: var(--syn-f); }
 pre.listing .d { color: var(--syn-d); }
 code.inline {
-  font-size: 0.88em;
+  font-size: 0.92em;
   font-weight: var(--code-weight);
   background: var(--bg-alt);
   border-radius: 4px;
@@ -415,8 +413,8 @@ table.params thead th {
   font-size: 12px; font-weight: 600; color: var(--text-2);
   border-bottom: 1px solid var(--separator);
 }
-table.params td.param { font-family: var(--font-mono); font-size: 13px; color: var(--syn-d); }
-table.params td.type  { font-family: var(--font-mono); font-size: 13px; color: var(--text-2); }
+table.params td.param { font-family: var(--font-mono); font-size: 14px; color: var(--syn-d); }
+table.params td.type  { font-family: var(--font-mono); font-size: 14px; color: var(--text-2); }
 table.params tbody tr:hover { background: var(--bg-alt); }
 
 /* --- Lists --- */
@@ -468,7 +466,7 @@ ol.steps li::before {
       調査レポートや仕様書を 1 枚で公開するときのテンプレート。
     </p>
     <div class="meta">
-      <span><strong>Base</strong> Toshi Design System v0.3</span>
+      <span><strong>Base</strong> Toshi Design System v0.4</span>
       <span><strong>構成</strong> 1 カラム · 760px</span>
       <span><strong>Nav</strong> フローティングメニューのみ</span>
     </div>

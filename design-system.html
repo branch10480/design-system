@@ -107,7 +107,7 @@
                "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", Arial, sans-serif;
   --font-mono: "JetBrains Mono", "JetBrainsMono Nerd Font Mono",
                ui-monospace, "SF Mono", Menlo, Monaco, Consolas, monospace;
-  /* コードブロックのウェイト。dark では黒背景での視認性向上のため Medium(500) に上げる
+  /* コードブロックのウェイト。dark では読みやすさ維持のため Medium(500) に上げる
      （Ghostty/cmux が dark で font-style = Medium にしているのと同じ方針）。 */
   --code-weight: 400;
 
@@ -131,25 +131,24 @@
 /* ---- dark values（auto: OS 追従。手動 light 指定時は無効） ---- */
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --bg:        #000000;
-    --bg-alt:    #161617;
-    --bg-elev:   #1D1D1F;
-    --bg-code:   #161617;
-    --separator: #424245;
+    --bg:        #111318;
+    --bg-alt:    #1B1E24;
+    --bg-elev:   #252932;
+    --bg-code:   #1A1D23;
+    --separator: #333842;
     --hairline:  rgba(255, 255, 255, 0.14);
-    /* 純黒背景の締まりは残しつつ、Ghostty/cmux "Apple Docs Dark" テーマに合わせて
-       通常テキストとビビッド色を muted な値へ統一（黒背景での発光を抑える）。 */
-    --text:   #D3D3D8;
-    --text-2: #A1A1A6;
-    --text-3: #86868B;
-    --tint:   #2997FF;
+    /* 漆黒から少し浮かせた surface ladder と muted text で、長時間読んでも疲れにくくする。 */
+    --text:   #D0D3D8;
+    --text-2: #9EA3AA;
+    --text-3: #858A92;
+    --tint:   #4A94DC;
     --green:  #86D7A3;
     --orange: #E2BE5A;
     --red:    #E88980;
     --purple: #C2A3E5;
     --code-weight: 500;
-    --syn-k: #FF7AB2; --syn-t: #DABAFF; --syn-s: #FF8170; --syn-n: #D9C97C;
-    --syn-c: #7F8C98; --syn-f: #B281EB; --syn-d: #6BDFFF;
+    --syn-k: #E06A9F; --syn-t: #C7A8E8; --syn-s: #E77668; --syn-n: #C8BA74;
+    --syn-c: #7C8791; --syn-f: #A174D4; --syn-d: #5FC6E6;
     --sh-1:    0 1px 2px rgba(0,0,0,.4), 0 4px 16px rgba(0,0,0,.5);
     --sh-2:    0 11px 34px rgba(0,0,0,.6);
     --sh-menu: 0 10px 40px rgba(0,0,0,.7);
@@ -157,25 +156,24 @@
 }
 /* ---- dark values（手動指定）。上のブロックと同値を維持すること ---- */
 :root[data-theme="dark"] {
-  --bg:        #000000;
-  --bg-alt:    #161617;
-  --bg-elev:   #1D1D1F;
-  --bg-code:   #161617;
-  --separator: #424245;
+  --bg:        #111318;
+  --bg-alt:    #1B1E24;
+  --bg-elev:   #252932;
+  --bg-code:   #1A1D23;
+  --separator: #333842;
   --hairline:  rgba(255, 255, 255, 0.14);
-  /* 純黒背景の締まりは残しつつ、Ghostty/cmux "Apple Docs Dark" テーマに合わせて
-     通常テキストとビビッド色を muted な値へ統一（黒背景での発光を抑える）。 */
-  --text:   #D3D3D8;
-  --text-2: #A1A1A6;
-  --text-3: #86868B;
-  --tint:   #2997FF;
+  /* 漆黒から少し浮かせた surface ladder と muted text で、長時間読んでも疲れにくくする。 */
+  --text:   #D0D3D8;
+  --text-2: #9EA3AA;
+  --text-3: #858A92;
+  --tint:   #4A94DC;
   --green:  #86D7A3;
   --orange: #E2BE5A;
   --red:    #E88980;
   --purple: #C2A3E5;
   --code-weight: 500;
-  --syn-k: #FF7AB2; --syn-t: #DABAFF; --syn-s: #FF8170; --syn-n: #D9C97C;
-  --syn-c: #7F8C98; --syn-f: #B281EB; --syn-d: #6BDFFF;
+  --syn-k: #E06A9F; --syn-t: #C7A8E8; --syn-s: #E77668; --syn-n: #C8BA74;
+  --syn-c: #7C8791; --syn-f: #A174D4; --syn-d: #5FC6E6;
   --sh-1:    0 1px 2px rgba(0,0,0,.4), 0 4px 16px rgba(0,0,0,.5);
   --sh-2:    0 11px 34px rgba(0,0,0,.6);
   --sh-menu: 0 10px 40px rgba(0,0,0,.7);
@@ -566,7 +564,7 @@ pre.listing {
   border: 1px solid var(--hairline);
   border-radius: var(--r-lg);
   padding: 18px 20px;
-  font-size: 13px; line-height: 1.6;
+  font-size: 14px; line-height: 1.62;
   font-weight: var(--code-weight);
   color: var(--text);
   overflow-x: auto;
@@ -580,7 +578,7 @@ pre.listing .c { color: var(--syn-c); }
 pre.listing .f { color: var(--syn-f); }
 pre.listing .d { color: var(--syn-d); }
 code.inline {
-  font-size: 0.88em;
+  font-size: 0.92em;
   font-weight: var(--code-weight);
   background: var(--bg-alt);
   border-radius: 4px;
@@ -628,8 +626,8 @@ table.params thead th {
   font-size: 12px; font-weight: 600; color: var(--text-2);
   border-bottom: 1px solid var(--separator);
 }
-table.params td.param { font-family: var(--font-mono); font-size: 13px; color: var(--syn-d); }
-table.params td.type  { font-family: var(--font-mono); font-size: 13px; color: var(--text-2); }
+table.params td.param { font-family: var(--font-mono); font-size: 14px; color: var(--syn-d); }
+table.params td.type  { font-family: var(--font-mono); font-size: 14px; color: var(--text-2); }
 table.params tbody tr:hover { background: var(--bg-alt); }
 
 /* --- Segmented control (tabs) --- */
@@ -716,6 +714,62 @@ ul.linklist a .chev { color: var(--text-3); }
 .swatch .meta { padding: 8px 10px; font-family: var(--font-mono); font-size: 11px; line-height: 1.5; }
 .swatch .meta .name { display: block; color: var(--text); font-weight: 600; }
 .swatch .meta .vals { color: var(--text-3); }
+.tone-compare {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 14px;
+  margin: 12px 0 26px;
+}
+.tone-sample {
+  border: 1px solid var(--hairline);
+  border-radius: var(--r-md);
+  overflow: hidden;
+  background: var(--bg-elev);
+}
+.tone-sample .stage {
+  min-height: 154px;
+  padding: 18px;
+}
+.tone-sample.old .stage {
+  background: #000000;
+  color: #D3D3D8;
+}
+.tone-sample.new .stage {
+  background: #0B0D10;
+  color: #D0D3D8;
+}
+.tone-sample.raised .stage {
+  background: #111318;
+  color: #D0D3D8;
+}
+.tone-sample .panel {
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: var(--r-sm);
+  padding: 14px;
+}
+.tone-sample.old .panel { background: #1D1D1F; }
+.tone-sample.new .panel { background: #202329; }
+.tone-sample.raised .panel { background: #252932; }
+.tone-sample h4 {
+  margin: 0 0 8px;
+  font-size: 15px;
+  font-weight: 600;
+}
+.tone-sample p {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.55;
+}
+.tone-sample.old p { color: #A1A1A6; }
+.tone-sample.new p { color: #9EA3AA; }
+.tone-sample.raised p { color: #9EA3AA; }
+.tone-sample .tone-meta {
+  padding: 9px 12px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  line-height: 1.5;
+  color: var(--text-3);
+}
 
 .type-row {
   display: grid; grid-template-columns: 120px 1fr; gap: 20px;
@@ -733,7 +787,7 @@ ul.linklist a .chev { color: var(--text-3); }
 .tt-call   { font-size: 15px; color: var(--text-2); }
 .tt-foot   { font-size: 13px; color: var(--text-2); }
 .tt-cap    { font-size: 12px; color: var(--text-3); }
-.tt-mono   { font-family: var(--font-mono); font-size: 13px; }
+.tt-mono   { font-family: var(--font-mono); font-size: 14px; }
 
 .space-row { display: flex; align-items: center; gap: 16px; padding: 6px 0; }
 .space-row .lbl { font-family: var(--font-mono); font-size: 11px; color: var(--text-3); width: 56px; }
@@ -824,7 +878,7 @@ ul.linklist a .chev { color: var(--text-3); }
 <!-- ============================ Home ============================ -->
 <main class="page is-active" data-page="home">
   <section class="hero">
-    <p class="eyebrow">Design System · v0.3</p>
+    <p class="eyebrow">Design System · v0.4</p>
     <h1>ドキュメントのための、<br>静かなデザインシステム。</h1>
     <p class="abstract">
       Apple Developer Documentation のデザイン言語をベースにした、
@@ -937,21 +991,51 @@ ul.linklist a .chev { color: var(--text-3); }
       <p class="lede">Apple Developer Documentation の実トークン（swift-docc-render）をベースにした 15 色。チップは現在のテーマの値で描画される — 右上のトグルで切り替えて確認できる。</p>
       <p class="demo-label">Surfaces</p>
       <div class="demo swatch-grid">
-        <div class="swatch"><div class="chip" style="background:var(--bg)"></div><div class="meta"><span class="name">--bg</span><span class="vals">#FFFFFF / #000000</span></div></div>
-        <div class="swatch"><div class="chip" style="background:var(--bg-alt)"></div><div class="meta"><span class="name">--bg-alt</span><span class="vals">#F5F5F7 / #161617</span></div></div>
-        <div class="swatch"><div class="chip" style="background:var(--bg-elev)"></div><div class="meta"><span class="name">--bg-elev</span><span class="vals">#FFFFFF / #1D1D1F</span></div></div>
-        <div class="swatch"><div class="chip" style="background:var(--bg-code)"></div><div class="meta"><span class="name">--bg-code</span><span class="vals">#F7F7F7 / #161617</span></div></div>
-        <div class="swatch"><div class="chip" style="background:var(--separator)"></div><div class="meta"><span class="name">--separator</span><span class="vals">#D2D2D7 / #424245</span></div></div>
+        <div class="swatch"><div class="chip" style="background:var(--bg)"></div><div class="meta"><span class="name">--bg</span><span class="vals">#FFFFFF / #111318</span></div></div>
+        <div class="swatch"><div class="chip" style="background:var(--bg-alt)"></div><div class="meta"><span class="name">--bg-alt</span><span class="vals">#F5F5F7 / #1B1E24</span></div></div>
+        <div class="swatch"><div class="chip" style="background:var(--bg-elev)"></div><div class="meta"><span class="name">--bg-elev</span><span class="vals">#FFFFFF / #252932</span></div></div>
+        <div class="swatch"><div class="chip" style="background:var(--bg-code)"></div><div class="meta"><span class="name">--bg-code</span><span class="vals">#F7F7F7 / #1A1D23</span></div></div>
+        <div class="swatch"><div class="chip" style="background:var(--separator)"></div><div class="meta"><span class="name">--separator</span><span class="vals">#D2D2D7 / #333842</span></div></div>
+      </div>
+      <p class="demo-label">Dark Tone Before / After</p>
+      <div class="tone-compare">
+        <div class="tone-sample old">
+          <div class="stage">
+            <div class="panel">
+              <h4>Before: Pure black</h4>
+              <p>背景を完全な黒に置き、本文とカードが強く浮く設定。OLED 感は強いが、長時間読むと目の緊張が残りやすい。</p>
+            </div>
+          </div>
+          <div class="tone-meta">#000000 / #1D1D1F / #D3D3D8</div>
+        </div>
+        <div class="tone-sample new">
+          <div class="stage">
+            <div class="panel">
+              <h4>Option: Softened black</h4>
+              <p>背景を少し浮かせ、surface の段差を保ったまま本文の発光感を抑える設定。読み物向けの標準 dark。</p>
+            </div>
+          </div>
+          <div class="tone-meta">#0B0D10 / #202329 / #D0D3D8</div>
+        </div>
+        <div class="tone-sample raised">
+          <div class="stage">
+            <div class="panel">
+              <h4>Adopted: Raised black</h4>
+              <p>採用値。黒さよりも面の安定感を優先し、長文・コード・表を読むときの緊張を軽くする標準 dark。</p>
+            </div>
+          </div>
+          <div class="tone-meta">#111318 / #252932 / #D0D3D8</div>
+        </div>
       </div>
       <p class="demo-label">Text</p>
       <div class="demo swatch-grid">
-        <div class="swatch"><div class="chip" style="background:var(--text)"></div><div class="meta"><span class="name">--text</span><span class="vals">#1D1D1F / #D3D3D8</span></div></div>
-        <div class="swatch"><div class="chip" style="background:var(--text-2)"></div><div class="meta"><span class="name">--text-2</span><span class="vals">#6E6E73 / #A1A1A6</span></div></div>
-        <div class="swatch"><div class="chip" style="background:var(--text-3)"></div><div class="meta"><span class="name">--text-3</span><span class="vals">#86868B / #86868B</span></div></div>
+        <div class="swatch"><div class="chip" style="background:var(--text)"></div><div class="meta"><span class="name">--text</span><span class="vals">#1D1D1F / #D0D3D8</span></div></div>
+        <div class="swatch"><div class="chip" style="background:var(--text-2)"></div><div class="meta"><span class="name">--text-2</span><span class="vals">#6E6E73 / #9EA3AA</span></div></div>
+        <div class="swatch"><div class="chip" style="background:var(--text-3)"></div><div class="meta"><span class="name">--text-3</span><span class="vals">#86868B / #858A92</span></div></div>
       </div>
       <p class="demo-label">Tint &amp; Status</p>
       <div class="demo swatch-grid">
-        <div class="swatch"><div class="chip" style="background:var(--tint)"></div><div class="meta"><span class="name">--tint</span><span class="vals">#0066CC / #2997FF</span></div></div>
+        <div class="swatch"><div class="chip" style="background:var(--tint)"></div><div class="meta"><span class="name">--tint</span><span class="vals">#0066CC / #4A94DC</span></div></div>
         <div class="swatch"><div class="chip" style="background:var(--tint-fill)"></div><div class="meta"><span class="name">--tint-fill</span><span class="vals">#0071E3 / #0071E3</span></div></div>
         <div class="swatch"><div class="chip" style="background:var(--green)"></div><div class="meta"><span class="name">--green</span><span class="vals">#008009 / #86D7A3</span></div></div>
         <div class="swatch"><div class="chip" style="background:var(--orange)"></div><div class="meta"><span class="name">--orange</span><span class="vals">#B25000 / #E2BE5A</span></div></div>
@@ -1086,7 +1170,7 @@ ul.linklist a .chev { color: var(--text-3); }
           <div class="thumb thumb-purple">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M8.5 7L4 12l4.5 5"/><path d="M15.5 7L20 12l-4.5 5"/></svg>
           </div>
-          <div class="tc-body"><h4>コードリスティング</h4><p>Xcode テーマ準拠のシンタックスカラー。</p></div>
+          <div class="tc-body"><h4>コードリスティング</h4><p>Xcode テーマを基調に、ダークでは発光感を抑えたシンタックスカラー。</p></div>
         </a>
         <a class="topic-card" href="#/patterns/layout">
           <div class="thumb thumb-green">
@@ -1111,7 +1195,7 @@ ul.linklist a .chev { color: var(--text-3); }
 
     <section class="doc-section" id="components--code" data-sec="code" data-title="コード">
       <h2>コード</h2>
-      <p class="lede">フォントはリポジトリ同梱の JetBrains Mono。シンタックスカラーは swift-docc-render の Xcode テーマ値（ライト / ダークで自動切替）。コピーボタンは JS が全 <code class="inline">pre.listing</code> に自動付与し、ブロックへのホバーでフェード表示 → クリックでコード全文をクリップボードへコピーする（タッチデバイスでは常時表示）。</p>
+      <p class="lede">フォントはリポジトリ同梱の JetBrains Mono。コードとテーブル内の mono は 14px を標準にし、ダークでは Medium(500) と muted syntax で発光感を抑える。コピーボタンは JS が全 <code class="inline">pre.listing</code> に自動付与し、ブロックへのホバーでフェード表示 → クリックでコード全文をクリップボードへコピーする（タッチデバイスでは常時表示）。</p>
 <pre class="listing"><span class="k">import</span> <span class="t">SwiftUI</span>
 
 <span class="c">/// プロフィールカードを表示するビュー</span>
@@ -1338,6 +1422,7 @@ ul.linklist a .chev { color: var(--text-3); }
       <table class="params">
         <thead><tr><th>バージョン</th><th>日付</th><th>変更</th></tr></thead>
         <tbody>
+          <tr><td class="param">v0.4.0</td><td class="type">2026-06-20</td><td>ダークトークンを raised black（<code class="inline">#111318</code> 基調）へ更新。リンク色・シンタックスカラーの発光感を抑え、コードブロック / inline code / テーブル内 mono を読みやすいサイズへ調整。</td></tr>
           <tr><td class="param">v0.3.0</td><td class="type">2026-06-12</td><td>シングルページパターン（<code class="inline">single-page.html</code>）を追加。ナビ・サイドバーなしの 1 カラム + フローティングメニュー構成。右上フローティングのテーマトグル付き。</td></tr>
           <tr><td class="param">v0.2.3</td><td class="type">2026-06-12</td><td>ホバー離脱時のフェードアウト中はチェックマークを維持し、完全に消えてからアイコンを差し戻すよう変更。</td></tr>
           <tr><td class="param">v0.2.2</td><td class="type">2026-06-12</td><td>コピー後のチェックマーク表示中でも、ホバーが外れたら即座にリセットして非表示にするよう変更。</td></tr>
