@@ -419,15 +419,18 @@ table.params tbody tr:hover { background: var(--bg-alt); }
 
 /* --- Lists --- */
 ol.steps { list-style: none; counter-reset: step; padding: 0; margin: 14px 0; }
-ol.steps li {
+/* 直接の子 li だけをステップ化する。子孫セレクタ（ol.steps li）だと、
+   ステップ内にネストした <ul>/<ol> の li まで採番＋32px グリッドが適用され、
+   本文が極細カラムに潰れて縦書き化する。必ず直接子 (> li) に限定すること。 */
+ol.steps > li {
   counter-increment: step;
   display: grid; grid-template-columns: 32px 1fr; gap: 14px;
   padding: 13px 0;
   border-bottom: 1px solid var(--hairline);
   font-size: 15px;
 }
-ol.steps li:last-child { border-bottom: none; }
-ol.steps li::before {
+ol.steps > li:last-child { border-bottom: none; }
+ol.steps > li::before {
   content: counter(step);
   width: 24px; height: 24px;
   border-radius: 50%;
@@ -436,6 +439,9 @@ ol.steps li::before {
   font: 600 12px var(--font-text);
   display: flex; align-items: center; justify-content: center;
 }
+/* ステップ内のネストリストは通常の箇条書きとして描画する */
+ol.steps ul, ol.steps ol { margin: 8px 0 2px; padding-left: 20px; font-size: 14px; color: var(--text-2); }
+ol.steps ul li, ol.steps ol li { margin: 4px 0; line-height: 1.55; }
 
 /* ============================================================
    Footer
