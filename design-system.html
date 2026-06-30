@@ -131,7 +131,7 @@
 /* ---- dark values（auto: OS 追従。手動 light 指定時は無効） ---- */
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --bg:        #111318;
+    --bg:        #181818;
     --bg-alt:    #1B1E24;
     --bg-elev:   #252932;
     --bg-code:   #1A1D23;
@@ -156,7 +156,7 @@
 }
 /* ---- dark values（手動指定）。上のブロックと同値を維持すること ---- */
 :root[data-theme="dark"] {
-  --bg:        #111318;
+  --bg:        #181818;
   --bg-alt:    #1B1E24;
   --bg-elev:   #252932;
   --bg-code:   #1A1D23;
@@ -746,7 +746,7 @@ ul.linklist a .chev { color: var(--text-3); }
   color: #D0D3D8;
 }
 .tone-sample.raised .stage {
-  background: #111318;
+  background: #181818;
   color: #D0D3D8;
 }
 .tone-sample .panel {
@@ -998,7 +998,7 @@ ul.linklist a .chev { color: var(--text-3); }
       <p class="lede">Apple Developer Documentation の実トークン（swift-docc-render）をベースにした 15 色。チップは現在のテーマの値で描画される — 右上のトグルで切り替えて確認できる。</p>
       <p class="demo-label">Surfaces</p>
       <div class="demo swatch-grid">
-        <div class="swatch"><div class="chip" style="background:var(--bg)"></div><div class="meta"><span class="name">--bg</span><span class="vals">#FFFFFF / #111318</span></div></div>
+        <div class="swatch"><div class="chip" style="background:var(--bg)"></div><div class="meta"><span class="name">--bg</span><span class="vals">#FFFFFF / #181818</span></div></div>
         <div class="swatch"><div class="chip" style="background:var(--bg-alt)"></div><div class="meta"><span class="name">--bg-alt</span><span class="vals">#F5F5F7 / #1B1E24</span></div></div>
         <div class="swatch"><div class="chip" style="background:var(--bg-elev)"></div><div class="meta"><span class="name">--bg-elev</span><span class="vals">#FFFFFF / #252932</span></div></div>
         <div class="swatch"><div class="chip" style="background:var(--bg-code)"></div><div class="meta"><span class="name">--bg-code</span><span class="vals">#F7F7F7 / #1A1D23</span></div></div>
@@ -1031,7 +1031,7 @@ ul.linklist a .chev { color: var(--text-3); }
               <p>採用値。黒さよりも面の安定感を優先し、長文・コード・表を読むときの緊張を軽くする標準 dark。</p>
             </div>
           </div>
-          <div class="tone-meta">#111318 / #252932 / #D0D3D8</div>
+          <div class="tone-meta">#181818 / #252932 / #D0D3D8</div>
         </div>
       </div>
       <p class="demo-label">Text</p>
@@ -1429,6 +1429,7 @@ ul.linklist a .chev { color: var(--text-3); }
       <table class="params">
         <thead><tr><th>バージョン</th><th>日付</th><th>変更</th></tr></thead>
         <tbody>
+          <tr><td class="param">v0.4.1</td><td class="type">2026-06-30</td><td>ダーク <code class="inline">--bg</code>（page / editor surface）を <code class="inline">#111318</code> から <code class="inline">#181818</code> へ更新。よりニュートラルな raised black に寄せ、他の surface 階層（<code class="inline">--bg-alt</code> / <code class="inline">--bg-elev</code> / <code class="inline">--bg-code</code>）は据え置き。</td></tr>
           <tr><td class="param">v0.4.0</td><td class="type">2026-06-20</td><td>ダークトークンを raised black（<code class="inline">#111318</code> 基調）へ更新。リンク色・シンタックスカラーの発光感を抑え、コードブロック / inline code / テーブル内 mono を読みやすいサイズへ調整。</td></tr>
           <tr><td class="param">v0.3.0</td><td class="type">2026-06-12</td><td>シングルページパターン（<code class="inline">single-page.html</code>）を追加。ナビ・サイドバーなしの 1 カラム + フローティングメニュー構成。右上フローティングのテーマトグル付き。</td></tr>
           <tr><td class="param">v0.2.3</td><td class="type">2026-06-12</td><td>ホバー離脱時のフェードアウト中はチェックマークを維持し、完全に消えてからアイコンを差し戻すよう変更。</td></tr>
