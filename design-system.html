@@ -31,29 +31,27 @@
 </script>
 <style>
 /* ============================================================
-   Fonts — JetBrains Mono（リポジトリ同梱・OFL ライセンス）
+   Fonts — UDEV Gothic 35LG（リポジトリ同梱・OFL ライセンス）
+   2026-07-04 に JetBrains Mono から移行（v0.6.0）。英数字 = JetBrains Mono 由来 +
+   日本語 = BIZ UD ゴシック由来を単一フォントで供給する。旧 JetBrainsMono-*.woff2 は
+   過去に生成した成果物が絶対 URL で参照し続けているため削除しない。
    コード・mono 表示用。woff2 は fonts/ から相対参照する。
    他リポジトリの成果物から使う場合は GitHub Pages の絶対 URL
    https://branch10480.github.io/design-system/fonts/… に書き換える。
    ============================================================ */
 @font-face {
-  font-family: "JetBrains Mono";
-  src: url("fonts/JetBrainsMono-Regular.woff2") format("woff2");
+  font-family: "UDEV Gothic 35LG";
+  src: url("fonts/UDEVGothic35LG-Regular.woff2") format("woff2");
   font-weight: 400; font-style: normal; font-display: swap;
 }
 @font-face {
-  font-family: "JetBrains Mono";
-  src: url("fonts/JetBrainsMono-Medium.woff2") format("woff2");
-  font-weight: 500; font-style: normal; font-display: swap;
-}
-@font-face {
-  font-family: "JetBrains Mono";
-  src: url("fonts/JetBrainsMono-Bold.woff2") format("woff2");
+  font-family: "UDEV Gothic 35LG";
+  src: url("fonts/UDEVGothic35LG-Bold.woff2") format("woff2");
   font-weight: 700; font-style: normal; font-display: swap;
 }
 @font-face {
-  font-family: "JetBrains Mono";
-  src: url("fonts/JetBrainsMono-Italic.woff2") format("woff2");
+  font-family: "UDEV Gothic 35LG";
+  src: url("fonts/UDEVGothic35LG-Italic.woff2") format("woff2");
   font-weight: 400; font-style: italic; font-display: swap;
 }
 
@@ -105,10 +103,11 @@
                "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", Arial, sans-serif;
   --font-display: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue",
                "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", Arial, sans-serif;
-  --font-mono: "JetBrains Mono", "JetBrainsMono Nerd Font Mono",
+  --font-mono: "UDEV Gothic 35LG", "UDEV Gothic 35NFLG",
                ui-monospace, "SF Mono", Menlo, Monaco, Consolas, monospace;
-  /* コードブロックのウェイト。dark では読みやすさ維持のため Medium(500) に上げる
-     （Ghostty/cmux が dark で font-style = Medium にしているのと同じ方針）。 */
+  /* コードブロックのウェイト。旧 JetBrains Mono 時代は dark で Medium(500) に
+     上げていたが、UDEV Gothic は Regular(400)/Bold(700) のみで 500 の実体が
+     無いため light/dark とも 400（token 構造は将来の再調整用に維持）。 */
   --code-weight: 400;
 
   /* radius */
@@ -146,7 +145,7 @@
     --orange: #E2BE5A;
     --red:    #E88980;
     --purple: #C2A3E5;
-    --code-weight: 500;
+    --code-weight: 400; /* UDEV Gothic に 500 が無い（旧 JBM 時代は 500） */
     --syn-k: #E06A9F; --syn-t: #C7A8E8; --syn-s: #E77668; --syn-n: #C8BA74;
     --syn-c: #7C8791; --syn-f: #A174D4; --syn-d: #5FC6E6;
     --sh-1:    0 1px 2px rgba(0,0,0,.4), 0 4px 16px rgba(0,0,0,.5);
@@ -171,7 +170,7 @@
   --orange: #E2BE5A;
   --red:    #E88980;
   --purple: #C2A3E5;
-  --code-weight: 500;
+  --code-weight: 400; /* UDEV Gothic に 500 が無い（旧 JBM 時代は 500） */
   --syn-k: #E06A9F; --syn-t: #C7A8E8; --syn-s: #E77668; --syn-n: #C8BA74;
   --syn-c: #7C8791; --syn-f: #A174D4; --syn-d: #5FC6E6;
   --sh-1:    0 1px 2px rgba(0,0,0,.4), 0 4px 16px rgba(0,0,0,.5);
@@ -914,7 +913,7 @@ ul.linklist a .chev { color: var(--text-3); }
 <!-- ============================ Home ============================ -->
 <main class="page is-active" data-page="home">
   <section class="hero">
-    <p class="eyebrow">Design System · v0.5</p>
+    <p class="eyebrow">Design System · v0.6</p>
     <h1>ドキュメントのための、<br>静かなデザインシステム。</h1>
     <p class="abstract">
       Apple Developer Documentation のデザイン言語をベースにした、
@@ -983,7 +982,7 @@ ul.linklist a .chev { color: var(--text-3); }
     <div class="feature-grid">
       <div class="feature">
         <h3>単一ファイルで完結</h3>
-        <p>外部 CSS / JS / CDN に依存しない。フォントはシステムフォントと、リポジトリ同梱の JetBrains Mono のみ。<code class="inline">:root</code> のトークンブロックをコピーすれば、どの成果物も同じ見た目になる。</p>
+        <p>外部 CSS / JS / CDN に依存しない。フォントはシステムフォントと、リポジトリ同梱の UDEV Gothic 35LG のみ。<code class="inline">:root</code> のトークンブロックをコピーすれば、どの成果物も同じ見た目になる。</p>
       </div>
       <div class="feature">
         <h3>ライト / ダーク自動対応</h3>
@@ -1087,7 +1086,7 @@ ul.linklist a .chev { color: var(--text-3); }
 
     <section class="doc-section" id="foundations--typography" data-sec="typography" data-title="タイポグラフィ">
       <h2>タイポグラフィ</h2>
-      <p class="lede">SF Pro（system-ui）を中心に、日本語は Hiragino Sans へフォールバック。mono だけはリポジトリ同梱の JetBrains Mono（OFL）を <code class="inline">@font-face</code> で読み込む。本文は 17px / 1.47、字間 −0.022em が Apple の基準値。</p>
+      <p class="lede">SF Pro（system-ui）を中心に、日本語は Hiragino Sans へフォールバック。mono だけはリポジトリ同梱の UDEV Gothic 35LG（OFL。英数字 = JetBrains Mono 由来 / 日本語 = BIZ UD ゴシック由来）を <code class="inline">@font-face</code> で読み込む。本文は 17px / 1.47、字間 −0.022em が Apple の基準値。</p>
       <div class="demo">
         <div class="type-row"><span class="lbl">Hero · 44/600</span><span class="tt-hero">静かで、正確に。</span></div>
         <div class="type-row"><span class="lbl">Title 1 · 32/600</span><span class="tt-t1">ページタイトル</span></div>
@@ -1247,7 +1246,7 @@ ul.linklist a .chev { color: var(--text-3); }
 
     <section class="doc-section" id="components--code" data-sec="code" data-title="コード">
       <h2>コード</h2>
-      <p class="lede">フォントはリポジトリ同梱の JetBrains Mono。コードとテーブル内の mono は 14px を標準にし、ダークでは Medium(500) と muted syntax で発光感を抑える。コピーボタンは JS が全 <code class="inline">pre.listing</code> に自動付与し、ブロックへのホバーでフェード表示 → クリックでコード全文をクリップボードへコピーする（タッチデバイスでは常時表示）。</p>
+      <p class="lede">フォントはリポジトリ同梱の UDEV Gothic 35LG。コードとテーブル内の mono は 14px を標準にし、ダークでは muted syntax で発光感を抑える（旧 JBM 時代の Medium(500) 持ち上げは、UDEV Gothic に 500 が無いため v0.6.0 で廃止）。コピーボタンは JS が全 <code class="inline">pre.listing</code> に自動付与し、ブロックへのホバーでフェード表示 → クリックでコード全文をクリップボードへコピーする（タッチデバイスでは常時表示）。</p>
 <pre class="listing"><span class="k">import</span> <span class="t">SwiftUI</span>
 
 <span class="c">/// プロフィールカードを表示するビュー</span>
@@ -1385,7 +1384,7 @@ ul.linklist a .chev { color: var(--text-3); }
       <h2>シングルページ</h2>
       <p class="lede">ヘッダーナビもサイドバーもない、コンテンツ + フローティングメニューだけの 1 ページ構成。調査レポートや仕様書を 1 枚で公開するときはこちらを使う。</p>
       <p>
-        テンプレートは <a href="single-page.html">single-page.html</a>。トークン・JetBrains Mono・コードのコピー UI・テーマトグルは本体と完全に共通で、
+        テンプレートは <a href="single-page.html">single-page.html</a>。トークン・UDEV Gothic 35LG・コードのコピー UI・テーマトグルは本体と完全に共通で、
         違いはナビゲーション構造だけ。ルーターを持たないため、素のアンカーリンク（<code class="inline">#section-id</code>）でセクションへ直リンクできる。
       </p>
       <ul class="linklist">
@@ -1423,7 +1422,7 @@ ul.linklist a .chev { color: var(--text-3); }
       <ol class="steps">
         <li><div><strong>コンテンツが主役。</strong>装飾は情報の階層を示すためだけに使う。アクセント色は 1 画面 1〜2 箇所。</div></li>
         <li><div><strong>トークン経由でのみ色を参照。</strong>hex 直書きを見つけたらその場で直す。これがダーク対応の生命線。</div></li>
-        <li><div><strong>単一ファイル + 同梱フォントで完結。</strong>外部 CDN への依存なし。読み込んでよいのはリポジトリ同梱の JetBrains Mono だけ。</div></li>
+        <li><div><strong>単一ファイル + 同梱フォントで完結。</strong>外部 CDN への依存なし。読み込んでよいのはリポジトリ同梱の UDEV Gothic 35LG だけ。</div></li>
         <li><div><strong>Apple の語彙を保つ。</strong>eyebrow / abstract / aside / availability — 名前を揃えることで再利用が効く。</div></li>
       </ol>
     </section>
@@ -1459,7 +1458,7 @@ ul.linklist a .chev { color: var(--text-3); }
           <h4>Don't</h4>
           <ul>
             <li>hex をコンポーネント CSS に直書きしない</li>
-            <li>フォントや JS を CDN から読み込まない（フォントは同梱の JetBrains Mono のみ）</li>
+            <li>フォントや JS を CDN から読み込まない（フォントは同梱の UDEV Gothic 35LG のみ）</li>
             <li>tint 色を本文テキストに使わない</li>
             <li>aside を連続で 3 つ以上並べない</li>
             <li>機密情報・API キーを成果物に含めない</li>
@@ -1474,6 +1473,7 @@ ul.linklist a .chev { color: var(--text-3); }
       <table class="params">
         <thead><tr><th>バージョン</th><th>日付</th><th>変更</th></tr></thead>
         <tbody>
+          <tr><td class="param">v0.6.0</td><td class="type">2026-07-04</td><td>mono フォントを JetBrains Mono から <strong>UDEV Gothic 35LG</strong>（英数字 = JetBrains Mono 由来 / 日本語 = BIZ UD ゴシック由来、OFL）へ移行。woff2 3 ウェイト（Regular / Bold / Italic）を同梱し <code class="inline">--font-mono</code> の先頭へ。UDEV Gothic に 500 が無いため dark の <code class="inline">--code-weight</code> 500→400。旧 JetBrainsMono-*.woff2 は過去成果物の絶対 URL 参照互換のため残置。</td></tr>
           <tr><td class="param">v0.5.0</td><td class="type">2026-07-04</td><td>読みやすさ（認知負荷低減）の底上げ。(1) テキストトークンを WCAG AA へ調整：<code class="inline">--text-2</code> <code class="inline">#6E6E73→#66666B</code> / <code class="inline">--text-3</code> <code class="inline">#86868B→#747479</code>（dark <code class="inline">#858A92→#8B9098</code>）/ <code class="inline">--red</code> <code class="inline">#E30000→#D70000</code>（aside-warning のティント地でも本文 ≥4.5:1 を確保）。(2) 本文の 1 行文字数（measure）を <code class="inline">70ch</code> に制限し、single-page の abstract にも measure 上限を追加。(3) 新コンポーネント <code class="inline">.summary</code>（要点ボックス / Key Takeaways）を追加。地色は <code class="inline">--tint</code> から <code class="inline">color-mix</code> 導出で、生 hex を増やさない。</td></tr>
           <tr><td class="param">v0.4.1</td><td class="type">2026-06-30</td><td>ダーク <code class="inline">--bg</code>（page / editor surface）を <code class="inline">#111318</code> から <code class="inline">#181818</code> へ更新。よりニュートラルな raised black に寄せ、他の surface 階層（<code class="inline">--bg-alt</code> / <code class="inline">--bg-elev</code> / <code class="inline">--bg-code</code>）は据え置き。</td></tr>
           <tr><td class="param">v0.4.0</td><td class="type">2026-06-20</td><td>ダークトークンを raised black（<code class="inline">#111318</code> 基調）へ更新。リンク色・シンタックスカラーの発光感を抑え、コードブロック / inline code / テーブル内 mono を読みやすいサイズへ調整。</td></tr>

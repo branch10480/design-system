@@ -38,29 +38,25 @@
    ============================================================ */
 
 /* ============================================================
-   Fonts — JetBrains Mono（design-system リポジトリ同梱 / OFL）
+   Fonts — UDEV Gothic 35LG（design-system リポジトリ同梱 / OFL、v0.6.0 で
+   JetBrains Mono から移行）
    このファイルを他リポジトリへコピーしても動くよう GitHub Pages
    の絶対 URL で参照する（リポジトリ内なら fonts/… の相対でも可）。
    オフライン時はシステム mono へフォールバックする。
    ============================================================ */
 @font-face {
-  font-family: "JetBrains Mono";
-  src: url("https://branch10480.github.io/design-system/fonts/JetBrainsMono-Regular.woff2") format("woff2");
+  font-family: "UDEV Gothic 35LG";
+  src: url("https://branch10480.github.io/design-system/fonts/UDEVGothic35LG-Regular.woff2") format("woff2");
   font-weight: 400; font-style: normal; font-display: swap;
 }
 @font-face {
-  font-family: "JetBrains Mono";
-  src: url("https://branch10480.github.io/design-system/fonts/JetBrainsMono-Medium.woff2") format("woff2");
-  font-weight: 500; font-style: normal; font-display: swap;
-}
-@font-face {
-  font-family: "JetBrains Mono";
-  src: url("https://branch10480.github.io/design-system/fonts/JetBrainsMono-Bold.woff2") format("woff2");
+  font-family: "UDEV Gothic 35LG";
+  src: url("https://branch10480.github.io/design-system/fonts/UDEVGothic35LG-Bold.woff2") format("woff2");
   font-weight: 700; font-style: normal; font-display: swap;
 }
 @font-face {
-  font-family: "JetBrains Mono";
-  src: url("https://branch10480.github.io/design-system/fonts/JetBrainsMono-Italic.woff2") format("woff2");
+  font-family: "UDEV Gothic 35LG";
+  src: url("https://branch10480.github.io/design-system/fonts/UDEVGothic35LG-Italic.woff2") format("woff2");
   font-weight: 400; font-style: italic; font-display: swap;
 }
 
@@ -109,10 +105,11 @@
                "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", Arial, sans-serif;
   --font-display: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue",
                "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", Arial, sans-serif;
-  --font-mono: "JetBrains Mono", "JetBrainsMono Nerd Font Mono",
+  --font-mono: "UDEV Gothic 35LG", "UDEV Gothic 35NFLG",
                ui-monospace, "SF Mono", Menlo, Monaco, Consolas, monospace;
-  /* コードブロックのウェイト。dark では読みやすさ維持のため Medium(500) に上げる
-     （Ghostty/cmux が dark で font-style = Medium にしているのと同じ方針）。 */
+  /* コードブロックのウェイト。旧 JetBrains Mono 時代は dark で Medium(500) に
+     上げていたが、UDEV Gothic は Regular(400)/Bold(700) のみで 500 の実体が
+     無いため light/dark とも 400（token 構造は将来の再調整用に維持）。 */
   --code-weight: 400;
 
   /* radius */
@@ -146,7 +143,7 @@
     --orange: #E2BE5A;
     --red:    #E88980;
     --purple: #C2A3E5;
-    --code-weight: 500;
+    --code-weight: 400; /* UDEV Gothic に 500 が無い（旧 JBM 時代は 500） */
     --syn-k: #E06A9F; --syn-t: #C7A8E8; --syn-s: #E77668; --syn-n: #C8BA74;
     --syn-c: #7C8791; --syn-f: #A174D4; --syn-d: #5FC6E6;
     --sh-1:    0 1px 2px rgba(0,0,0,.4), 0 4px 16px rgba(0,0,0,.5);
@@ -171,7 +168,7 @@
   --orange: #E2BE5A;
   --red:    #E88980;
   --purple: #C2A3E5;
-  --code-weight: 500;
+  --code-weight: 400; /* UDEV Gothic に 500 が無い（旧 JBM 時代は 500） */
   --syn-k: #E06A9F; --syn-t: #C7A8E8; --syn-s: #E77668; --syn-n: #C8BA74;
   --syn-c: #7C8791; --syn-f: #A174D4; --syn-d: #5FC6E6;
   --sh-1:    0 1px 2px rgba(0,0,0,.4), 0 4px 16px rgba(0,0,0,.5);
@@ -522,7 +519,7 @@ ol.steps ul li, ol.steps ol li { margin: 4px 0; line-height: 1.55; }
     <p class="lede">このページ自体がテンプレート。HTML をコピーして見出しと本文を差し替えれば、同じ見た目のレポートがすぐ作れる。</p>
     <p>
       デザインルールは <a href="https://branch10480.github.io/design-system/">design-system.html</a> 本体と完全に共通。
-      トークン（<code class="inline">:root</code> + dark ブロック）、JetBrains Mono、コードブロックのコピーボタンまで同じものが入っている。
+      トークン（<code class="inline">:root</code> + dark ブロック）、UDEV Gothic 35LG、コードブロックのコピーボタンまで同じものが入っている。
       違いはナビゲーションの構造だけ — このパターンには「ページ」がひとつしかないので、
       ハッシュルーティングも左サイドバーも持たない。
     </p>
