@@ -80,8 +80,8 @@
 
   /* text */
   --text:   #1D1D1F;
-  --text-2: #6E6E73;
-  --text-3: #86868B;
+  --text-2: #66666B;   /* WCAG AA: secondary running text ≥4.5:1（bg-alt/bg-code 上でも） */
+  --text-3: #747479;   /* WCAG AA: meta / ラベル ≥4.5:1（旧 #86868B は白地 3.6:1 で不足） */
 
   /* tint = リンク・アクセント (Apple blue) */
   --tint:            #0066CC;
@@ -92,7 +92,7 @@
   /* status */
   --green:  #008009;
   --orange: #B25000;
-  --red:    #E30000;
+  --red:    #D70000;   /* WCAG AA: aside-warning のティント地でも AA を満たすよう #E30000 から微調整 */
   --purple: #6846C7;
 
   /* syntax — Xcode default light */
@@ -140,7 +140,7 @@
     /* 漆黒から少し浮かせた surface ladder と muted text で、長時間読んでも疲れにくくする。 */
     --text:   #D0D3D8;
     --text-2: #9EA3AA;
-    --text-3: #858A92;
+    --text-3: #8B9098;   /* WCAG AA: bg-elev 上でも ≥4.5:1（旧 #858A92 は 4.19:1 で不足） */
     --tint:   #4A94DC;
     --green:  #86D7A3;
     --orange: #E2BE5A;
@@ -165,7 +165,7 @@
   /* 漆黒から少し浮かせた surface ladder と muted text で、長時間読んでも疲れにくくする。 */
   --text:   #D0D3D8;
   --text-2: #9EA3AA;
-  --text-3: #858A92;
+  --text-3: #8B9098;   /* WCAG AA: bg-elev 上でも ≥4.5:1（旧 #858A92 は 4.19:1 で不足） */
   --tint:   #4A94DC;
   --green:  #86D7A3;
   --orange: #E2BE5A;
@@ -213,7 +213,7 @@ code, pre { font-family: var(--font-mono); letter-spacing: 0; }
   font-size: clamp(32px, 4.5vw, 44px);
   font-weight: 600; letter-spacing: -0.015em; line-height: 1.1;
 }
-.doc-header .abstract { margin: 14px 0 0; font-size: 19px; color: var(--text-2); line-height: 1.45; }
+.doc-header .abstract { margin: 14px 0 0; font-size: 19px; color: var(--text-2); line-height: 1.45; max-width: 62ch; }
 .meta {
   display: flex; gap: 8px 18px; flex-wrap: wrap;
   margin-top: 18px;
@@ -226,6 +226,10 @@ code, pre { font-family: var(--font-mono); letter-spacing: 0; }
 .doc-section h2 { font-size: 28px; font-weight: 600; letter-spacing: -0.012em; margin: 0 0 8px; }
 .doc-section h3 { font-size: 19px; font-weight: 600; margin: 32px 0 10px; }
 .doc-section p { color: var(--text); font-size: 15px; line-height: 1.6; }
+/* 1 行の文字数（measure）を読みやすい範囲に抑える。トップレベルの本文だけを
+   対象にし（> p）、aside / リスト内のネスト段落やテーブル・コードは制限しない。
+   70ch ≒ 欧文 70 字 / 和文 35 字で、どちらも快適な行長に収まる。 */
+.doc-section > p { max-width: 70ch; }
 .doc-section p.lede { color: var(--text-2); font-size: 16px; margin-top: 0; }
 
 /* ============================================================
@@ -347,6 +351,31 @@ code, pre { font-family: var(--font-mono); letter-spacing: 0; }
 .aside-tip       .aside-label { color: var(--green); }
 .aside-warning   { border-left-color: var(--red);    background: color-mix(in srgb, var(--red) 6%, var(--bg-elev)); }
 .aside-warning   .aside-label { color: var(--red); }
+
+/* --- Key Takeaways / 要点 サマリーボックス --- */
+/* レポート冒頭の TL;DR。地色・罫線は --tint から color-mix で導出する。 */
+.summary {
+  border: 1px solid color-mix(in srgb, var(--tint) 24%, var(--separator));
+  border-radius: var(--r-lg);
+  background: color-mix(in srgb, var(--tint) 6%, var(--bg));
+  padding: 16px 20px 18px;
+  margin: 20px 0;
+}
+.summary .summary-label {
+  display: flex; align-items: center; gap: 7px;
+  margin: 0 0 10px;
+  font-size: 12px; font-weight: 600;
+  text-transform: uppercase; letter-spacing: 0.06em;
+  color: var(--tint);
+}
+.summary .summary-label::before {
+  content: ""; flex: none;
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--tint);
+}
+.summary ul { margin: 0; padding-left: 20px; }
+.summary li { margin: 5px 0; font-size: 15px; line-height: 1.55; color: var(--text); }
+.summary li::marker { color: color-mix(in srgb, var(--tint) 55%, var(--text-3)); }
 
 /* --- Code --- */
 pre.listing {
@@ -472,7 +501,7 @@ ol.steps ul li, ol.steps ol li { margin: 4px 0; line-height: 1.55; }
       調査レポートや仕様書を 1 枚で公開するときのテンプレート。
     </p>
     <div class="meta">
-      <span><strong>Base</strong> Toshi Design System v0.4</span>
+      <span><strong>Base</strong> Toshi Design System v0.5</span>
       <span><strong>構成</strong> 1 カラム · 760px</span>
       <span><strong>Nav</strong> フローティングメニューのみ</span>
     </div>
@@ -482,6 +511,14 @@ ol.steps ul li, ol.steps ol li { margin: 4px 0; line-height: 1.55; }
        フローティングメニューが自動生成される -->
   <section class="doc-section" id="overview" data-title="概要">
     <h2>概要</h2>
+    <div class="summary">
+      <p class="summary-label">要点</p>
+      <ul>
+        <li>このファイルをコピーして見出しと本文を差し替えるだけで、同じ見た目のレポートになる。</li>
+        <li>トークン・フォント・コピー UI は本体 <code class="inline">design-system.html</code> と完全に共通。</li>
+        <li>長いレポートは、この要点ボックスに結論を先出しすると読み手の負担が減る。</li>
+      </ul>
+    </div>
     <p class="lede">このページ自体がテンプレート。HTML をコピーして見出しと本文を差し替えれば、同じ見た目のレポートがすぐ作れる。</p>
     <p>
       デザインルールは <a href="https://branch10480.github.io/design-system/">design-system.html</a> 本体と完全に共通。
