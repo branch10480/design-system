@@ -73,7 +73,7 @@
   --hairline:  rgba(0, 0, 0, 0.10);
 
   /* text */
-  --text:   #0D0D0D;   /* dark とコントラストレベルを揃えるため #1D1D1F から微調整（v0.7.0） */
+  --text:   #1D1D1F;
   --text-2: #66666B;   /* WCAG AA: secondary running text ≥4.5:1（bg-alt/bg-code 上でも） */
   --text-3: #747479;   /* WCAG AA: meta / ラベル ≥4.5:1（旧 #86868B は白地 3.6:1 で不足） */
 
@@ -130,25 +130,24 @@
 /* ---- dark values（auto: OS 追従。手動 light 指定時は無効） ---- */
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --bg:        #111111;
-    --bg-alt:    #16191D;
-    --bg-elev:   #21252D;
-    --bg-code:   #15171C;
-    --separator: #2F343D;
+    --bg:        #181818;
+    --bg-alt:    #1B1E24;
+    --bg-elev:   #252932;
+    --bg-code:   #1A1D23;
+    --separator: #333842;
     --hairline:  rgba(255, 255, 255, 0.14);
-    /* light と同等の高コントラスト（本文 ≥18:1）に揃える。bg-alt/bg-elev/bg-code/separator
-       以下の各トークンは旧 bg（#181818）に対する比を維持したまま新 bg（#111111）へ再計算した値（v0.7.0）。 */
-    --text:   #FCFCFC;
-    --text-2: #999EA5;
-    --text-3: #868C94;   /* WCAG AA: bg-elev 上でも ≥4.5:1 */
-    --tint:   #428FDA;
-    --green:  #78D399;
-    --orange: #DFB84A;
-    --red:    #E78278;
-    --purple: #BE9DE3;
+    /* 漆黒から少し浮かせた surface ladder と muted text で、長時間読んでも疲れにくくする。 */
+    --text:   #D0D3D8;
+    --text-2: #9EA3AA;
+    --text-3: #8B9098;   /* WCAG AA: bg-elev 上でも ≥4.5:1（旧 #858A92 は 4.19:1 で不足） */
+    --tint:   #4A94DC;
+    --green:  #86D7A3;
+    --orange: #E2BE5A;
+    --red:    #E88980;
+    --purple: #C2A3E5;
     --code-weight: 400; /* UDEV Gothic に 500 が無い（旧 JBM 時代は 500） */
-    --syn-k: #DE639A; --syn-t: #C3A2E6; --syn-s: #E66F60; --syn-n: #C4B569;
-    --syn-c: #77838D; --syn-f: #9D6FD2; --syn-d: #50C1E4;
+    --syn-k: #E06A9F; --syn-t: #C7A8E8; --syn-s: #E77668; --syn-n: #C8BA74;
+    --syn-c: #7C8791; --syn-f: #A174D4; --syn-d: #5FC6E6;
     --sh-1:    0 1px 2px rgba(0,0,0,.4), 0 4px 16px rgba(0,0,0,.5);
     --sh-2:    0 11px 34px rgba(0,0,0,.6);
     --sh-menu: 0 10px 40px rgba(0,0,0,.7);
@@ -156,25 +155,24 @@
 }
 /* ---- dark values（手動指定）。上のブロックと同値を維持すること ---- */
 :root[data-theme="dark"] {
-  --bg:        #111111;
-  --bg-alt:    #16191D;
-  --bg-elev:   #21252D;
-  --bg-code:   #15171C;
-  --separator: #2F343D;
+  --bg:        #181818;
+  --bg-alt:    #1B1E24;
+  --bg-elev:   #252932;
+  --bg-code:   #1A1D23;
+  --separator: #333842;
   --hairline:  rgba(255, 255, 255, 0.14);
-  /* light と同等の高コントラスト（本文 ≥18:1）に揃える。bg-alt/bg-elev/bg-code/separator
-     以下の各トークンは旧 bg（#181818）に対する比を維持したまま新 bg（#111111）へ再計算した値（v0.7.0）。 */
-  --text:   #FCFCFC;
-  --text-2: #999EA5;
-  --text-3: #868C94;   /* WCAG AA: bg-elev 上でも ≥4.5:1 */
-  --tint:   #428FDA;
-  --green:  #78D399;
-  --orange: #DFB84A;
-  --red:    #E78278;
-  --purple: #BE9DE3;
+  /* 漆黒から少し浮かせた surface ladder と muted text で、長時間読んでも疲れにくくする。 */
+  --text:   #D0D3D8;
+  --text-2: #9EA3AA;
+  --text-3: #8B9098;   /* WCAG AA: bg-elev 上でも ≥4.5:1（旧 #858A92 は 4.19:1 で不足） */
+  --tint:   #4A94DC;
+  --green:  #86D7A3;
+  --orange: #E2BE5A;
+  --red:    #E88980;
+  --purple: #C2A3E5;
   --code-weight: 400; /* UDEV Gothic に 500 が無い（旧 JBM 時代は 500） */
-  --syn-k: #DE639A; --syn-t: #C3A2E6; --syn-s: #E66F60; --syn-n: #C4B569;
-  --syn-c: #77838D; --syn-f: #9D6FD2; --syn-d: #50C1E4;
+  --syn-k: #E06A9F; --syn-t: #C7A8E8; --syn-s: #E77668; --syn-n: #C8BA74;
+  --syn-c: #7C8791; --syn-f: #A174D4; --syn-d: #5FC6E6;
   --sh-1:    0 1px 2px rgba(0,0,0,.4), 0 4px 16px rgba(0,0,0,.5);
   --sh-2:    0 11px 34px rgba(0,0,0,.6);
   --sh-menu: 0 10px 40px rgba(0,0,0,.7);
@@ -776,8 +774,8 @@ ul.linklist a .chev { color: var(--text-3); }
   color: #D0D3D8;
 }
 .tone-sample.raised .stage {
-  background: #111111;
-  color: #FCFCFC;
+  background: #181818;
+  color: #D0D3D8;
 }
 .tone-sample .panel {
   border: 1px solid rgba(255, 255, 255, 0.14);
@@ -786,7 +784,7 @@ ul.linklist a .chev { color: var(--text-3); }
 }
 .tone-sample.old .panel { background: #1D1D1F; }
 .tone-sample.new .panel { background: #202329; }
-.tone-sample.raised .panel { background: #21252D; }
+.tone-sample.raised .panel { background: #252932; }
 .tone-sample h4 {
   margin: 0 0 8px;
   font-size: 15px;
@@ -799,7 +797,7 @@ ul.linklist a .chev { color: var(--text-3); }
 }
 .tone-sample.old p { color: #A1A1A6; }
 .tone-sample.new p { color: #9EA3AA; }
-.tone-sample.raised p { color: #999EA5; }
+.tone-sample.raised p { color: #9EA3AA; }
 .tone-sample .tone-meta {
   padding: 9px 12px;
   font-family: var(--font-mono);
@@ -915,7 +913,7 @@ ul.linklist a .chev { color: var(--text-3); }
 <!-- ============================ Home ============================ -->
 <main class="page is-active" data-page="home">
   <section class="hero">
-    <p class="eyebrow">Design System · v0.7</p>
+    <p class="eyebrow">Design System · v0.6</p>
     <h1>ドキュメントのための、<br>静かなデザインシステム。</h1>
     <p class="abstract">
       Apple Developer Documentation のデザイン言語をベースにした、
@@ -1028,11 +1026,11 @@ ul.linklist a .chev { color: var(--text-3); }
       <p class="lede">Apple Developer Documentation の実トークン（swift-docc-render）をベースにした 15 色。チップは現在のテーマの値で描画される — 右上のトグルで切り替えて確認できる。</p>
       <p class="demo-label">Surfaces</p>
       <div class="demo swatch-grid">
-        <div class="swatch"><div class="chip" style="background:var(--bg)"></div><div class="meta"><span class="name">--bg</span><span class="vals">#FFFFFF / #111111</span></div></div>
-        <div class="swatch"><div class="chip" style="background:var(--bg-alt)"></div><div class="meta"><span class="name">--bg-alt</span><span class="vals">#F5F5F7 / #16191D</span></div></div>
-        <div class="swatch"><div class="chip" style="background:var(--bg-elev)"></div><div class="meta"><span class="name">--bg-elev</span><span class="vals">#FFFFFF / #21252D</span></div></div>
-        <div class="swatch"><div class="chip" style="background:var(--bg-code)"></div><div class="meta"><span class="name">--bg-code</span><span class="vals">#F7F7F7 / #15171C</span></div></div>
-        <div class="swatch"><div class="chip" style="background:var(--separator)"></div><div class="meta"><span class="name">--separator</span><span class="vals">#D2D2D7 / #2F343D</span></div></div>
+        <div class="swatch"><div class="chip" style="background:var(--bg)"></div><div class="meta"><span class="name">--bg</span><span class="vals">#FFFFFF / #181818</span></div></div>
+        <div class="swatch"><div class="chip" style="background:var(--bg-alt)"></div><div class="meta"><span class="name">--bg-alt</span><span class="vals">#F5F5F7 / #1B1E24</span></div></div>
+        <div class="swatch"><div class="chip" style="background:var(--bg-elev)"></div><div class="meta"><span class="name">--bg-elev</span><span class="vals">#FFFFFF / #252932</span></div></div>
+        <div class="swatch"><div class="chip" style="background:var(--bg-code)"></div><div class="meta"><span class="name">--bg-code</span><span class="vals">#F7F7F7 / #1A1D23</span></div></div>
+        <div class="swatch"><div class="chip" style="background:var(--separator)"></div><div class="meta"><span class="name">--separator</span><span class="vals">#D2D2D7 / #333842</span></div></div>
       </div>
       <p class="demo-label">Dark Tone Before / After</p>
       <div class="tone-compare">
@@ -1057,27 +1055,27 @@ ul.linklist a .chev { color: var(--text-3); }
         <div class="tone-sample raised">
           <div class="stage">
             <div class="panel">
-              <h4>Adopted: High-contrast black</h4>
-              <p>採用値（v0.7.0〜）。bg を黒に寄せ text を準白色にすることで、本文コントラストを light と同水準（約 18〜19:1）に揃えた標準 dark。</p>
+              <h4>Adopted: Raised black</h4>
+              <p>採用値。黒さよりも面の安定感を優先し、長文・コード・表を読むときの緊張を軽くする標準 dark。</p>
             </div>
           </div>
-          <div class="tone-meta">#111111 / #21252D / #FCFCFC</div>
+          <div class="tone-meta">#181818 / #252932 / #D0D3D8</div>
         </div>
       </div>
       <p class="demo-label">Text</p>
       <div class="demo swatch-grid">
-        <div class="swatch"><div class="chip" style="background:var(--text)"></div><div class="meta"><span class="name">--text</span><span class="vals">#0D0D0D / #FCFCFC</span></div></div>
-        <div class="swatch"><div class="chip" style="background:var(--text-2)"></div><div class="meta"><span class="name">--text-2</span><span class="vals">#66666B / #999EA5</span></div></div>
-        <div class="swatch"><div class="chip" style="background:var(--text-3)"></div><div class="meta"><span class="name">--text-3</span><span class="vals">#747479 / #868C94</span></div></div>
+        <div class="swatch"><div class="chip" style="background:var(--text)"></div><div class="meta"><span class="name">--text</span><span class="vals">#1D1D1F / #D0D3D8</span></div></div>
+        <div class="swatch"><div class="chip" style="background:var(--text-2)"></div><div class="meta"><span class="name">--text-2</span><span class="vals">#66666B / #9EA3AA</span></div></div>
+        <div class="swatch"><div class="chip" style="background:var(--text-3)"></div><div class="meta"><span class="name">--text-3</span><span class="vals">#747479 / #8B9098</span></div></div>
       </div>
       <p class="demo-label">Tint &amp; Status</p>
       <div class="demo swatch-grid">
-        <div class="swatch"><div class="chip" style="background:var(--tint)"></div><div class="meta"><span class="name">--tint</span><span class="vals">#0066CC / #428FDA</span></div></div>
+        <div class="swatch"><div class="chip" style="background:var(--tint)"></div><div class="meta"><span class="name">--tint</span><span class="vals">#0066CC / #4A94DC</span></div></div>
         <div class="swatch"><div class="chip" style="background:var(--tint-fill)"></div><div class="meta"><span class="name">--tint-fill</span><span class="vals">#0071E3 / #0071E3</span></div></div>
-        <div class="swatch"><div class="chip" style="background:var(--green)"></div><div class="meta"><span class="name">--green</span><span class="vals">#008009 / #78D399</span></div></div>
-        <div class="swatch"><div class="chip" style="background:var(--orange)"></div><div class="meta"><span class="name">--orange</span><span class="vals">#B25000 / #DFB84A</span></div></div>
-        <div class="swatch"><div class="chip" style="background:var(--red)"></div><div class="meta"><span class="name">--red</span><span class="vals">#D70000 / #E78278</span></div></div>
-        <div class="swatch"><div class="chip" style="background:var(--purple)"></div><div class="meta"><span class="name">--purple</span><span class="vals">#6846C7 / #BE9DE3</span></div></div>
+        <div class="swatch"><div class="chip" style="background:var(--green)"></div><div class="meta"><span class="name">--green</span><span class="vals">#008009 / #86D7A3</span></div></div>
+        <div class="swatch"><div class="chip" style="background:var(--orange)"></div><div class="meta"><span class="name">--orange</span><span class="vals">#B25000 / #E2BE5A</span></div></div>
+        <div class="swatch"><div class="chip" style="background:var(--red)"></div><div class="meta"><span class="name">--red</span><span class="vals">#D70000 / #E88980</span></div></div>
+        <div class="swatch"><div class="chip" style="background:var(--purple)"></div><div class="meta"><span class="name">--purple</span><span class="vals">#6846C7 / #C2A3E5</span></div></div>
       </div>
       <h3>使い分け</h3>
       <ul class="linklist">
@@ -1436,7 +1434,7 @@ ul.linklist a .chev { color: var(--text-3); }
    2. dark の 2 ブロック（@media + [data-theme="dark"]）を必ずセットでコピー */</span>
 <span class="d">:root</span> {
   <span class="k">--bg</span>: <span class="s">#FFFFFF</span>;
-  <span class="k">--text</span>: <span class="s">#0D0D0D</span>;
+  <span class="k">--text</span>: <span class="s">#1D1D1F</span>;
   <span class="k">--tint</span>: <span class="s">#0066CC</span>;
   <span class="c">/* …以下トークン一式 */</span>
 }</pre>
@@ -1475,7 +1473,6 @@ ul.linklist a .chev { color: var(--text-3); }
       <table class="params">
         <thead><tr><th>バージョン</th><th>日付</th><th>変更</th></tr></thead>
         <tbody>
-          <tr><td class="param">v0.7.0</td><td class="type">2026-07-13</td><td>dark <code class="inline">--bg</code> <code class="inline">#181818→#111111</code> / dark <code class="inline">--text</code> <code class="inline">#D0D3D8→#FCFCFC</code> / light <code class="inline">--text</code> <code class="inline">#1D1D1F→#0D0D0D</code> に変更し、light/dark 双方の本文コントラストを約 18〜19:1 に統一。連動して dark の <code class="inline">--bg-alt</code> <code class="inline">--bg-elev</code> <code class="inline">--bg-code</code> <code class="inline">--separator</code> <code class="inline">--text-2</code> <code class="inline">--text-3</code> <code class="inline">--tint</code> <code class="inline">--green</code> <code class="inline">--orange</code> <code class="inline">--red</code> <code class="inline">--purple</code> <code class="inline">--syn-*</code> を、旧 bg に対するコントラスト比を保ったまま新 bg 基準へ再計算。</td></tr>
           <tr><td class="param">v0.6.0</td><td class="type">2026-07-04</td><td>mono フォントを JetBrains Mono から <strong>UDEV Gothic 35LG</strong>（英数字 = JetBrains Mono 由来 / 日本語 = BIZ UD ゴシック由来、OFL）へ移行。woff2 3 ウェイト（Regular / Bold / Italic）を同梱し <code class="inline">--font-mono</code> の先頭へ。UDEV Gothic に 500 が無いため dark の <code class="inline">--code-weight</code> 500→400。旧 JetBrainsMono-*.woff2 は過去成果物の絶対 URL 参照互換のため残置。</td></tr>
           <tr><td class="param">v0.5.0</td><td class="type">2026-07-04</td><td>読みやすさ（認知負荷低減）の底上げ。(1) テキストトークンを WCAG AA へ調整：<code class="inline">--text-2</code> <code class="inline">#6E6E73→#66666B</code> / <code class="inline">--text-3</code> <code class="inline">#86868B→#747479</code>（dark <code class="inline">#858A92→#8B9098</code>）/ <code class="inline">--red</code> <code class="inline">#E30000→#D70000</code>（aside-warning のティント地でも本文 ≥4.5:1 を確保）。(2) 本文の 1 行文字数（measure）を <code class="inline">70ch</code> に制限し、single-page の abstract にも measure 上限を追加。(3) 新コンポーネント <code class="inline">.summary</code>（要点ボックス / Key Takeaways）を追加。地色は <code class="inline">--tint</code> から <code class="inline">color-mix</code> 導出で、生 hex を増やさない。</td></tr>
           <tr><td class="param">v0.4.1</td><td class="type">2026-06-30</td><td>ダーク <code class="inline">--bg</code>（page / editor surface）を <code class="inline">#111318</code> から <code class="inline">#181818</code> へ更新。よりニュートラルな raised black に寄せ、他の surface 階層（<code class="inline">--bg-alt</code> / <code class="inline">--bg-elev</code> / <code class="inline">--bg-code</code>）は据え置き。</td></tr>
