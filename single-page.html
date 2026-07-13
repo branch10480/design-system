@@ -75,7 +75,7 @@
   --hairline:  rgba(0, 0, 0, 0.10);
 
   /* text */
-  --text:   #1D1D1F;
+  --text:   #0D0D0D;   /* dark とコントラストレベルを揃えるため #1D1D1F から微調整（v0.7.0） */
   --text-2: #66666B;   /* WCAG AA: secondary running text ≥4.5:1（bg-alt/bg-code 上でも） */
   --text-3: #747479;   /* WCAG AA: meta / ラベル ≥4.5:1（旧 #86868B は白地 3.6:1 で不足） */
 
@@ -128,24 +128,25 @@
 /* ---- dark values（auto: OS 追従。手動 light 指定時は無効） ---- */
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --bg:        #181818;
-    --bg-alt:    #1B1E24;
-    --bg-elev:   #252932;
-    --bg-code:   #1A1D23;
-    --separator: #333842;
+    --bg:        #111111;
+    --bg-alt:    #16191D;
+    --bg-elev:   #21252D;
+    --bg-code:   #15171C;
+    --separator: #2F343D;
     --hairline:  rgba(255, 255, 255, 0.14);
-    /* 漆黒から少し浮かせた surface ladder と muted text で、長時間読んでも疲れにくくする。 */
-    --text:   #D0D3D8;
-    --text-2: #9EA3AA;
-    --text-3: #8B9098;   /* WCAG AA: bg-elev 上でも ≥4.5:1（旧 #858A92 は 4.19:1 で不足） */
-    --tint:   #4A94DC;
-    --green:  #86D7A3;
-    --orange: #E2BE5A;
-    --red:    #E88980;
-    --purple: #C2A3E5;
+    /* light と同等の高コントラスト（本文 ≥18:1）に揃える。bg-alt/bg-elev/bg-code/separator
+       以下の各トークンは旧 bg（#181818）に対する比を維持したまま新 bg（#111111）へ再計算した値（v0.7.0）。 */
+    --text:   #FCFCFC;
+    --text-2: #999EA5;
+    --text-3: #868C94;   /* WCAG AA: bg-elev 上でも ≥4.5:1 */
+    --tint:   #428FDA;
+    --green:  #78D399;
+    --orange: #DFB84A;
+    --red:    #E78278;
+    --purple: #BE9DE3;
     --code-weight: 400; /* UDEV Gothic に 500 が無い（旧 JBM 時代は 500） */
-    --syn-k: #E06A9F; --syn-t: #C7A8E8; --syn-s: #E77668; --syn-n: #C8BA74;
-    --syn-c: #7C8791; --syn-f: #A174D4; --syn-d: #5FC6E6;
+    --syn-k: #DE639A; --syn-t: #C3A2E6; --syn-s: #E66F60; --syn-n: #C4B569;
+    --syn-c: #77838D; --syn-f: #9D6FD2; --syn-d: #50C1E4;
     --sh-1:    0 1px 2px rgba(0,0,0,.4), 0 4px 16px rgba(0,0,0,.5);
     --sh-2:    0 11px 34px rgba(0,0,0,.6);
     --sh-menu: 0 10px 40px rgba(0,0,0,.7);
@@ -153,24 +154,25 @@
 }
 /* ---- dark values（手動指定）。上のブロックと同値を維持すること ---- */
 :root[data-theme="dark"] {
-  --bg:        #181818;
-  --bg-alt:    #1B1E24;
-  --bg-elev:   #252932;
-  --bg-code:   #1A1D23;
-  --separator: #333842;
+  --bg:        #111111;
+  --bg-alt:    #16191D;
+  --bg-elev:   #21252D;
+  --bg-code:   #15171C;
+  --separator: #2F343D;
   --hairline:  rgba(255, 255, 255, 0.14);
-  /* 漆黒から少し浮かせた surface ladder と muted text で、長時間読んでも疲れにくくする。 */
-  --text:   #D0D3D8;
-  --text-2: #9EA3AA;
-  --text-3: #8B9098;   /* WCAG AA: bg-elev 上でも ≥4.5:1（旧 #858A92 は 4.19:1 で不足） */
-  --tint:   #4A94DC;
-  --green:  #86D7A3;
-  --orange: #E2BE5A;
-  --red:    #E88980;
-  --purple: #C2A3E5;
+  /* light と同等の高コントラスト（本文 ≥18:1）に揃える。bg-alt/bg-elev/bg-code/separator
+     以下の各トークンは旧 bg（#181818）に対する比を維持したまま新 bg（#111111）へ再計算した値（v0.7.0）。 */
+  --text:   #FCFCFC;
+  --text-2: #999EA5;
+  --text-3: #868C94;   /* WCAG AA: bg-elev 上でも ≥4.5:1 */
+  --tint:   #428FDA;
+  --green:  #78D399;
+  --orange: #DFB84A;
+  --red:    #E78278;
+  --purple: #BE9DE3;
   --code-weight: 400; /* UDEV Gothic に 500 が無い（旧 JBM 時代は 500） */
-  --syn-k: #E06A9F; --syn-t: #C7A8E8; --syn-s: #E77668; --syn-n: #C8BA74;
-  --syn-c: #7C8791; --syn-f: #A174D4; --syn-d: #5FC6E6;
+  --syn-k: #DE639A; --syn-t: #C3A2E6; --syn-s: #E66F60; --syn-n: #C4B569;
+  --syn-c: #77838D; --syn-f: #9D6FD2; --syn-d: #50C1E4;
   --sh-1:    0 1px 2px rgba(0,0,0,.4), 0 4px 16px rgba(0,0,0,.5);
   --sh-2:    0 11px 34px rgba(0,0,0,.6);
   --sh-menu: 0 10px 40px rgba(0,0,0,.7);
