@@ -123,6 +123,11 @@
   --sh-1:    0 1px 2px rgba(0,0,0,.04), 0 4px 16px rgba(0,0,0,.06);
   --sh-2:    0 11px 34px rgba(0,0,0,.14);
   --sh-menu: 0 10px 40px rgba(0,0,0,.18);
+
+  /* layout */
+  --doc-max: 1040px;      /* コンテンツの最大幅（本文の行長は measure で別途制限） */
+  --otp-w: 210px;         /* フローティングメニューの幅 */
+  --otp-reserve: calc(var(--otp-w) + 48px);   /* 右端に空けておく帯（メニュー幅 + 左右 24px） */
 }
 
 /* ---- dark values（auto: OS 追従。手動 light 指定時は無効） ---- */
@@ -201,7 +206,13 @@ code, pre { font-family: var(--font-mono); letter-spacing: 0; }
 /* ============================================================
    Article — 1 カラムのコンテンツ
    ============================================================ */
-.article { max-width: 760px; margin: 0 auto; padding: 64px 22px 120px; }
+/* コンテンツは中央寄せなので、左右対称に --otp-reserve のぶんを空けると
+   右端のフローティングメニューに被らない。本文の行長は measure で別に抑える。 */
+.article {
+  max-width: min(var(--doc-max), calc(100vw - 2 * var(--otp-reserve)));
+  margin: 0 auto;
+  padding: 64px 22px 120px;
+}
 
 .doc-header { padding-bottom: 28px; border-bottom: 1px solid var(--hairline); }
 .eyebrow { font-size: 14px; color: var(--text-2); margin: 0 0 10px; font-weight: 500; }
@@ -223,10 +234,10 @@ code, pre { font-family: var(--font-mono); letter-spacing: 0; }
 .doc-section h2 { font-size: 28px; font-weight: 600; letter-spacing: -0.012em; margin: 0 0 8px; }
 .doc-section h3 { font-size: 19px; font-weight: 600; margin: 32px 0 10px; }
 .doc-section p { color: var(--text); font-size: 15px; line-height: 1.6; }
-/* 1 行の文字数（measure）を読みやすい範囲に抑える。トップレベルの本文だけを
-   対象にし（> p）、aside / リスト内のネスト段落やテーブル・コードは制限しない。
-   70ch ≒ 欧文 70 字 / 和文 35 字で、どちらも快適な行長に収まる。 */
-.doc-section > p { max-width: 70ch; }
+/* measure（1 行の文字数）はコンテンツ幅そのもので担保する。ブロックごとに max-width を
+   変えると右端が要素ごとにズレるため、段落・リスト・テーブル・コード・図はすべて同じ幅で
+   右端を揃える。行長を詰めたいときは --doc-max だけを調整する。
+   例外は h1 直下の abstract のみ（リード文は 1 ブロックだけ短くても不自然に見えない）。 */
 .doc-section p.lede { color: var(--text-2); font-size: 16px; margin-top: 0; }
 
 /* ============================================================
@@ -257,7 +268,7 @@ code, pre { font-family: var(--font-mono); letter-spacing: 0; }
 .otp {
   position: fixed;
   right: 24px; top: 64px;
-  width: 210px;
+  width: var(--otp-w);
   max-height: calc(100vh - 110px);
   overflow-y: auto;
   background: color-mix(in srgb, var(--bg-elev) 78%, transparent);
@@ -287,6 +298,8 @@ code, pre { font-family: var(--font-mono); letter-spacing: 0; }
 /* 狭い画面: 右下のフローティングボタン + ポップオーバー */
 .fab { display: none; }
 @media (max-width: 1239px) {
+  /* メニューが右下のボタンに移るので、右端の帯を空けておく必要がなくなる */
+  :root { --otp-reserve: 0px; }
   .otp { display: none; }
   .fab {
     display: flex;
@@ -379,8 +392,9 @@ pre.listing {
   background: var(--bg-code);
   border: 1px solid var(--hairline);
   border-radius: var(--r-lg);
-  padding: 18px 20px;
-  font-size: 14px; line-height: 1.62;
+  /* 左右は 16px。15px の mono では 20px 余白だと 2 カラム比較で行末が削られるため */
+  padding: 18px 16px;
+  font-size: 15px; line-height: 1.62;
   font-weight: var(--code-weight);
   color: var(--text);
   overflow-x: auto;
@@ -424,6 +438,22 @@ code.inline {
 .copy-btn:hover { color: var(--text); border-color: var(--separator); }
 .copy-btn.is-copied { color: var(--green); border-color: color-mix(in srgb, var(--green) 40%, transparent); }
 .copy-btn svg { width: 15px; height: 15px; }
+
+/* --- Before / After 比較（コードを左右に並べる） --- */
+.ba-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 14px 0; }
+/* 狭い画面では横並びをやめて縦積みにする（1 カラムぶんの幅で無理に並べない） */
+@media (max-width: 900px) { .ba-grid { grid-template-columns: 1fr; } }
+.ba-grid .ba-col { min-width: 0; }   /* grid 内で pre が縮めるようにする */
+.ba-grid .ba-label {
+  font: 600 11px var(--font-text);
+  text-transform: uppercase; letter-spacing: 0.06em;
+  color: var(--text-3);
+  margin: 0 0 6px;
+}
+.ba-grid .ba-label.ba-after { color: var(--tint); }
+.ba-grid .code-wrap, .ba-grid pre.listing { margin: 0; }
+/* 2 カラムに詰めるぶん、単独のコードブロック（15px）より 1px 小さくする */
+.ba-grid pre.listing { font-size: 14px; }
 
 /* --- Tables --- */
 table.params {
@@ -498,8 +528,8 @@ ol.steps ul li, ol.steps ol li { margin: 4px 0; line-height: 1.55; }
       調査レポートや仕様書を 1 枚で公開するときのテンプレート。
     </p>
     <div class="meta">
-      <span><strong>Base</strong> Toshi Design System v0.5</span>
-      <span><strong>構成</strong> 1 カラム · 760px</span>
+      <span><strong>Base</strong> Toshi Design System v0.7</span>
+      <span><strong>構成</strong> 1 カラム · 最大 1040px</span>
       <span><strong>Nav</strong> フローティングメニューのみ</span>
     </div>
   </header>
@@ -541,7 +571,7 @@ ol.steps ul li, ol.steps ol li { margin: 4px 0; line-height: 1.55; }
 
   <section class="doc-section" id="components" data-title="使える部品">
     <h2>使える部品</h2>
-    <p class="lede">このテンプレートに同梱しているのは、レポートでよく使う 4 種だけ：aside / コード / テーブル / ステップリスト。ほかが必要なら本体からコピーする。</p>
+    <p class="lede">このテンプレートに同梱しているのは、レポートでよく使う 5 種だけ：aside / コード / Before After 比較 / テーブル / ステップリスト。ほかが必要なら本体からコピーする。</p>
 
     <h3>Aside</h3>
     <div class="aside aside-note"><p class="aside-label">注記</p><p>このテンプレートの aside は note / important / tip / warning の 4 種。</p></div>
@@ -553,13 +583,31 @@ ol.steps ul li, ol.steps ol li { margin: 4px 0; line-height: 1.55; }
 <span class="k">const</span> links = [...sections].<span class="f">map</span>(s =&gt;
   <span class="s">`&lt;a href="#</span>${s.id}<span class="s">"&gt;</span>${s.dataset.title}<span class="s">&lt;/a&gt;`</span>);</pre>
 
+    <h3>Before / After 比較</h3>
+    <div class="ba-grid">
+      <div class="ba-col">
+        <p class="ba-label">Before</p>
+<pre class="listing"><span class="d">.doc-section &gt; p</span> {
+  <span class="f">max-width</span>: <span class="n">70ch</span>;
+}</pre>
+      </div>
+      <div class="ba-col">
+        <p class="ba-label ba-after">After</p>
+<pre class="listing"><span class="d">.article</span> {
+  <span class="f">max-width</span>: <span class="k">var</span>(<span class="n">--doc-max</span>);
+}</pre>
+      </div>
+    </div>
+    <p>移行ガイドやレビュー資料で変更前後を並べるときに使う。900px 以下では縦積みになる。カラム幅に入るのは 45 文字程度なので、長い式は改行して整形する。</p>
+
     <h3>テーブル</h3>
     <table class="params">
       <thead><tr><th>項目</th><th>値</th><th>説明</th></tr></thead>
       <tbody>
-        <tr><td class="param">max-width</td><td class="type">760px</td><td>コンテンツの最大幅。1 カラムの読み物に最適。</td></tr>
-        <tr><td class="param">otp width</td><td class="type">210px</td><td>フローティングメニューの幅。</td></tr>
-        <tr><td class="param">breakpoint</td><td class="type">1240px</td><td>これ未満でメニューが右下ボタンに切り替わる。</td></tr>
+        <tr><td class="param">--doc-max</td><td class="type">1040px</td><td>コンテンツの最大幅。画面が狭いときはメニューに被らないところまで自動で縮む。行長もこの値で決まる。</td></tr>
+        <tr><td class="param">右端</td><td class="type">1 本に揃える</td><td>段落・リスト・aside・表・コードはすべて同じ幅。ブロックごとに <code class="inline">max-width</code> を変えない。</td></tr>
+        <tr><td class="param">--otp-w</td><td class="type">210px</td><td>フローティングメニューの幅。右端に <code class="inline">210 + 48px</code> の帯を空ける。</td></tr>
+        <tr><td class="param">breakpoint</td><td class="type">1240px</td><td>これ未満でメニューが右下ボタンに切り替わり、帯の予約も外れる。</td></tr>
       </tbody>
     </table>
   </section>
