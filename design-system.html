@@ -196,7 +196,7 @@ body {
   background: var(--bg);
   color: var(--text);
   font-family: var(--font-text);
-  font-size: 15.5px;
+  font-size: 13.5px;
   line-height: 1.47;
   letter-spacing: -0.022em;
   -webkit-font-smoothing: antialiased;
@@ -860,7 +860,7 @@ ul.linklist a .chev { color: var(--text-3); }
 .tt-t2     { font-family: var(--font-display); font-size: 25px; font-weight: 600; letter-spacing: -0.012em; }
 .tt-t3     { font-family: var(--font-display); font-size: 19px; font-weight: 600; }
 .tt-head   { font-size: 15.5px; font-weight: 600; }
-.tt-body   { font-size: 15.5px; }
+.tt-body   { font-size: 13.5px; }
 .tt-call   { font-size: 13.5px; color: var(--text-2); }
 .tt-foot   { font-size: 12px; color: var(--text-2); }
 .tt-cap    { font-size: 11px; color: var(--text-3); }
@@ -1129,14 +1129,14 @@ ul.linklist a .chev { color: var(--text-3); }
 
     <section class="doc-section" id="foundations--typography" data-sec="typography" data-title="タイポグラフィ">
       <h2>タイポグラフィ</h2>
-      <p class="lede">SF Pro（system-ui）を中心に、日本語は Hiragino Sans へフォールバック。mono だけはリポジトリ同梱の UDEV Gothic 35LG（OFL。英数字 = JetBrains Mono 由来 / 日本語 = BIZ UD ゴシック由来）を <code class="inline">@font-face</code> で読み込む。本文は 15.5px / 1.47、字間 −0.022em が Apple の基準値。</p>
+      <p class="lede">SF Pro（system-ui）を中心に、日本語は Hiragino Sans へフォールバック。mono だけはリポジトリ同梱の UDEV Gothic 35LG（OFL。英数字 = JetBrains Mono 由来 / 日本語 = BIZ UD ゴシック由来）を <code class="inline">@font-face</code> で読み込む。本文は 13.5px / 1.47、字間 −0.022em（Apple の基準 17px 系を 8 割弱に縮めた高密度設定）。</p>
       <div class="demo">
         <div class="type-row"><span class="lbl">Hero · 40/600</span><span class="tt-hero">静かで、正確に。</span></div>
         <div class="type-row"><span class="lbl">Title 1 · 29/600</span><span class="tt-t1">ページタイトル</span></div>
         <div class="type-row"><span class="lbl">Title 2 · 25/600</span><span class="tt-t2">セクション見出し</span></div>
         <div class="type-row"><span class="lbl">Title 3 · 19/600</span><span class="tt-t3">サブセクション見出し</span></div>
         <div class="type-row"><span class="lbl">Headline · 15.5/600</span><span class="tt-head">強調された本文の導入行</span></div>
-        <div class="type-row"><span class="lbl">Body · 15.5/400</span><span class="tt-body">標準の本文。読み物の主役で、行間 1.47 を保つ。</span></div>
+        <div class="type-row"><span class="lbl">Body · 13.5/400</span><span class="tt-body">標準の本文。読み物の主役で、行間 1.47 を保つ。</span></div>
         <div class="type-row"><span class="lbl">Callout · 13.5</span><span class="tt-call">補足説明や UI 内のテキスト。</span></div>
         <div class="type-row"><span class="lbl">Footnote · 12</span><span class="tt-foot">注記・キャプションの上位。</span></div>
         <div class="type-row"><span class="lbl">Caption · 11</span><span class="tt-cap">メタ情報・タイムスタンプ。</span></div>
@@ -1582,7 +1582,7 @@ ul.linklist a .chev { color: var(--text-3); }
       <table class="params">
         <thead><tr><th>バージョン</th><th>日付</th><th>変更</th></tr></thead>
         <tbody>
-          <tr><td class="param">v0.8.0</td><td class="type">2026-08-07</td><td>サイト全体の <code class="inline">font-size</code> を<strong>一律 90%</strong> に縮小し、1 画面あたりの情報量を上げた。換算は「旧値 × 0.9 → 0.5px 刻みに丸め（下限 10px）」で、見出しなど大きい値は整数丸め、<code class="inline">clamp()</code> は min / vw 係数 / max をすべて 0.9 倍する。代表値は 17→15.5 / 16→14.5 / 15→13.5 / 14→12.5 / 13→12 / 12→11 / 11→10px。本文は 17→15.5px、hero は <code class="inline">clamp(34px, 5.2vw, 52px)</code>→<code class="inline">clamp(31px, 4.7vw, 47px)</code>。<code class="inline">em</code> / <code class="inline">%</code> / <code class="inline">rem</code> の相対指定と SVG の <code class="inline">font-size</code> 属性（viewBox スケール）は据え置き。色・余白・字間・行間は変更していない。その後の調整で、リード文（<code class="inline">.doc-header .abstract</code>）は 17→15.5px、コードブロック（<code class="inline">pre.listing</code>）は 13.5→12.5px（<code class="inline">.ba-grid</code> 変種は 12.5→11.5px）へさらに一段下げた。</td></tr>
+          <tr><td class="param">v0.8.0</td><td class="type">2026-08-07</td><td>サイト全体の <code class="inline">font-size</code> を<strong>一律 90%</strong> に縮小し、1 画面あたりの情報量を上げた。換算は「旧値 × 0.9 → 0.5px 刻みに丸め（下限 10px）」で、見出しなど大きい値は整数丸め、<code class="inline">clamp()</code> は min / vw 係数 / max をすべて 0.9 倍する。代表値は 17→15.5 / 16→14.5 / 15→13.5 / 14→12.5 / 13→12 / 12→11 / 11→10px。本文は 17→15.5px、hero は <code class="inline">clamp(34px, 5.2vw, 52px)</code>→<code class="inline">clamp(31px, 4.7vw, 47px)</code>。<code class="inline">em</code> / <code class="inline">%</code> / <code class="inline">rem</code> の相対指定と SVG の <code class="inline">font-size</code> 属性（viewBox スケール）は据え置き。色・余白・字間・行間は変更していない。その後の調整で、リード文（<code class="inline">.doc-header .abstract</code>）は 17→15.5px、本文（<code class="inline">body</code>）は 15.5→13.5px、コードブロック（<code class="inline">pre.listing</code>）は 13.5→12.5px（<code class="inline">.ba-grid</code> 変種は 12.5→11.5px）へさらに一段下げた。</td></tr>
           <tr><td class="param">v0.7.0</td><td class="type">2026-07-27</td><td>コンテンツ幅を拡張し、<strong>右端を 1 本に揃えた</strong>。(1) 詳細ページの外枠 <code class="inline">--layout-max</code> 1240→1400px、コンテンツカラムは 760px 固定から <code class="inline">--doc-max</code> 1040px を上限とする可変幅へ（右端のフローティングメニューに被らないところで自動的に止まる）。single-page の <code class="inline">.article</code> も同じ上限に。ナビ・フッター・ホームも <code class="inline">--layout-max</code> に揃え、左端がサイドバーと一致するようにした。(2) v0.5.0 で入れた個別の measure（<code class="inline">.doc-section &gt; p</code> の 70ch）を撤去。段落・リスト・aside・テーブル・コード・図をすべて同じ幅に置き、行長は <code class="inline">--doc-max</code> 側で決める方式へ変更した。読み物ブロックだけ狭いと右端が要素ごとにズレてギザギザに見えるため。例外は abstract のみ。(3) <code class="inline">pre.listing</code> の <code class="inline">font-size</code> 14→15px（本文と同サイズ）、左右 padding 20→16px。コードブロックが小さく見えていたのを解消。(4) 新コンポーネント <code class="inline">.ba-grid</code>（Before / After 比較）を追加。レビュー資料側で独自に育っていた 2 カラム比較を本体へ取り込んだもので、900px 以下では縦積みに落ちる。</td></tr>
           <tr><td class="param">v0.6.0</td><td class="type">2026-07-04</td><td>mono フォントを JetBrains Mono から <strong>UDEV Gothic 35LG</strong>（英数字 = JetBrains Mono 由来 / 日本語 = BIZ UD ゴシック由来、OFL）へ移行。woff2 3 ウェイト（Regular / Bold / Italic）を同梱し <code class="inline">--font-mono</code> の先頭へ。UDEV Gothic に 500 が無いため dark の <code class="inline">--code-weight</code> 500→400。旧 JetBrainsMono-*.woff2 は過去成果物の絶対 URL 参照互換のため残置。</td></tr>
           <tr><td class="param">v0.5.0</td><td class="type">2026-07-04</td><td>読みやすさ（認知負荷低減）の底上げ。(1) テキストトークンを WCAG AA へ調整：<code class="inline">--text-2</code> <code class="inline">#6E6E73→#66666B</code> / <code class="inline">--text-3</code> <code class="inline">#86868B→#747479</code>（dark <code class="inline">#858A92→#8B9098</code>）/ <code class="inline">--red</code> <code class="inline">#E30000→#D70000</code>（aside-warning のティント地でも本文 ≥4.5:1 を確保）。(2) 本文の 1 行文字数（measure）を <code class="inline">70ch</code> に制限し、single-page の abstract にも measure 上限を追加。(3) 新コンポーネント <code class="inline">.summary</code>（要点ボックス / Key Takeaways）を追加。地色は <code class="inline">--tint</code> から <code class="inline">color-mix</code> 導出で、生 hex を増やさない。</td></tr>
