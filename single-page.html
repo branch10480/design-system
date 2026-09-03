@@ -38,8 +38,13 @@
    ============================================================ */
 
 /* ============================================================
-   Fonts — UDEV Gothic 35LG（design-system リポジトリ同梱 / OFL、v0.6.0 で
-   JetBrains Mono から移行）
+   Fonts — 同梱するのは UDEV Gothic 35LG だけ（design-system リポジトリ同梱 / OFL、
+   v0.6.0 で JetBrains Mono から移行）
+   2026-09-03（v0.9.0）に mono の第一候補は Apple SF Mono へ移した
+   （下の --font-mono 参照）が、SF Mono はライセンス上 woff2 として同梱できない
+   ため system stack として参照するだけで、ここに @font-face は増えていない。
+   このブロックが供給するのはあくまで UDEV Gothic の woff2 で、SF Mono 未
+   インストール環境の欧文フォールバックと和文 per-glyph fallback を担う。
    このファイルを他リポジトリへコピーしても動くよう GitHub Pages
    の絶対 URL で参照する（リポジトリ内なら fonts/… の相対でも可）。
    オフライン時はシステム mono へフォールバックする。
@@ -105,11 +110,29 @@
                "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", Arial, sans-serif;
   --font-display: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue",
                "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", Arial, sans-serif;
-  --font-mono: "UDEV Gothic 35LG", "UDEV Gothic 35NFLG",
-               ui-monospace, "SF Mono", Menlo, Monaco, Consolas, monospace;
+  /* 2026-09-03（v0.9.0）に mono の先頭を Apple SF Mono へ移した。
+     ⚠️ SF Mono は **woff2 として同梱できない**（Apple のフォントライセンスが
+     再配布と改変を禁じている）ので、同梱するのは従来どおり UDEV Gothic だけで、
+     SF Mono は system stack として参照する。この並び順には意味がある:
+       1. "SF Mono"        … SF Mono をインストール済みの Mac（castle 管理下）で確実に効く
+       2. ui-monospace     … Safari / WebKit ではこれが SF Mono に解決されるので、
+                             SF Mono 未インストールの Mac でも SF Mono で描ける
+                             （Chrome on macOS の ui-monospace は Menlo に解決される
+                             ため、1 番手に "SF Mono" を置く意味がある）
+       3. "SFMono-Regular" … PostScript 名で引く実装向けの保険
+       4. UDEV Gothic 35LG … リポジトリ同梱 woff2。**SF Mono は日本語グリフを持たない**
+                             ので、和文は per-glyph fallback でここが拾う。SF Mono が
+                             無い環境（他人の Mac / Windows）では欧文もここが担う
+       5. Menlo 以降       … macOS 標準の最終保険 */
+  --font-mono: "SF Mono", ui-monospace, "SFMono-Regular",
+               "UDEV Gothic 35LG", "UDEV Gothic 35NFLG",
+               Menlo, Monaco, Consolas, monospace;
   /* コードブロックのウェイト。旧 JetBrains Mono 時代は dark で Medium(500) に
      上げていたが、UDEV Gothic は Regular(400)/Bold(700) のみで 500 の実体が
-     無いため light/dark とも 400（token 構造は将来の再調整用に維持）。 */
+     無いため light/dark とも 400 に落とした（token 構造は将来の再調整用に維持）。
+     ⚠️ SF Mono には本物の Medium(500) があるため、ここを 500 に戻すと
+     SF Mono が効く環境だけ実際に太くなり、UDEV Gothic に落ちる環境との
+     重み感がズレる。戻すなら両環境で見比べてから。 */
   --code-weight: 400;
 
   /* radius */
@@ -148,7 +171,7 @@
     --orange: #E2BE5A;
     --red:    #E88980;
     --purple: #C2A3E5;
-    --code-weight: 400; /* UDEV Gothic に 500 が無い（旧 JBM 時代は 500） */
+    --code-weight: 400; /* SF Mono には実体の 500 があるが、UDEV Gothic に落ちる環境と重み感を揃えるため 400 固定 */
     --syn-k: #E06A9F; --syn-t: #C7A8E8; --syn-s: #E77668; --syn-n: #C8BA74;
     --syn-c: #7C8791; --syn-f: #A174D4; --syn-d: #5FC6E6;
     --sh-1:    0 1px 2px rgba(0,0,0,.4), 0 4px 16px rgba(0,0,0,.5);
@@ -173,7 +196,7 @@
   --orange: #E2BE5A;
   --red:    #E88980;
   --purple: #C2A3E5;
-  --code-weight: 400; /* UDEV Gothic に 500 が無い（旧 JBM 時代は 500） */
+  --code-weight: 400; /* SF Mono には実体の 500 があるが、UDEV Gothic に落ちる環境と重み感を揃えるため 400 固定 */
   --syn-k: #E06A9F; --syn-t: #C7A8E8; --syn-s: #E77668; --syn-n: #C8BA74;
   --syn-c: #7C8791; --syn-f: #A174D4; --syn-d: #5FC6E6;
   --sh-1:    0 1px 2px rgba(0,0,0,.4), 0 4px 16px rgba(0,0,0,.5);
