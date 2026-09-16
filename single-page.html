@@ -216,7 +216,7 @@ body {
   background: var(--bg);
   color: var(--text);
   font-family: var(--font-text);
-  font-size: 13.5px;
+  font-size: 15px;
   line-height: 1.47;
   letter-spacing: -0.022em;
   -webkit-font-smoothing: antialiased;
@@ -238,17 +238,17 @@ code, pre { font-family: var(--font-mono); letter-spacing: 0; }
 }
 
 .doc-header { padding-bottom: 28px; border-bottom: 1px solid var(--hairline); }
-.eyebrow { font-size: 12.5px; color: var(--text-2); margin: 0 0 10px; font-weight: 500; }
+.eyebrow { font-size: 14px; color: var(--text-2); margin: 0 0 10px; font-weight: 500; }
 .doc-header h1 {
   margin: 0;
   font-size: clamp(29px, 4.1vw, 40px);
   font-weight: 600; letter-spacing: -0.015em; line-height: 1.1;
 }
-.doc-header .abstract { margin: 14px 0 0; font-size: 15.5px; color: var(--text-2); line-height: 1.45; max-width: 62ch; }
+.doc-header .abstract { margin: 14px 0 0; font-size: 17px; color: var(--text-2); line-height: 1.45; max-width: 62ch; }
 .meta {
   display: flex; gap: 8px 18px; flex-wrap: wrap;
   margin-top: 18px;
-  font-size: 11px; color: var(--text-3);
+  font-size: 12px; color: var(--text-3);
 }
 .meta strong { color: var(--text-2); font-weight: 500; }
 
@@ -256,19 +256,19 @@ code, pre { font-family: var(--font-mono); letter-spacing: 0; }
 .doc-section + .doc-section { border-top: 1px solid var(--hairline); margin-top: 36px; }
 .doc-section h2 { font-size: 25px; font-weight: 600; letter-spacing: -0.012em; margin: 0 0 8px; }
 .doc-section h3 { font-size: 17px; font-weight: 600; margin: 32px 0 10px; }
-.doc-section p { color: var(--text); font-size: 13.5px; line-height: 1.6; }
+.doc-section p { color: var(--text); font-size: 15px; line-height: 1.6; }
 /* measure（1 行の文字数）はコンテンツ幅そのもので担保する。ブロックごとに max-width を
    変えると右端が要素ごとにズレるため、段落・リスト・テーブル・コード・図はすべて同じ幅で
    右端を揃える。行長を詰めたいときは --doc-max だけを調整する。
    例外は h1 直下の abstract のみ（リード文は 1 ブロックだけ短くても不自然に見えない）。 */
-.doc-section p.lede { color: var(--text-2); font-size: 13.5px; margin-top: 0; }
+.doc-section p.lede { color: var(--text-2); font-size: 15px; margin-top: 0; }
 
 /* ============================================================
    Theme toggle — ナビがないので右上にフローティング配置
    ============================================================ */
 .theme-toggle {
   position: fixed; top: 16px; right: 24px; z-index: 50;
-  font: 500 11px var(--font-text);
+  font: 500 12px var(--font-text);
   color: var(--text-2);
   background: color-mix(in srgb, var(--bg-elev) 78%, transparent);
   -webkit-backdrop-filter: saturate(180%) blur(20px);
@@ -304,14 +304,14 @@ code, pre { font-family: var(--font-mono); letter-spacing: 0; }
   z-index: 40;
 }
 .otp .otp-title {
-  font: 600 10px var(--font-text);
+  font: 600 11px var(--font-text);
   text-transform: uppercase; letter-spacing: 0.06em;
   color: var(--text-3);
   padding: 0 12px 8px;
 }
 .otp a {
   display: block;
-  font-size: 11.5px; color: var(--text-2);
+  font-size: 13px; color: var(--text-2);
   padding: 5px 12px; border-radius: var(--r-sm);
   transition: color 120ms, background 120ms;
 }
@@ -350,12 +350,12 @@ code, pre { font-family: var(--font-mono); letter-spacing: 0; }
 }
 .fab-panel.is-open { display: block; }
 .fab-panel .otp-title {
-  font: 600 10px var(--font-text);
+  font: 600 11px var(--font-text);
   text-transform: uppercase; letter-spacing: 0.06em;
   color: var(--text-3); padding: 0 12px 8px;
 }
 .fab-panel a {
-  display: block; font-size: 12.5px; color: var(--text-2);
+  display: block; font-size: 14px; color: var(--text-2);
   padding: 8px 12px; border-radius: var(--r-sm);
 }
 .fab-panel a:hover { background: var(--bg-alt); color: var(--text); text-decoration: none; }
@@ -374,8 +374,8 @@ code, pre { font-family: var(--font-mono); letter-spacing: 0; }
   margin: 14px 0;
   background: var(--bg-alt);
 }
-.aside .aside-label { font-size: 12px; font-weight: 600; margin: 0 0 4px; }
-.aside p { margin: 0; font-size: 12.5px; line-height: 1.55; color: var(--text); }
+.aside .aside-label { font-size: 13px; font-weight: 600; margin: 0 0 4px; }
+.aside p { margin: 0; font-size: 14px; line-height: 1.55; color: var(--text); }
 .aside-note      { border-left-color: var(--text-3); }
 .aside-note      .aside-label { color: var(--text-2); }
 .aside-important { border-left-color: var(--purple); background: color-mix(in srgb, var(--purple) 6%, var(--bg-elev)); }
@@ -397,7 +397,7 @@ code, pre { font-family: var(--font-mono); letter-spacing: 0; }
 .summary .summary-label {
   display: flex; align-items: center; gap: 7px;
   margin: 0 0 10px;
-  font-size: 11px; font-weight: 600;
+  font-size: 12px; font-weight: 600;
   text-transform: uppercase; letter-spacing: 0.06em;
   color: var(--tint);
 }
@@ -407,7 +407,7 @@ code, pre { font-family: var(--font-mono); letter-spacing: 0; }
   background: var(--tint);
 }
 .summary ul { margin: 0; padding-left: 20px; }
-.summary li { margin: 5px 0; font-size: 13.5px; line-height: 1.55; color: var(--text); }
+.summary li { margin: 5px 0; font-size: 15px; line-height: 1.55; color: var(--text); }
 .summary li::marker { color: color-mix(in srgb, var(--tint) 55%, var(--text-3)); }
 
 /* --- Code --- */
@@ -415,9 +415,9 @@ pre.listing {
   background: var(--bg-code);
   border: 1px solid var(--hairline);
   border-radius: var(--r-lg);
-  /* 左右は 16px。12.5px の mono では 20px 余白だと 2 カラム比較で行末が削られるため */
+  /* 左右は 16px。14px の mono では 20px 余白だと 2 カラム比較で行末が削られるため */
   padding: 18px 16px;
-  font-size: 12.5px; line-height: 1.62;
+  font-size: 14px; line-height: 1.62;
   font-weight: var(--code-weight);
   color: var(--text);
   overflow-x: auto;
@@ -468,20 +468,20 @@ code.inline {
 @media (max-width: 900px) { .ba-grid { grid-template-columns: 1fr; } }
 .ba-grid .ba-col { min-width: 0; }   /* grid 内で pre が縮めるようにする */
 .ba-grid .ba-label {
-  font: 600 10px var(--font-text);
+  font: 600 11px var(--font-text);
   text-transform: uppercase; letter-spacing: 0.06em;
   color: var(--text-3);
   margin: 0 0 6px;
 }
 .ba-grid .ba-label.ba-after { color: var(--tint); }
 .ba-grid .code-wrap, .ba-grid pre.listing { margin: 0; }
-/* 2 カラムに詰めるぶん、単独のコードブロック（15px）より 1px 小さくする */
-.ba-grid pre.listing { font-size: 11.5px; }
+/* 2 カラムに詰めるぶん、単独のコードブロック（14px）より 1px 小さくする */
+.ba-grid pre.listing { font-size: 13px; }
 
 /* --- Tables --- */
 table.params {
   width: 100%; border-collapse: collapse;
-  font-size: 12.5px;
+  font-size: 14px;
   margin: 14px 0;
 }
 table.params th, table.params td {
@@ -489,11 +489,11 @@ table.params th, table.params td {
   border-bottom: 1px solid var(--hairline);
 }
 table.params thead th {
-  font-size: 11px; font-weight: 600; color: var(--text-2);
+  font-size: 12px; font-weight: 600; color: var(--text-2);
   border-bottom: 1px solid var(--separator);
 }
-table.params td.param { font-family: var(--font-mono); font-size: 12.5px; color: var(--syn-d); }
-table.params td.type  { font-family: var(--font-mono); font-size: 12.5px; color: var(--text-2); }
+table.params td.param { font-family: var(--font-mono); font-size: 14px; color: var(--syn-d); }
+table.params td.type  { font-family: var(--font-mono); font-size: 14px; color: var(--text-2); }
 table.params tbody tr:hover { background: var(--bg-alt); }
 
 /* --- Lists --- */
@@ -506,7 +506,7 @@ ol.steps > li {
   display: grid; grid-template-columns: 32px 1fr; gap: 14px;
   padding: 13px 0;
   border-bottom: 1px solid var(--hairline);
-  font-size: 13.5px;
+  font-size: 15px;
 }
 ol.steps > li:last-child { border-bottom: none; }
 ol.steps > li::before {
@@ -515,11 +515,11 @@ ol.steps > li::before {
   border-radius: 50%;
   background: var(--bg-alt);
   color: var(--text-2);
-  font: 600 11px var(--font-text);
+  font: 600 12px var(--font-text);
   display: flex; align-items: center; justify-content: center;
 }
 /* ステップ内のネストリストは通常の箇条書きとして描画する */
-ol.steps ul, ol.steps ol { margin: 8px 0 2px; padding-left: 20px; font-size: 12.5px; color: var(--text-2); }
+ol.steps ul, ol.steps ol { margin: 8px 0 2px; padding-left: 20px; font-size: 14px; color: var(--text-2); }
 ol.steps ul li, ol.steps ol li { margin: 4px 0; line-height: 1.55; }
 
 /* ============================================================
@@ -530,7 +530,7 @@ ol.steps ul li, ol.steps ol li { margin: 4px 0; line-height: 1.55; }
   border-top: 1px solid var(--hairline);
   padding-top: 18px;
   display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px;
-  font-size: 11px; color: var(--text-3);
+  font-size: 12px; color: var(--text-3);
 }
 .pagefooter a { color: var(--text-2); }
 </style>
