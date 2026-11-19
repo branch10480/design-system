@@ -64,18 +64,19 @@
    :root tokens — Apple Developer Documentation flavored
    参照: swift-docc-render (Apple docs の実レンダラー) の
    $base-colors + developer.apple.com のマーケティングトークン。
+   light の面は castle 1b0d1139（2026-11-18）の配色へ合わせる。
    light の値を :root に、dark の値を下の 2 ブロックに置く。
    ============================================================ */
 :root {
   color-scheme: light dark;
 
   /* surfaces */
-  --bg:        #FFFFFF;
-  --bg-alt:    #F5F5F7;   /* セクション地・セグメント地 */
+  --bg:        #FDFDF7;
+  --bg-alt:    #F8F8F2;   /* セクション地・セグメント地（背景へ黒 2% を合成） */
   --bg-elev:   #FFFFFF;   /* カード・パネル */
-  --bg-code:   #F7F7F7;   /* コードリスティング */
-  --separator: #D2D2D7;
-  --hairline:  rgba(0, 0, 0, 0.10);
+  --bg-code:   #FFFFFF;   /* コードリスティング（背景から一段浮かせる） */
+  --separator: #DEDED9;
+  --hairline:  rgba(0, 0, 0, 0.12);
 
   /* text */
   --text:   #1D1D1F;
@@ -268,6 +269,24 @@ code, pre { font-family: var(--font-mono); letter-spacing: 0; }
 }
 .theme-toggle:hover { color: var(--text); border-color: var(--separator); }
 .theme-toggle .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--tint); }
+@media (max-width: 700px) {
+  :root { --nav-h: 88px; }
+  .gn-inner {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-template-rows: 32px 32px;
+    gap: 0 16px;
+    align-content: center;
+  }
+  .gn-brand { grid-column: 1; grid-row: 1; }
+  .gn-inner .theme-toggle { grid-column: 2; grid-row: 1; white-space: nowrap; }
+  .gn-links {
+    grid-column: 1 / -1; grid-row: 2;
+    min-width: 0; gap: 20px;
+    overflow-x: auto;
+  }
+  .gn-links a { flex-shrink: 0; white-space: nowrap; }
+}
 
 /* ============================================================
    Pages (hash router)
@@ -309,7 +328,7 @@ code, pre { font-family: var(--font-mono); letter-spacing: 0; }
 
 .cat-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(290px, 100%), 1fr));
   gap: 20px;
 }
 a.cat-card {
@@ -514,6 +533,7 @@ body[data-view]:not([data-view="home"]) .otp { display: block; }
 @media (max-width: 900px) {
   .docwrap { grid-template-columns: 1fr; }
   .sidebar { display: none; }
+  .doc { max-width: 100%; }
 }
 
 /* ============================================================
@@ -660,6 +680,7 @@ code.inline {
   border-radius: 4px;
   padding: 1px 5px;
   color: var(--text);
+  overflow-wrap: anywhere;
 }
 /* コピーボタン — JS が全 pre.listing を .code-wrap で包んで自動付与する */
 .code-wrap { position: relative; margin: 14px 0; }
@@ -706,6 +727,8 @@ code.inline {
 .ba-grid pre.listing { font-size: 13px; }
 
 /* --- Tables --- */
+.table-wrap { overflow-x: auto; margin: 14px 0; }
+.table-wrap table.params { min-width: 520px; margin: 0; }
 table.params {
   width: 100%; border-collapse: collapse;
   font-size: 14px;
@@ -851,6 +874,7 @@ ul.linklist a .chev { color: var(--text-3); }
 .tone-sample.new .panel { background: #202329; }
 .tone-sample.raised .panel { background: #252932; }
 .tone-sample h4 {
+  color: inherit;
   margin: 0 0 8px;
   font-size: 15px;
   font-weight: 600;
@@ -872,12 +896,13 @@ ul.linklist a .chev { color: var(--text-3); }
 }
 
 .type-row {
-  display: grid; grid-template-columns: 120px 1fr; gap: 20px;
+  display: grid; grid-template-columns: 120px minmax(0, 1fr); gap: 20px;
   align-items: baseline;
   padding: 14px 0; border-bottom: 1px solid var(--hairline);
 }
 .type-row:last-child { border-bottom: none; }
 .type-row .lbl { font-family: var(--font-mono); font-size: 11px; color: var(--text-3); }
+@media (max-width: 700px) { .type-row { grid-template-columns: 1fr; gap: 6px; } }
 .tt-hero   { font-family: var(--font-display); font-size: 40px; font-weight: 600; letter-spacing: -0.015em; line-height: 1.1; }
 .tt-t1     { font-family: var(--font-display); font-size: 29px; font-weight: 600; letter-spacing: -0.012em; }
 .tt-t2     { font-family: var(--font-display); font-size: 25px; font-weight: 600; letter-spacing: -0.012em; }
@@ -913,7 +938,8 @@ ul.linklist a .chev { color: var(--text-3); }
 }
 .material-demo {
   border-radius: var(--r-lg);
-  height: 150px;
+  min-height: 150px;
+  padding: 20px 0;
   background: linear-gradient(120deg, #0A84FF, #BF5AF2 45%, #FF9F0A);
   display: flex; align-items: center; justify-content: center;
   overflow: hidden;
@@ -979,7 +1005,7 @@ ul.linklist a .chev { color: var(--text-3); }
 <!-- ============================ Home ============================ -->
 <main class="page is-active" data-page="home">
   <section class="hero">
-    <p class="eyebrow">Design System · v0.8</p>
+    <p class="eyebrow">Design System · v0.11.0</p>
     <h1>ドキュメントのための、<br>静かなデザインシステム。</h1>
     <p class="abstract">
       Apple Developer Documentation のデザイン言語をベースにした、
@@ -1089,14 +1115,14 @@ ul.linklist a .chev { color: var(--text-3); }
 
     <section class="doc-section" id="foundations--colors" data-sec="colors" data-title="カラー">
       <h2>カラー</h2>
-      <p class="lede">Apple Developer Documentation の実トークン（swift-docc-render）をベースにした 15 色。チップは現在のテーマの値で描画される — 右上のトグルで切り替えて確認できる。</p>
+      <p class="lede">Apple Developer Documentation の実トークン（swift-docc-render）をベースにした 15 色。ライトの面は castle の 2026-11-18 の配色に揃え、背景を <code class="inline">#FDFDF7</code>、補助面を <code class="inline">#F8F8F2</code>、カードとコード枠を白にする。文字・操作色・構文色・ダークの値は維持する。</p>
       <p class="demo-label">Surfaces</p>
       <div class="demo swatch-grid">
-        <div class="swatch"><div class="chip" style="background:var(--bg)"></div><div class="meta"><span class="name">--bg</span><span class="vals">#FFFFFF / #181818</span></div></div>
-        <div class="swatch"><div class="chip" style="background:var(--bg-alt)"></div><div class="meta"><span class="name">--bg-alt</span><span class="vals">#F5F5F7 / #1B1E24</span></div></div>
+        <div class="swatch"><div class="chip" style="background:var(--bg)"></div><div class="meta"><span class="name">--bg</span><span class="vals">#FDFDF7 / #181818</span></div></div>
+        <div class="swatch"><div class="chip" style="background:var(--bg-alt)"></div><div class="meta"><span class="name">--bg-alt</span><span class="vals">#F8F8F2 / #1B1E24</span></div></div>
         <div class="swatch"><div class="chip" style="background:var(--bg-elev)"></div><div class="meta"><span class="name">--bg-elev</span><span class="vals">#FFFFFF / #252932</span></div></div>
-        <div class="swatch"><div class="chip" style="background:var(--bg-code)"></div><div class="meta"><span class="name">--bg-code</span><span class="vals">#F7F7F7 / #1A1D23</span></div></div>
-        <div class="swatch"><div class="chip" style="background:var(--separator)"></div><div class="meta"><span class="name">--separator</span><span class="vals">#D2D2D7 / #333842</span></div></div>
+        <div class="swatch"><div class="chip" style="background:var(--bg-code)"></div><div class="meta"><span class="name">--bg-code</span><span class="vals">#FFFFFF / #1A1D23</span></div></div>
+        <div class="swatch"><div class="chip" style="background:var(--separator)"></div><div class="meta"><span class="name">--separator</span><span class="vals">#DEDED9 / #333842</span></div></div>
       </div>
       <p class="demo-label">Dark Tone Before / After</p>
       <div class="tone-compare">
@@ -1357,6 +1383,7 @@ ul.linklist a .chev { color: var(--text-3); }
         </div>
       </div>
       <p>この例は v0.7.0 で実際に行った変更そのもの。左右の行数をなるべく揃えると視線が横に動きやすい。</p>
+      <div class="table-wrap" role="region" aria-label="比較コンポーネントのクラス" tabindex="0">
       <table class="params">
         <thead><tr><th>クラス</th><th>役割</th></tr></thead>
         <tbody>
@@ -1366,6 +1393,7 @@ ul.linklist a .chev { color: var(--text-3); }
           <tr><td class="param">.ba-label.ba-after</td><td><code class="inline">After</code> 側。<code class="inline">--tint</code> で色を変え、どちらが新しいかを一目で示す。</td></tr>
         </tbody>
       </table>
+      </div>
       <div class="aside aside-tip">
         <p class="aside-label">ヒント</p>
         <p>diff をそのまま貼らない。カラム幅に入るのは 45 文字程度なので、伝えたい 1 点に絞って抜粋し、長い式は改行して整形する。収まらない行は横スクロールになるが、読ませたい行がスクロールの先にある比較は失敗している。</p>
@@ -1374,8 +1402,9 @@ ul.linklist a .chev { color: var(--text-3); }
 
     <section class="doc-section" id="components--tables" data-sec="tables" data-title="テーブル">
       <h2>テーブル</h2>
-      <p class="lede">API リファレンスのパラメータ表スタイル。罫線は水平のみ、ホバーで行をハイライト。</p>
+      <p class="lede">API リファレンスのパラメータ表スタイル。罫線は水平のみ、ホバーで行をハイライト。<code class="inline">.table-wrap</code> で囲み、狭い画面では表内を横スクロールする。</p>
       <div class="demo">
+        <div class="table-wrap" role="region" aria-label="API パラメータ" tabindex="0">
         <table class="params">
           <thead><tr><th>パラメータ</th><th>型</th><th>必須</th><th>説明</th></tr></thead>
           <tbody>
@@ -1385,6 +1414,7 @@ ul.linklist a .chev { color: var(--text-3); }
             <tr><td class="param">isBeta</td><td class="type">Bool</td><td>—</td><td><span class="badge badge-beta">Beta</span> バッジの表示制御。</td></tr>
           </tbody>
         </table>
+        </div>
       </div>
     </section>
 
@@ -1450,7 +1480,7 @@ ul.linklist a .chev { color: var(--text-3); }
 
     <section class="doc-section" id="patterns--navigation" data-sec="navigation" data-title="ナビゲーション">
       <h2>ナビゲーション</h2>
-      <p class="lede">最上部はブラー素材のグローバルナビ（高さ 48px）。詳細ページではパンくずをコンテンツ先頭に置く。</p>
+      <p class="lede">最上部はブラー素材のグローバルナビ（高さ 48px、700px 以下では 2 段・88px）。詳細ページではパンくずをコンテンツ先頭に置く。</p>
       <div class="frame">
         <nav class="breadcrumbs" style="margin:0;"><a href="#/">Toshi DS</a><span class="sep">›</span><a href="#/patterns">Patterns</a><span class="sep">›</span>ナビゲーション</nav>
       </div>
@@ -1479,6 +1509,7 @@ ul.linklist a .chev { color: var(--text-3); }
         コンテンツ幅は固定値ではなく、<strong>フローティングメニューに被らない範囲で最大まで伸びる</strong>。
         画面が広ければ <code class="inline">--doc-max</code>（1040px）まで、狭ければメニューの手前で自動的に止まる。
       </p>
+      <div class="table-wrap" role="region" aria-label="レイアウトトークン" tabindex="0">
       <table class="params">
         <thead><tr><th>トークン</th><th>値</th><th>役割</th></tr></thead>
         <tbody>
@@ -1489,6 +1520,7 @@ ul.linklist a .chev { color: var(--text-3); }
           <tr><td class="param">--otp-reserve</td><td class="type">210 + 48px</td><td>右端に空けるフローティングメニュー用の帯。1280px 以下では 0 に落ちる。</td></tr>
         </tbody>
       </table>
+      </div>
       <div class="aside aside-important">
         <p class="aside-label">重要</p>
         <p>
@@ -1565,7 +1597,7 @@ ul.linklist a .chev { color: var(--text-3); }
 <pre class="listing"><span class="c">/* 1. :root のトークン一式（light）と
    2. dark の 2 ブロック（@media + [data-theme="dark"]）を必ずセットでコピー */</span>
 <span class="d">:root</span> {
-  <span class="k">--bg</span>: <span class="s">#FFFFFF</span>;
+  <span class="k">--bg</span>: <span class="s">#FDFDF7</span>;
   <span class="k">--text</span>: <span class="s">#1D1D1F</span>;
   <span class="k">--tint</span>: <span class="s">#0066CC</span>;
   <span class="c">/* …以下トークン一式 */</span>
@@ -1602,9 +1634,11 @@ ul.linklist a .chev { color: var(--text-3); }
     <section class="doc-section" id="guidelines--versioning" data-sec="versioning" data-title="バージョニング">
       <h2>バージョニング</h2>
       <p class="lede">このファイルは専用リポジトリで管理し、トークンの追加・変更は semver で刻む。</p>
+      <div class="table-wrap" role="region" aria-label="変更履歴" tabindex="0">
       <table class="params">
         <thead><tr><th>バージョン</th><th>日付</th><th>変更</th></tr></thead>
         <tbody>
+          <tr><td class="param">v0.11.0</td><td class="type">2026-11-19</td><td>ライトの面を castle の <code class="inline">1b0d1139</code>（2026-11-18）に合わせた。背景は <code class="inline">#FDFDF7</code>、補助面は <code class="inline">#F8F8F2</code>、境界は <code class="inline">#DEDED9</code> / 黒12%。カード・パネルは白を維持し、コード枠も白へ変更。文字・操作色・ステータス・構文色・ダークのトークン・フォントは変更していない。本体と <code class="inline">single-page.html</code>、色見本、コピー用サンプルを同期した。ダーク比較見本の見出しは見本内の文字色を継承する。表示確認で見つかった既存の崩れも修正し、スマートフォンではナビを 2 段、本文と文字見本を 1 カラムにする。表は <code class="inline">.table-wrap</code> 内だけ横スクロールし、長いインラインコードとマテリアル見本も狭い幅で欠けないようにした。</td></tr>
           <tr><td class="param">v0.10.0</td><td class="type">2026-09-16</td><td><strong>見出し以外のフォントサイズを 1pt 上げた</strong>。v0.8.0 の一律 90% 縮小で本文系が小さすぎたため、Headline 以下のテキストトークンと UI ラベル・コンポーネント内テキストだけを底上げする。換算ルールは「<strong>.5 は整数へ切り上げてから +1px</strong>」で、結果として <code class="inline">.5</code> 刻みは全廃され整数だけの尺度になる。代表値は 15.5→17 / 14.5→16 / 13.5→15 / 12.5→14 / 12→13 / 11.5→13 / 11→12 / 10→11px。本文（<code class="inline">body</code> / <code class="inline">.doc-section p</code>）は 13.5→<strong>15px</strong>、リード文（<code class="inline">.doc-header .abstract</code>）は 15.5→<strong>17px</strong>、コードブロック（<code class="inline">pre.listing</code>）は 12.5→<strong>14px</strong>（<code class="inline">.ba-grid</code> 変種は 11.5→13px）、テーブルと mono も 12.5→14px。<strong>据え置きは型スケールの Title 以上だけ</strong> — hero <code class="inline">clamp(31px, 4.7vw, 47px)</code> / <code class="inline">.doc-header h1</code> <code class="inline">clamp(29px, 4.1vw, 40px)</code> / <code class="inline">h2</code> 25px / Title 3 19px / <code class="inline">.doc-section h3</code> 17px。⚠️ 逆に <strong>Headline(15.5px) と本文スケールに置かれた小ラベル h4 は見出し扱いしない</strong>（<code class="inline">.feature h3</code> 15.5→17 / <code class="inline">.topic-card h4</code> 14.5→16 / <code class="inline">.tone-sample h4</code> 13.5→15 / <code class="inline">.dodont h4</code> 12.5→14）。据え置くと本文 15px と同サイズか下回り、<code class="inline">.dodont h4</code> は本文 li より小さくなって階層が逆転するため。<code class="inline">em</code> 相対指定（<code class="inline">code.inline</code> の <code class="inline">0.92em</code>）と SVG の <code class="inline">font-size</code> 属性（viewBox スケール）は v0.8.0 と同じく据え置きで、色・余白・字間・行間は変更していない。</td></tr>
           <tr><td class="param">v0.9.0</td><td class="type">2026-09-03</td><td>mono フォントの第一候補を <strong>Apple SF Mono</strong> へ移行（<code class="inline">--font-mono</code> の先頭）。⚠️ SF Mono は Apple のフォントライセンス上 woff2 として再配布・改変ができないため <strong>woff2 は同梱せず system stack として参照</strong>するのみで、同梱フォントは従来どおり UDEV Gothic 35LG のまま変更していない。並び順は <code class="inline">"SF Mono"</code> →（SF Mono インストール済み Mac で確実に効く）<code class="inline">ui-monospace</code> →（Safari / WebKit ではこれが SF Mono に解決されるため未インストール Mac でも SF Mono で描ける。ただし Chrome on macOS の <code class="inline">ui-monospace</code> は Menlo に解決されるため <code class="inline">"SF Mono"</code> を 1 番手に置く意味がある）<code class="inline">"SFMono-Regular"</code> → <strong>UDEV Gothic 35LG</strong>（SF Mono は日本語グリフを持たないため和文は per-glyph fallback でここが拾い、SF Mono 未インストール環境では欧文もここが担う）→ <code class="inline">Menlo</code> 以降（macOS 標準の最終保険）の順。<code class="inline">--code-weight</code> は 400 のまま変更していない（SF Mono には実体の Medium(500) があるが、UDEV Gothic に落ちる環境との重み感を揃えるため）。背景として、castle（個人 dotfiles）側で Ghostty / cmux / Orca / VS Code / Xcode / Codex.app のコードフォントを SF Mono へ統一したのに合わせた変更。</td></tr>
           <tr><td class="param">v0.8.0</td><td class="type">2026-08-07</td><td>サイト全体の <code class="inline">font-size</code> を<strong>一律 90%</strong> に縮小し、1 画面あたりの情報量を上げた。換算は「旧値 × 0.9 → 0.5px 刻みに丸め（下限 10px）」で、見出しなど大きい値は整数丸め、<code class="inline">clamp()</code> は min / vw 係数 / max をすべて 0.9 倍する。代表値は 17→15.5 / 16→14.5 / 15→13.5 / 14→12.5 / 13→12 / 12→11 / 11→10px。本文は 17→15.5px、hero は <code class="inline">clamp(34px, 5.2vw, 52px)</code>→<code class="inline">clamp(31px, 4.7vw, 47px)</code>。<code class="inline">em</code> / <code class="inline">%</code> / <code class="inline">rem</code> の相対指定と SVG の <code class="inline">font-size</code> 属性（viewBox スケール）は据え置き。色・余白・字間・行間は変更していない。その後の調整で、リード文（<code class="inline">.doc-header .abstract</code>）は 17→15.5px、本文（<code class="inline">body</code>）は 15.5→13.5px、コードブロック（<code class="inline">pre.listing</code>）は 13.5→12.5px（<code class="inline">.ba-grid</code> 変種は 12.5→11.5px）へさらに一段下げた。</td></tr>
@@ -1621,6 +1655,7 @@ ul.linklist a .chev { color: var(--text-3); }
           <tr><td class="param">v0.1.0</td><td class="type">2026-06-12</td><td>初版。Apple Developer Documentation（swift-docc-render）ベースのトークンとコンポーネント一式。</td></tr>
         </tbody>
       </table>
+      </div>
       <div class="aside aside-note"><p class="aside-label">注記</p><p>トークンの<strong>値の変更</strong>は minor、<strong>トークン名の変更・削除</strong>は breaking として major を上げる。成果物側は名前で参照しているため。</p></div>
     </section>
   </main>
