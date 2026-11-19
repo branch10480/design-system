@@ -67,17 +67,18 @@
 
 /* ============================================================
    :root tokens — design-system.html と同一（コピー元の真実は本体側）
+   light の面は castle 1b0d1139（2026-11-18）の配色へ合わせる。
    ============================================================ */
 :root {
   color-scheme: light dark;
 
   /* surfaces */
-  --bg:        #FFFFFF;
-  --bg-alt:    #F5F5F7;
+  --bg:        #FDFDF7;
+  --bg-alt:    #F8F8F2;
   --bg-elev:   #FFFFFF;
-  --bg-code:   #F7F7F7;
-  --separator: #D2D2D7;
-  --hairline:  rgba(0, 0, 0, 0.10);
+  --bg-code:   #FFFFFF;
+  --separator: #DEDED9;
+  --hairline:  rgba(0, 0, 0, 0.12);
 
   /* text */
   --text:   #1D1D1F;
@@ -437,6 +438,7 @@ code.inline {
   border-radius: 4px;
   padding: 1px 5px;
   color: var(--text);
+  overflow-wrap: anywhere;
 }
 /* コピーボタン — JS が全 pre.listing を .code-wrap で包んで自動付与 */
 .code-wrap { position: relative; margin: 14px 0; }
@@ -479,6 +481,8 @@ code.inline {
 .ba-grid pre.listing { font-size: 13px; }
 
 /* --- Tables --- */
+.table-wrap { overflow-x: auto; margin: 14px 0; }
+.table-wrap table.params { min-width: 520px; margin: 0; }
 table.params {
   width: 100%; border-collapse: collapse;
   font-size: 14px;
@@ -551,7 +555,7 @@ ol.steps ul li, ol.steps ol li { margin: 4px 0; line-height: 1.55; }
       調査レポートや仕様書を 1 枚で公開するときのテンプレート。
     </p>
     <div class="meta">
-      <span><strong>Base</strong> Toshi Design System v0.8</span>
+      <span><strong>Base</strong> Toshi Design System v0.11.0</span>
       <span><strong>構成</strong> 1 カラム · 最大 1040px</span>
       <span><strong>Nav</strong> フローティングメニューのみ</span>
     </div>
@@ -624,6 +628,7 @@ ol.steps ul li, ol.steps ol li { margin: 4px 0; line-height: 1.55; }
     <p>移行ガイドやレビュー資料で変更前後を並べるときに使う。900px 以下では縦積みになる。カラム幅に入るのは 45 文字程度なので、長い式は改行して整形する。</p>
 
     <h3>テーブル</h3>
+    <div class="table-wrap" role="region" aria-label="レイアウトトークン" tabindex="0">
     <table class="params">
       <thead><tr><th>項目</th><th>値</th><th>説明</th></tr></thead>
       <tbody>
@@ -633,6 +638,7 @@ ol.steps ul li, ol.steps ol li { margin: 4px 0; line-height: 1.55; }
         <tr><td class="param">breakpoint</td><td class="type">1240px</td><td>これ未満でメニューが右下ボタンに切り替わり、帯の予約も外れる。</td></tr>
       </tbody>
     </table>
+    </div>
   </section>
 
   <section class="doc-section" id="usage" data-title="使い方">
@@ -652,6 +658,7 @@ ol.steps ul li, ol.steps ol li { margin: 4px 0; line-height: 1.55; }
   <section class="doc-section" id="difference" data-title="本体との違い">
     <h2>本体との違い</h2>
     <p class="lede">削ったものと残したものを明確にしておく。</p>
+    <div class="table-wrap" role="region" aria-label="本体とテンプレートの比較" tabindex="0">
     <table class="params">
       <thead><tr><th>要素</th><th>本体</th><th>このパターン</th></tr></thead>
       <tbody>
@@ -663,6 +670,7 @@ ol.steps ul li, ol.steps ol li { margin: 4px 0; line-height: 1.55; }
         <tr><td>トークン / フォント / コピー UI</td><td class="type">—</td><td class="type">完全に共通</td></tr>
       </tbody>
     </table>
+    </div>
   </section>
 
   <footer class="pagefooter">
